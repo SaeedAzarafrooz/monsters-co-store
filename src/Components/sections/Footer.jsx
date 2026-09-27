@@ -33,7 +33,7 @@ function Footer() {
                 <div className="flex justify-start items-center gap-1"><img className="h-4" src={telegram} alt="telegram-icon" /> <p> @SaeedAzarafrooz</p></div>
                 <div className="flex justify-start items-center gap-1"><img className="h-4" src={linkedin} alt="linkedin-icon" />
                     <a className="whitespace-nowrap" 
-                    href="https://www.linkedin.com/in/saeed-azarafrooz-92a52a268/?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_verification_details%3B%2BV73m4CSSa6%2FrO37RJ1irQ%3D%3D">Saeed Azarafrooz</a>
+                   target="_blank" href="https://www.linkedin.com/in/saeed-azarafrooz-92a52a268/?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_verification_details%3B%2BV73m4CSSa6%2FrO37RJ1irQ%3D%3D">Saeed Azarafrooz</a>
                 </div>
             </div>
             </div>
