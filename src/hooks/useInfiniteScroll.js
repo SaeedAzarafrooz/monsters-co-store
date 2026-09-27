@@ -1,7 +1,23 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import axios from "axios";
 
-export const useInfiniteScroll = (url, initialPage = 1, scrollPageLimit = 3, delayMs = 500) => {
+// Helper to construct query string with non-empty filters
+const buildParams = (pageNumber, filters = {}) => {
+  const params = new URLSearchParams({ page: pageNumber });
+  Object.entries(filters).forEach(([key, value]) => {
+    if (value && typeof value === "string" && value.trim() !== "") {
+      params.append(key, value.trim());
+    }
+  });
+  return params.toString();
+};
+
+export const useInfiniteScroll = (
+  baseURLVar,
+  initialPage = 1,
+  scrollPageLimit = 3,
+  filters = {}
+) => {
   const [data, setData] = useState([]);
   const [page, setPage] = useState(initialPage);
   const [totalPages, setTotalPages] = useState(0);
@@ -9,88 +25,100 @@ export const useInfiniteScroll = (url, initialPage = 1, scrollPageLimit = 3, del
   const [error, setError] = useState(null);
   const [isPaginationActive, setIsPaginationActive] = useState(false);
 
-  // Guard against concurrent or overlapping fetch operations
   const isFetchingRef = useRef(false);
   const observerRef = useRef(null);
 
-  // Fetch character records with built-in artificial delay for smoother visual feedback
+  // Keep a stable ref for filters to avoid unnecessary hook reruns
+  const filtersRef = useRef(filters);
+  filtersRef.current = filters;
+
+  // Primary data fetching routine
   const fetchData = useCallback(
-    async (targetPage, append = false) => {
+    async (targetPage, currentFilters, append = false) => {
       if (isFetchingRef.current) return;
       isFetchingRef.current = true;
       setIsLoading(true);
       setError(null);
 
       try {
-        if (delayMs > 0) {
-          await new Promise((resolve) => setTimeout(resolve, delayMs));
+        const queryString = buildParams(targetPage, currentFilters);
+        const response = await axios.get(`${baseURLVar}/character/?${queryString}`);
+        const results = response.data?.results || [];
+        const pages = response.data?.info?.pages || 0;
+
+        setTotalPages(pages);
+        setData((prev) => (append ? [...prev, ...results] : results));
+
+        // Switch to pagination if targetPage reaches or exceeds scrollPageLimit
+        if (targetPage >= scrollPageLimit || (pages > 0 && targetPage >= pages)) {
+          setIsPaginationActive(true);
         }
-
-        const response = await axios.get(`${url}/character/?page=${targetPage}`);
-        const newItems = response.data?.results || [];
-        const pagesCount = response.data?.info?.pages || 0;
-
-        setTotalPages(pagesCount);
-        setData((prev) => (append ? [...prev, ...newItems] : newItems));
       } catch (err) {
-        // Only set error if it wasn't triggered by reaching the boundary
-        setError(err.response?.data?.error || "Failed to fetch character data");
+        if (!append) setData([]);
+        setTotalPages(0);
+        setError(err.response?.data?.error || "No characters found");
       } finally {
         setIsLoading(false);
         isFetchingRef.current = false;
       }
     },
-    [url, delayMs]
+    [baseURLVar, scrollPageLimit]
   );
 
-  // Initial fetch on mount
+  // Reset and fetch fresh data whenever filters change
+  const filterKey = JSON.stringify(filters);
   useEffect(() => {
-    fetchData(1, false);
-  }, [fetchData]);
+    setPage(initialPage);
+    setIsPaginationActive(false);
+    fetchData(initialPage, filtersRef.current, false);
+  }, [filterKey, initialPage, fetchData]);
 
-  // Handle page changes when pagination controls are used
+  // Handle explicit page changes from Pagination component
   const handlePageChange = useCallback(
     (newPage) => {
-      if (newPage < 1 || (totalPages && newPage > totalPages) || isFetchingRef.current) return;
+      if (
+        newPage < 1 ||
+        (totalPages > 0 && newPage > totalPages) ||
+        isFetchingRef.current
+      ) {
+        return;
+      }
       setPage(newPage);
-      fetchData(newPage, false);
+      fetchData(newPage, filtersRef.current, false);
       window.scrollTo({ top: 0, behavior: "smooth" });
     },
     [fetchData, totalPages]
   );
 
-  // Observe scroll position and trigger next page fetch
+  // Infinite scroll observer: active only before reaching scrollPageLimit
   useEffect(() => {
-    if (isPaginationActive) return;
+    if (isPaginationActive || isLoading || totalPages <= 1) return;
 
-    const currentSentinel = observerRef.current;
-    if (!currentSentinel) return;
+    const sentinel = observerRef.current;
+    if (!sentinel) return;
 
     const observer = new IntersectionObserver(
       (entries) => {
-        const firstEntry = entries[0];
-        if (firstEntry.isIntersecting && !isFetchingRef.current && !isLoading) {
-          if (page < scrollPageLimit) {
+        if (entries[0].isIntersecting && !isFetchingRef.current && !isLoading) {
+          if (page < scrollPageLimit && page < totalPages) {
             const nextPage = page + 1;
             setPage(nextPage);
-            fetchData(nextPage, true);
+            fetchData(nextPage, filtersRef.current, true);
           } else {
-            // Reached limit cleanly: enable pagination and clear any stale error state
-            setError(null);
             setIsPaginationActive(true);
           }
         }
       },
-      { threshold: 0.2 }
+      { threshold: 0.1 }
     );
 
-    observer.observe(currentSentinel);
+    observer.observe(sentinel);
 
     return () => {
-      if (currentSentinel) observer.unobserve(currentSentinel);
+      if (sentinel) observer.unobserve(sentinel);
       observer.disconnect();
     };
-  }, [page, isPaginationActive, isLoading, scrollPageLimit, fetchData]);
+  }, [page, isPaginationActive, isLoading, totalPages, scrollPageLimit, fetchData]);
 
   return {
     data,
