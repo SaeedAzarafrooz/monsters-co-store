@@ -2,7 +2,7 @@ import { useEffect, useState, useCallback } from "react";
 import Arrowup from "../assets/ArrowUp.png";
 
 // A floating button with smooth entry animation and auto-adjusting footer boundary
-export default function BackToTop({ threshold = 500 }) {
+function BackToTop({ threshold = 500 }) {
   const [isVisible, setIsVisible] = useState(false);
   const [bottomOffset, setBottomOffset] = useState(20);
 
@@ -101,3 +101,4 @@ export default function BackToTop({ threshold = 500 }) {
     </button>
   );
 }
+export default BackToTop;
