@@ -6,6 +6,7 @@ import ProductFilter from "../sections/ProductFilter";
 import { useInfiniteScroll } from "../../hooks/useInfiniteScroll";
 import loadingGif from "../../assets/LoadingGif.svg";
 import BackToTop from "../BackToTop";
+import CharacterModal from "../CharacterModal";
 
 const BASE_URL = "https://rickandmortyapi.com/api";
 const SKELETON_COUNT = 8;
@@ -20,6 +21,7 @@ const BUNDLE_MAP = {
 
 export default function Main() {
   const [searchParams] = useSearchParams();
+    const [selectedCharacter, setSelectedCharacter] = useState(null);
   const initialBundle = searchParams.get("bundle")?.toLowerCase();
 
   const [filters, setFilters] = useState(
@@ -85,7 +87,7 @@ export default function Main() {
             {/* Actual character cards */}
             {(!isPaginationActive || !isLoading) && data && data.length > 0 && (
               data.map((character) => (
-                <Card key={character.id} props={character} />
+                <Card key={character.id} props={character} onClick={() => setSelectedCharacter(character)} />
               ))
             )}
 
@@ -135,6 +137,12 @@ export default function Main() {
         </div>
 
       </div>
+       {selectedCharacter && (
+        <CharacterModal
+          character={selectedCharacter}
+          onClose={() => setSelectedCharacter(null)}
+        />
+      )}
       <BackToTop threshold={500} />
     </main>
   );
