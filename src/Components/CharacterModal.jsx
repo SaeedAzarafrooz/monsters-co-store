@@ -1,34 +1,20 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
+import { createPortal } from "react-dom";
 import crossIcon from "../assets/cross.png";
 
 /**
  * Character detail modal dialog.
- * Displays deep character lore, location info, and list of episodes.
+ * Rendered directly into the #modal DOM node via React Portal.
  *
  * @param {Object} props
  * @param {Object|null} props.character - The selected Rick & Morty character object
  * @param {Function} props.onClose - Callback triggered to close the modal
  */
 export default function CharacterModal({ character, onClose }) {
-  // Prevent rendering if no character is provided
-  if (!character) return null;
-
-  const {
-    id,
-    name,
-    image,
-    status,
-    species,
-    type,
-    gender,
-    origin,
-    location,
-    episode = [],
-    created,
-  } = character;
-
   // Lock body scroll and handle Escape key for accessibility
   useEffect(() => {
+    if (!character) return;
+
     const originalOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
 
@@ -43,22 +29,55 @@ export default function CharacterModal({ character, onClose }) {
       document.body.style.overflow = originalOverflow;
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [onClose]);
+  }, [character, onClose]);
 
-  // Helper to determine status color
-  const getStatusColor = (val) => {
-    switch (val?.toLowerCase()) {
-      case "alive":
-        return "bg-emerald-500 shadow-emerald-500/50";
-      case "dead":
-        return "bg-rose-500 shadow-rose-500/50";
-      default:
-        return "bg-amber-400 shadow-amber-400/50";
-    }
+  // Prevent rendering if no character is provided
+  if (!character) return null;
+
+  // Find the portal root DOM node
+  const modalRoot = document.getElementById("modal");
+  if (!modalRoot) return null;
+
+  const {
+    name,
+    image,
+    status,
+    species,
+    type,
+    gender,
+    origin,
+    location,
+    episode = [],
+    created,
+  } = character;
+
+  // Logic for Star Rating
+  const epCount = episode?.length || 0;
+  const starRating = epCount > 50 ? { color: "text-yellow-400" } : 
+                     epCount > 30 ? { color: "text-slate-300" } : 
+                                   { color: "text-amber-700" };
+
+  // Status configuration matching the Card component
+  const statusConfig = {
+    alive: {
+      dot: "bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)]",
+      badge: "bg-emerald-500/10 text-emerald-300 border-emerald-500/30",
+    },
+    dead: {
+      dot: "bg-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.8)]",
+      badge: "bg-rose-500/10 text-rose-300 border-rose-500/30",
+    },
+    unknown: {
+      dot: "bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.8)]",
+      badge: "bg-amber-500/10 text-amber-300 border-amber-500/30",
+    },
+  }[status?.toLowerCase()] || {
+    dot: "bg-slate-400",
+    badge: "bg-slate-800 text-slate-300 border-slate-700",
   };
 
   const stickerPrice = (episode.length * 0.4).toFixed(1);
-  
+
   const formattedDate = created
     ? new Date(created).toLocaleDateString("en-US", {
         year: "numeric",
@@ -67,31 +86,35 @@ export default function CharacterModal({ character, onClose }) {
       })
     : "Unknown";
 
-  return (
+  const modalContent = (
     <div
       role="dialog"
       aria-modal="true"
       aria-labelledby="modal-character-title"
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm animate-fade-in"
+      className="fixed inset-0 z-[1000] flex justify-center items-start pt-20 sm:items-center sm:pt-0 p-3 sm:p-4 bg-slate-950/80 backdrop-blur-md transition-all duration-300"
       onClick={onClose}
     >
       {/* Modal Container */}
       <div
-        className="relative w-full max-w-2xl max-h-[90vh] flex flex-col bg-slate-900 border border-slate-700/80 rounded-2xl shadow-2xl text-slate-100 overflow-hidden"
+        className="relative w-full max-w-2xl max-h-[85vh] flex flex-col bg-slate-900/95 border border-slate-750 hover:border-emerald-500/40 rounded-3xl shadow-2xl shadow-emerald-950/30 text-slate-100 overflow-hidden backdrop-blur-xl transition-all"
         onClick={(e) => e.stopPropagation()}
       >
+        {/* Glow ambient background effect */}
+        <div className="absolute top-0 right-1/4 w-72 h-36 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 left-1/4 w-60 h-32 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
+
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-800 bg-slate-900/90">
+        <div className="relative z-10 flex items-center justify-between px-6 py-4 border-b border-slate-800/80 bg-slate-900/70 backdrop-blur-md">
           <div className="flex items-center gap-3">
-            <span className="text-xs font-mono font-semibold px-2 py-0.5 rounded bg-sky-500/10 text-sky-400 border border-sky-500/20">
-              #{id}
-            </span>
-            <h2
-              id="modal-character-title"
-              className="text-lg md:text-xl font-bold text-white tracking-wide truncate max-w-[280px] sm:max-w-md"
-            >
-              {name}
-            </h2>
+            <div className="p-2 flex justify-center items-baseline gap-1.5 shrink-0">
+              <span className={`text-[24px] ${starRating.color}`}>★</span>
+              <h2
+                id="modal-character-title"
+                className="text-lg md:text-xl font-bold text-white tracking-wide truncate max-w-[240px] sm:max-w-md"
+              >
+                {name}
+              </h2>
+            </div>
           </div>
 
           {/* Close Button */}
@@ -99,56 +122,59 @@ export default function CharacterModal({ character, onClose }) {
             type="button"
             onClick={onClose}
             aria-label="Close modal"
-            className="p-1.5 rounded-lg text-slate-400 hover:text-red-500 hover:bg-red-500/10 transition-colors"
+            className="p-2 rounded-xl text-slate-400 bg-slate-800/60 border border-slate-700/60 hover:text-white hover:border-rose-500/50 hover:bg-rose-500/10 transition-all duration-200 cursor-pointer"
           >
             <img
               src={crossIcon}
               alt="Close"
-              className="w-4 h-4 object-contain invert opacity-70 hover:opacity-100"
+              className="w-3.5 h-3.5 object-contain invert opacity-70 group-hover:opacity-100"
             />
           </button>
         </div>
 
         {/* Scrollable Content Body */}
-        <div className="overflow-y-auto p-6 space-y-6">
+        <div className="relative z-10 overflow-y-auto p-5 sm:p-6 space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Left Column: Image & Badges */}
             <div className="flex flex-col items-center sm:items-start gap-4">
-              <div className="w-full max-w-[260px] aspect-square rounded-xl overflow-hidden bg-slate-800 shadow-lg border border-slate-700/50">
+              <div className="relative w-full max-w-[260px] aspect-square rounded-2xl overflow-hidden bg-slate-950 shadow-xl border border-slate-800 group">
                 <img
                   src={image}
                   alt={name}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
               </div>
 
+              {/* Status & Price Badges */}
               <div className="flex flex-wrap items-center gap-2">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-slate-800 text-slate-200 border border-slate-700">
-                  <span
-                    className={`w-2 h-2 rounded-full ${getStatusColor(status)}`}
-                  />
+                <span
+                  className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold border backdrop-blur-sm ${statusConfig.badge}`}
+                >
+                  <span className={`w-2 h-2 rounded-full ${statusConfig.dot}`} />
                   {status || "Unknown"}
                 </span>
-                <span className="px-3 py-1 rounded-full text-xs font-semibold bg-slate-800 text-slate-300 border border-slate-700">
+
+                <span className="px-3 py-1 rounded-full text-xs font-semibold bg-slate-800/80 text-slate-300 border border-slate-700">
                   {gender || "Unknown"}
                 </span>
-                <span className="px-3 py-1 rounded-full text-xs font-bold bg-amber-500/10 text-amber-300 border border-amber-500/20">
+
+                <span className="px-3 py-1 rounded-full text-xs font-bold font-mono bg-emerald-500/10 text-emerald-300 border border-emerald-500/30">
                   ${stickerPrice}
                 </span>
               </div>
             </div>
 
-            {/* Right Column: Information */}
-            <div className="flex flex-col justify-start space-y-3.5 text-sm">
+            {/* Right Column: Metadata Cards */}
+            <div className="flex flex-col justify-start space-y-3 text-sm">
               {/* Species & Type */}
-              <div className="p-3 rounded-lg bg-slate-800/60 border border-slate-800">
-                <span className="text-xs uppercase tracking-wider text-slate-400 font-semibold block mb-1">
+              <div className="p-3.5 rounded-xl bg-slate-800/50 border border-slate-700/60 hover:border-slate-600 transition-colors">
+                <span className="text-[11px] uppercase tracking-wider text-slate-400 font-semibold block mb-1">
                   Species & Type
                 </span>
                 <p className="text-slate-100 font-medium">
                   {species || "Unknown"}
                   {type ? (
-                    <span className="text-slate-400 font-normal">
+                    <span className="text-cyan-300 font-normal">
                       {" "}• ({type})
                     </span>
                   ) : null}
@@ -156,33 +182,33 @@ export default function CharacterModal({ character, onClose }) {
               </div>
 
               {/* Origin */}
-              <div className="p-3 rounded-lg bg-slate-800/60 border border-slate-800">
-                <span className="text-xs uppercase tracking-wider text-slate-400 font-semibold block mb-1">
-                  Origin
+              <div className="p-3.5 rounded-xl bg-slate-800/50 border border-slate-700/60 hover:border-slate-600 transition-colors">
+                <span className="text-[11px] uppercase tracking-wider text-slate-400 font-semibold block mb-1">
+                  Origin Dimension / Planet
                 </span>
                 <p className="text-slate-100 font-medium flex items-center gap-1.5">
                   <span role="img" aria-label="origin">🌍</span>
-                  {origin?.name || "Unknown"}
+                  <span className="truncate">{origin?.name || "Unknown"}</span>
                 </p>
               </div>
 
               {/* Last Known Location */}
-              <div className="p-3 rounded-lg bg-slate-800/60 border border-slate-800">
-                <span className="text-xs uppercase tracking-wider text-slate-400 font-semibold block mb-1">
+              <div className="p-3.5 rounded-xl bg-slate-800/50 border border-slate-700/60 hover:border-slate-600 transition-colors">
+                <span className="text-[11px] uppercase tracking-wider text-slate-400 font-semibold block mb-1">
                   Last Known Location
                 </span>
                 <p className="text-slate-100 font-medium flex items-center gap-1.5">
                   <span role="img" aria-label="location">📍</span>
-                  {location?.name || "Unknown"}
+                  <span className="truncate">{location?.name || "Unknown"}</span>
                 </p>
               </div>
 
               {/* First Registered */}
-              <div className="p-3 rounded-lg bg-slate-800/60 border border-slate-800">
-                <span className="text-xs uppercase tracking-wider text-slate-400 font-semibold block mb-1">
-                  First Registered
+              <div className="p-3.5 rounded-xl bg-slate-800/50 border border-slate-700/60 hover:border-slate-600 transition-colors">
+                <span className="text-[11px] uppercase tracking-wider text-slate-400 font-semibold block mb-1">
+                  Database Entry
                 </span>
-                <p className="text-slate-300 font-medium">
+                <p className="text-slate-300 font-medium font-mono text-xs">
                   {formattedDate}
                 </p>
               </div>
@@ -190,18 +216,21 @@ export default function CharacterModal({ character, onClose }) {
           </div>
 
           {/* Episode List */}
-          <div className="pt-2 border-t border-slate-800">
-            <h3 className="text-xs uppercase tracking-wider font-semibold text-slate-400 mb-3">
-              Appeared In {episode.length} Episode{episode.length>1?'s':''}
-            </h3>
+          <div className="pt-4 border-t border-slate-800/80">
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-xs uppercase tracking-wider font-semibold text-slate-400">
+                Appeared In {episode.length} Episode{episode.length > 1 ? "s" : ""}
+              </h3>
+            </div>
+
             {episode.length > 0 ? (
-              <div className="flex flex-wrap gap-1 max-h-32 overflow-y-auto pr-1">
+              <div className="flex flex-wrap gap-1.5 max-h-32 overflow-y-auto pr-1">
                 {episode.map((epUrl) => {
                   const epNumber = epUrl.split("/").filter(Boolean).pop();
                   return (
                     <span
                       key={epUrl}
-                      className="w-5 h-5 flex items-center justify-center text-[10px] font-bold rounded-full bg-slate-800 text-sky-400 border border-slate-700/60 hover:border-sky-500 hover:bg-slate-700 transition-colors"
+                      className="w-[1.35rem] h-[1.35rem] flex items-center justify-center text-[11px] font-mono font-bold rounded-lg bg-slate-800 text-slate-300 border border-slate-700/80 hover:border-emerald-400 hover:text-emerald-300 hover:bg-emerald-950/40 transition-all duration-150"
                       title={`Episode ${epNumber}`}
                     >
                       {epNumber}
@@ -217,4 +246,6 @@ export default function CharacterModal({ character, onClose }) {
       </div>
     </div>
   );
+
+  return createPortal(modalContent, modalRoot);
 }
