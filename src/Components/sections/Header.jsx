@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import { useTheme } from "../../context/ThemeContext";
 import logo from "../../assets/Logo.png";
 import guestProfile from "../../assets/guestProfile.png";
@@ -7,339 +7,464 @@ import menu from "../../assets/menu.png";
 import cross from "../../assets/cross.png";
 
 const NAV_ITEMS = [
-    {
-        label: "Home",
-        path: "/",
-        icon: (
-            <svg className="w-5 h-5 opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-            </svg>
-        ),
-    },
-    {
-        label: "Products",
-        path: "/products",
-        icon: (
-            <svg className="w-5 h-5 opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-            </svg>
-        ),
-    },
-    {
-        label: "About us",
-        path: "/about",
-        icon: (
-            <svg className="w-5 h-5 opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-        ),
-    },
-    {
-        label: "Contact us",
-        path: "/contact",
-        icon: (
-            <svg className="w-5 h-5 opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-            </svg>
-        ),
-    },
+  {
+    label: "Home",
+    path: "/",
+    icon: (
+      <svg
+        className="w-5 h-5 opacity-80"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+          d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+        />
+      </svg>
+    ),
+  },
+  {
+    label: "Products",
+    path: "/products",
+    icon: (
+      <svg
+        className="w-5 h-5 opacity-80"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+          d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
+        />
+      </svg>
+    ),
+  },
+  {
+    label: "About us",
+    path: "/about",
+    icon: (
+      <svg
+        className="w-5 h-5 opacity-80"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+          d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+        />
+      </svg>
+    ),
+  },
+  {
+    label: "Contact us",
+    path: "/contact",
+    icon: (
+      <svg
+        className="w-5 h-5 opacity-80"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+          d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+        />
+      </svg>
+    ),
+  },
 ];
 
 function Header() {
-    const [toggle, setToggle] = useState(false);
-    const [appearanceSubmenu, setAppearanceSubmenu] = useState(false);
-    const { theme, setTheme } = useTheme();
+  const [toggle, setToggle] = useState(false);
+  const [appearanceSubmenu, setAppearanceSubmenu] = useState(false);
+  const { theme, setTheme } = useTheme();
 
-    const location = useLocation();
-    const menuContainerRef = useRef(null);
+  const location = useLocation();
+  const menuContainerRef = useRef(null);
 
-    // Refs for sliding indicator
-    const navRefs = useRef({});
-    const [indicatorStyle, setIndicatorStyle] = useState({
-        left: 0,
-        width: 0,
-        opacity: 0,
-    });
+  // Refs for sliding indicator
+  const navRefs = useRef({});
+  const [indicatorStyle, setIndicatorStyle] = useState({
+    left: 0,
+    width: 0,
+    opacity: 0,
+  });
 
-    useEffect(() => {
-        const updateIndicator = () => {
-            const activeElement = navRefs.current[location.pathname];
-            if (activeElement) {
-                setIndicatorStyle({
-                    left: activeElement.offsetLeft,
-                    width: activeElement.offsetWidth,
-                    opacity: 1,
-                });
-            } else {
-                setIndicatorStyle((prev) => ({ ...prev, opacity: 0 }));
-            }
-        };
-
-        updateIndicator();
-        window.addEventListener("resize", updateIndicator);
-        return () => window.removeEventListener("resize", updateIndicator);
-    }, [location.pathname]);
-
-    // Close on click outside and reset appearance submenu
-    useEffect(() => {
-        const handleClickOutside = (e) => {
-            if (menuContainerRef.current && !menuContainerRef.current.contains(e.target)) {
-                setToggle(false);
-                setAppearanceSubmenu(false);
-            }
-        };
-        if (toggle) {
-            document.addEventListener("mousedown", handleClickOutside);
-        }
-        return () => document.removeEventListener("mousedown", handleClickOutside);
-    }, [toggle]);
-
-    const getThemeLabel = () => {
-        if (theme === "dark") return "Dark";
-        if (theme === "light") return "Light";
-        return "Device theme";
+  useEffect(() => {
+    const updateIndicator = () => {
+      const activeElement = navRefs.current[location.pathname];
+      if (activeElement) {
+        setIndicatorStyle({
+          left: activeElement.offsetLeft,
+          width: activeElement.offsetWidth,
+          opacity: 1,
+        });
+      } else {
+        setIndicatorStyle((prev) => ({ ...prev, opacity: 0 }));
+      }
     };
 
-    return (
-        <header className="relative z-40 w-full min-h-20 md:min-h-24 flex justify-between items-center px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 border-b border-app-border bg-app-card transition-colors duration-200">
-            {/* 1. Logo Section */}
-            <NavLink to="/" className="flex items-center gap-2 sm:gap-3 group shrink-0">
-                <img
-                    className="h-10 sm:h-12 md:h-11 lg:h-13 xl:h-14 transition-transform duration-300 group-hover:scale-105"
-                    src={logo}
-                    alt="Logo"
-                />
-                <span className="text-lg sm:text-xl md:text-lg lg:text-xl xl:text-2xl font-black tracking-wide text-app-text group-hover:text-[#b5dc11] transition-colors whitespace-nowrap">
-                    Monsters Co.
-                </span>
-            </NavLink>
+    updateIndicator();
+    window.addEventListener("resize", updateIndicator);
+    return () => window.removeEventListener("resize", updateIndicator);
+  }, [location.pathname]);
 
-            {/* 2. Desktop Navigation */}
-            <nav className="relative hidden md:flex items-center justify-center md:gap-2 lg:gap-5 xl:gap-8 md:text-sm lg:text-base xl:text-lg font-bold py-2 shrink-0">
-                {NAV_ITEMS.map((item) => (
-                    <NavLink
-                        key={item.path}
-                        to={item.path}
-                        ref={(el) => (navRefs.current[item.path] = el)}
-                        className={({ isActive }) =>
-                            `px-2.5 lg:px-3.5 py-1.5 transition-colors duration-200 cursor-pointer whitespace-nowrap ${
-                                isActive
-                                    ? "text-[#b5dc11] font-bold"
-                                    : "text-app-muted hover:text-app-text"
-                            }`
-                        }
-                    >
-                        {item.label}
-                    </NavLink>
-                ))}
+  // Close on click outside and reset appearance submenu
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (
+        menuContainerRef.current &&
+        !menuContainerRef.current.contains(e.target)
+      ) {
+        setToggle(false);
+        setAppearanceSubmenu(false);
+      }
+    };
+    if (toggle) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [toggle]);
 
-                {/* Sliding Active Indicator */}
-                <span
-                    className="absolute bottom-0 h-[3px] bg-[#b5dc11] rounded-full transition-all duration-300 ease-out pointer-events-none"
-                    style={{
-                        left: `${indicatorStyle.left}px`,
-                        width: `${indicatorStyle.width}px`,
-                        opacity: indicatorStyle.opacity,
-                    }}
-                />
-            </nav>
+  const getThemeLabel = () => {
+    if (theme === "dark") return "Dark";
+    if (theme === "light") return "Light";
+    return "Device theme";
+  };
 
-            {/* 3. Account / Menu Section */}
-            <div className="relative shrink-0" ref={menuContainerRef}>
-                {/* Desktop Profile Pill Trigger */}
-                <button
+  return (
+    <header className="relative z-40 w-full min-h-20 md:min-h-24 flex justify-between items-center px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 border-b border-app-border bg-app-card transition-colors duration-200">
+      {/* 1. Logo Section */}
+      <NavLink
+        to="/"
+        className="flex items-center gap-2 sm:gap-3 group shrink-0"
+      >
+        <img
+          className="h-10 sm:h-12 md:h-11 lg:h-13 xl:h-14 transition-transform duration-300 group-hover:scale-105"
+          src={logo}
+          alt="Logo"
+        />
+        <span className="text-lg sm:text-xl md:text-lg lg:text-xl xl:text-2xl font-black tracking-wide text-app-text group-hover:text-[#b5dc11] transition-colors whitespace-nowrap">
+          Monsters Co.
+        </span>
+      </NavLink>
+
+      {/* 2. Desktop Navigation */}
+      <nav className="relative hidden md:flex items-center justify-center md:gap-2 lg:gap-5 xl:gap-8 md:text-sm lg:text-base xl:text-lg font-bold py-2 shrink-0">
+        {NAV_ITEMS.map((item) => (
+          <NavLink
+            key={item.path}
+            to={item.path}
+            ref={(el) => (navRefs.current[item.path] = el)}
+            className={({ isActive }) =>
+              `px-2.5 lg:px-3.5 py-1.5 transition-colors duration-200 cursor-pointer whitespace-nowrap ${
+                isActive
+                  ? "text-[#b5dc11] font-bold"
+                  : "text-app-muted hover:text-app-text"
+              }`
+            }
+          >
+            {item.label}
+          </NavLink>
+        ))}
+
+        {/* Sliding Active Indicator */}
+        <span
+          className="absolute bottom-0 h-[3px] bg-[#b5dc11] rounded-full transition-all duration-300 ease-out pointer-events-none"
+          style={{
+            left: `${indicatorStyle.left}px`,
+            width: `${indicatorStyle.width}px`,
+            opacity: indicatorStyle.opacity,
+          }}
+        />
+      </nav>
+
+      {/* 3. Account / Menu Section */}
+      <div className="relative shrink-0" ref={menuContainerRef}>
+        {/* Desktop Profile Pill Trigger */}
+        <button
+          type="button"
+          onClick={() => {
+            setToggle((prev) => !prev);
+            setAppearanceSubmenu(false);
+          }}
+          className="hidden md:flex items-center gap-2 lg:gap-2.5 bg-app-bg hover:bg-app-hover border border-app-border rounded-2xl px-2.5 lg:px-3.5 py-1.5 lg:py-2 transition-all cursor-pointer shadow-md group"
+          aria-label="User Account Menu"
+        >
+          <div className="relative">
+            <img
+              className="h-8 w-8 lg:h-9 lg:w-9 rounded-full object-cover border border-app-border group-hover:border-[#b5dc11] transition-colors"
+              src={guestProfile}
+              alt="Guest"
+            />
+            <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-500 border-2 border-app-card rounded-full" />
+          </div>
+          <div className="hidden lg:flex flex-col text-left">
+            <span className="text-xs font-bold text-app-text">Guest User</span>
+            <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-mono">
+              Online
+            </span>
+          </div>
+          <svg
+            className={`w-4 h-4 text-app-muted transition-transform duration-200 ${
+              toggle ? "rotate-180 text-[#b5dc11]" : ""
+            }`}
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M19 9l-7 7-7-7"
+            />
+          </svg>
+        </button>
+
+        {/* Mobile Hamburger Trigger */}
+        <button
+          type="button"
+          onClick={() => {
+            setToggle((prev) => !prev);
+            setAppearanceSubmenu(false);
+          }}
+          className="md:hidden p-2 rounded-xl bg-app-bg border border-app-border text-app-text transition-colors cursor-pointer"
+          aria-label="Toggle menu"
+        >
+          <img className="h-6 w-6 dark:invert-0" src={menu} alt="menu" />
+        </button>
+
+        {/* Dropdown Menu */}
+        {toggle && (
+          <div className="absolute right-0 top-13 sm:top-14 w-72 bg-app-card border border-app-border rounded-2xl shadow-2xl shadow-black/20 dark:shadow-black/80 overflow-hidden z-50 animate-in fade-in slide-in-from-top-2 duration-150 divide-y divide-app-border">
+            {/* Submenu: Appearance selection view */}
+            {appearanceSubmenu ? (
+              <div className="py-2">
+                <div className="flex items-center gap-2 px-3 py-2 border-b border-app-border">
+                  <button
                     type="button"
-                    onClick={() => {
-                        setToggle((prev) => !prev);
-                        setAppearanceSubmenu(false);
-                    }}
-                    className="hidden md:flex items-center gap-2 lg:gap-2.5 bg-app-bg hover:bg-app-hover border border-app-border rounded-2xl px-2.5 lg:px-3.5 py-1.5 lg:py-2 transition-all cursor-pointer shadow-md group"
-                    aria-label="User Account Menu"
-                >
-                    <div className="relative">
-                        <img
-                            className="h-8 w-8 lg:h-9 lg:w-9 rounded-full object-cover border border-app-border group-hover:border-[#b5dc11] transition-colors"
-                            src={guestProfile}
-                            alt="Guest"
-                        />
-                        <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-500 border-2 border-app-card rounded-full" />
-                    </div>
-                    <div className="hidden lg:flex flex-col text-left">
-                        <span className="text-xs font-bold text-app-text">
-                            Guest User
-                        </span>
-                        <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-mono">Online</span>
-                    </div>
+                    onClick={() => setAppearanceSubmenu(false)}
+                    className="p-1 rounded-lg hover:bg-app-hover text-app-muted cursor-pointer"
+                  >
                     <svg
-                        className={`w-4 h-4 text-app-muted transition-transform duration-200 ${
-                            toggle ? "rotate-180 text-[#b5dc11]" : ""
-                        }`}
+                      className="w-5 h-5"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M15 19l-7-7 7-7"
+                      />
+                    </svg>
+                  </button>
+                  <span className="text-sm font-semibold text-app-text">
+                    Appearance
+                  </span>
+                </div>
+
+                <div className="p-2 space-y-1 text-sm">
+                  <p className="text-[11px] text-app-muted px-3 py-1">
+                    Setting applies to this browser only
+                  </p>
+                  {[
+                    { id: "system", label: "Use device theme" },
+                    { id: "dark", label: "Dark theme" },
+                    { id: "light", label: "Light theme" },
+                  ].map((opt) => (
+                    <button
+                      key={opt.id}
+                      type="button"
+                      onClick={() => setTheme(opt.id)}
+                      className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-left text-app-text hover:bg-app-hover transition-colors cursor-pointer"
+                    >
+                      <span>{opt.label}</span>
+                      {theme === opt.id && (
+                        <svg
+                          className="w-4 h-4 text-[#b5dc11]"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2.5"
+                            d="M5 13l4 4L19 7"
+                          />
+                        </svg>
+                      )}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <>
+                {/* 1. Header Information */}
+                <div className="p-4 flex items-center gap-3 bg-app-bg">
+                  <div className="relative shrink-0">
+                    <img
+                      className="h-11 w-11 rounded-full object-cover border border-app-border shadow-sm"
+                      src={guestProfile}
+                      alt="Guest Profile"
+                    />
+                    <span className="absolute bottom-0 right-0 w-3 h-3 bg-emerald-500 border-2 border-app-bg rounded-full" />
+                  </div>
+                  <div className="flex flex-col truncate">
+                    <span className="text-sm font-bold text-app-text truncate">
+                      Guest User
+                    </span>
+                    <span className="text-xs text-app-muted truncate">
+                      @guest_portal
+                    </span>
+                    <Link
+                      to="/profile"
+                      onClick={() => setToggle(false)}
+                      className="text-[11px] text-app-accent hover:underline cursor-pointer mt-0.5"
+                    >
+                      Manage Profile
+                    </Link>
+                  </div>
+                </div>
+
+                {/* 2. Navigation items */}
+                <div className="py-2" onClick={() => setToggle(false)}>
+                  {NAV_ITEMS.map((item) => (
+                    <NavLink
+                      key={item.path}
+                      to={item.path}
+                      className={({ isActive }) =>
+                        `flex items-center gap-3.5 px-4 py-2.5 text-sm font-medium transition-colors ${
+                          isActive
+                            ? "bg-[#b5dc11]/15 text-[#b5dc11] border-r-2 border-[#b5dc11] font-semibold"
+                            : "text-app-text hover:bg-app-hover"
+                        }`
+                      }
+                    >
+                      {item.icon}
+                      <span>{item.label}</span>
+                    </NavLink>
+                  ))}
+                </div>
+
+                {/* 3. Settings / Preferences Section */}
+                <div className="py-2 text-sm text-app-text">
+                  {/* Appearance toggle button */}
+                  <button
+                    type="button"
+                    onClick={() => setAppearanceSubmenu(true)}
+                    className="w-full flex items-center justify-between px-4 py-2.5 hover:bg-app-hover transition-colors text-left cursor-pointer"
+                  >
+                    <div className="flex items-center gap-3.5">
+                      <svg
+                        className="w-5 h-5 opacity-80"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
-                    >
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-                    </svg>
-                </button>
-
-                {/* Mobile Hamburger Trigger */}
-                <button
-                    type="button"
-                    onClick={() => {
-                        setToggle((prev) => !prev);
-                        setAppearanceSubmenu(false);
-                    }}
-                    className="md:hidden p-2 rounded-xl bg-app-bg border border-app-border text-app-text transition-colors cursor-pointer"
-                    aria-label="Toggle menu"
-                >
-                    <img className="h-6 w-6 dark:invert-0" src={menu} alt="menu" />
-                </button>
-
-                {/* Dropdown Menu */}
-                {toggle && (
-                    <div className="absolute right-0 top-13 sm:top-14 w-72 bg-app-card border border-app-border rounded-2xl shadow-2xl shadow-black/20 dark:shadow-black/80 overflow-hidden z-50 animate-in fade-in slide-in-from-top-2 duration-150 divide-y divide-app-border">
-                        {/* Submenu: Appearance selection view */}
-                        {appearanceSubmenu ? (
-                            <div className="py-2">
-                                <div className="flex items-center gap-2 px-3 py-2 border-b border-app-border">
-                                    <button
-                                        type="button"
-                                        onClick={() => setAppearanceSubmenu(false)}
-                                        className="p-1 rounded-lg hover:bg-app-hover text-app-muted cursor-pointer"
-                                    >
-                                        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
-                                        </svg>
-                                    </button>
-                                    <span className="text-sm font-semibold text-app-text">Appearance</span>
-                                </div>
-
-                                <div className="p-2 space-y-1 text-sm">
-                                    <p className="text-[11px] text-app-muted px-3 py-1">
-                                        Setting applies to this browser only
-                                    </p>
-                                    {[
-                                        { id: "system", label: "Use device theme" },
-                                        { id: "dark", label: "Dark theme" },
-                                        { id: "light", label: "Light theme" },
-                                    ].map((opt) => (
-                                        <button
-                                            key={opt.id}
-                                            type="button"
-                                            onClick={() => setTheme(opt.id)}
-                                            className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-left text-app-text hover:bg-app-hover transition-colors cursor-pointer"
-                                        >
-                                            <span>{opt.label}</span>
-                                            {theme === opt.id && (
-                                                <svg className="w-4 h-4 text-[#b5dc11]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 13l4 4L19 7" />
-                                                </svg>
-                                            )}
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
-                        ) : (
-                            <>
-                                {/* 1. Header Information */}
-                                <div className="p-4 flex items-center gap-3 bg-app-bg">
-                                    <div className="relative shrink-0">
-                                        <img
-                                            className="h-11 w-11 rounded-full object-cover border border-app-border shadow-sm"
-                                            src={guestProfile}
-                                            alt="Guest Profile"
-                                        />
-                                        <span className="absolute bottom-0 right-0 w-3 h-3 bg-emerald-500 border-2 border-app-bg rounded-full" />
-                                    </div>
-                                    <div className="flex flex-col truncate">
-                                        <span className="text-sm font-bold text-app-text truncate">Guest User</span>
-                                        <span className="text-xs text-app-muted truncate">@guest_portal</span>
-                                        <span className="text-[11px] text-[#b5dc11] hover:underline cursor-pointer mt-0.5">
-                                            Manage profile
-                                        </span>
-                                    </div>
-                                </div>
-
-                                {/* 2. Navigation items */}
-                                <div className="py-2" onClick={() => setToggle(false)}>
-                                    {NAV_ITEMS.map((item) => (
-                                        <NavLink
-                                            key={item.path}
-                                            to={item.path}
-                                            className={({ isActive }) =>
-                                                `flex items-center gap-3.5 px-4 py-2.5 text-sm font-medium transition-colors ${
-                                                    isActive
-                                                        ? "bg-[#b5dc11]/15 text-[#b5dc11] border-r-2 border-[#b5dc11] font-semibold"
-                                                        : "text-app-text hover:bg-app-hover"
-                                                }`
-                                            }
-                                        >
-                                            {item.icon}
-                                            <span>{item.label}</span>
-                                        </NavLink>
-                                    ))}
-                                </div>
-
-                                {/* 3. Settings / Preferences Section */}
-                                <div className="py-2 text-sm text-app-text">
-                                    {/* Appearance toggle button */}
-                                    <button
-                                        type="button"
-                                        onClick={() => setAppearanceSubmenu(true)}
-                                        className="w-full flex items-center justify-between px-4 py-2.5 hover:bg-app-hover transition-colors text-left cursor-pointer"
-                                    >
-                                        <div className="flex items-center gap-3.5">
-                                            <svg className="w-5 h-5 opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                                            </svg>
-                                            <span className="text-sm">Appearance</span>
-                                        </div>
-                                        <div className="flex items-center gap-1 text-xs text-app-muted">
-                                            <span>{getThemeLabel()}</span>
-                                            <svg className="w-4 h-4 opacity-60" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
-                                            </svg>
-                                        </div>
-                                    </button>
-
-                                    {/* Location */}
-                                    <button
-                                        type="button"
-                                        className="w-full flex items-center justify-between px-4 py-2.5 hover:bg-app-hover transition-colors text-left cursor-pointer"
-                                    >
-                                        <div className="flex items-center gap-3.5">
-                                            <svg className="w-5 h-5 opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                            </svg>
-                                            <span className="text-sm">Location</span>
-                                        </div>
-                                        <div className="flex items-center gap-1 text-xs text-app-muted">
-                                            <span>Dimension C-137</span>
-                                            <svg className="w-4 h-4 opacity-60" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
-                                            </svg>
-                                        </div>
-                                    </button>
-                                </div>
-
-                                {/* 4. Close Action */}
-                                <div className="p-2">
-                                    <button
-                                        type="button"
-                                        onClick={() => setToggle(false)}
-                                        className="w-full flex items-center justify-center gap-2 py-2 rounded-xl text-xs font-semibold text-rose-500 bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/20 transition-colors cursor-pointer"
-                                    >
-                                        <img src={cross} alt="close" className="w-3.5 h-3.5 opacity-80 dark:invert" />
-                                        <span>Close</span>
-                                    </button>
-                                </div>
-                            </>
-                        )}
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+                        />
+                      </svg>
+                      <span className="text-sm">Appearance</span>
                     </div>
-                )}
-            </div>
-        </header>
-    );
+                    <div className="flex items-center gap-1 text-xs text-app-muted">
+                      <span>{getThemeLabel()}</span>
+                      <svg
+                        className="w-4 h-4 opacity-60"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M9 5l7 7-7 7"
+                        />
+                      </svg>
+                    </div>
+                  </button>
+
+                  {/* Location */}
+                  <button
+                    type="button"
+                    className="w-full flex items-center justify-between px-4 py-2.5 hover:bg-app-hover transition-colors text-left cursor-pointer"
+                  >
+                    <div className="flex items-center gap-3.5">
+                      <svg
+                        className="w-5 h-5 opacity-80"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                        />
+                      </svg>
+                      <span className="text-sm">Location</span>
+                    </div>
+                    <div className="flex items-center gap-1 text-xs text-app-muted">
+                      <span>Dimension C-137</span>
+                      <svg
+                        className="w-4 h-4 opacity-60"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M9 5l7 7-7 7"
+                        />
+                      </svg>
+                    </div>
+                  </button>
+                </div>
+
+                {/* 4. Close Action */}
+                <div className="p-2">
+                  <button
+                    type="button"
+                    onClick={() => setToggle(false)}
+                    className="w-full flex items-center justify-center gap-2 py-2 rounded-xl text-xs font-semibold text-rose-500 bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/20 transition-colors cursor-pointer"
+                  >
+                    <img
+                      src={cross}
+                      alt="close"
+                      className="w-3.5 h-3.5 opacity-80 dark:invert"
+                    />
+                    <span>Close</span>
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
+        )}
+      </div>
+    </header>
+  );
 }
 
 export default Header;
