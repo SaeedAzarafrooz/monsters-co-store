@@ -5,6 +5,10 @@ import Home from "./Components/pages/Home";
 import ContactUs from "./Components/pages/ContactUs";
 import AboutUs from "./Components/pages/AboutUs";
 import Products from "./Components/pages/Products";
+import ProfileLayout from "./Components/pages/profile/ProfileLayout";
+import Overview from "./Components/pages/profile/Overview";
+import UnderConstruction from "./Components/UnderConstruction";
+import NotFound from "./Components/pages/NotFound";
 
 function App() {
   return (
@@ -17,6 +21,29 @@ function App() {
           <Route path="/products" element={<Products />} />
           <Route path="/about" element={<AboutUs />} />
           <Route path="/contact" element={<ContactUs />} />
+
+          <Route path="/profile" element={<ProfileLayout />}>
+            <Route index element={<Overview />} />
+            <Route
+              path="orders"
+              element={
+                <UnderConstruction
+                  title="My Orders"
+                  description="The order tracking and history system is coming soon!"
+                />
+              }
+            />
+            <Route
+              path="settings"
+              element={
+                <UnderConstruction
+                  title="Account Settings"
+                  description="Personalization and security settings are under development."
+                />
+              }
+            />
+          </Route>
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
 
