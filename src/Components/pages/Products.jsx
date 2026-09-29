@@ -21,7 +21,7 @@ const BUNDLE_MAP = {
 
 export default function Main() {
   const [searchParams] = useSearchParams();
-    const [selectedCharacter, setSelectedCharacter] = useState(null);
+  const [selectedCharacter, setSelectedCharacter] = useState(null);
   const initialBundle = searchParams.get("bundle")?.toLowerCase();
 
   const [filters, setFilters] = useState(
@@ -63,7 +63,7 @@ export default function Main() {
   };
 
   return (
-    <main className="w-full min-h-screen bg-slate-900 py-6 px-3 sm:px-6">
+    <main className="w-full min-h-screen bg-app-bg py-6 px-3 sm:px-6 transition-colors duration-200">
       <div className="w-full max-w-[1440px] mx-auto flex flex-col lg:flex-row items-start gap-6">
         
         {/* Sticky Sidebar Filter */}
@@ -100,12 +100,12 @@ export default function Main() {
 
             {/* Empty results state */}
             {!isLoading && (!data || data.length === 0) && (
-              <div className="w-full text-center py-20 text-slate-400 space-y-3">
+              <div className="w-full text-center py-20 text-app-muted space-y-3">
                 <span className="text-5xl block">🛸</span>
-                <p className="text-base font-semibold text-slate-300">
+                <p className="text-base font-semibold text-app-text">
                   {error || "No sticker characters match these filters!"}
                 </p>
-                <p className="text-xs text-slate-500">
+                <p className="text-xs text-app-muted">
                   Try clearing some criteria or selecting a different bundle.
                 </p>
               </div>
@@ -137,7 +137,8 @@ export default function Main() {
         </div>
 
       </div>
-       {selectedCharacter && (
+
+      {selectedCharacter && (
         <CharacterModal
           character={selectedCharacter}
           onClose={() => setSelectedCharacter(null)}

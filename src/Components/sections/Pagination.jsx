@@ -1,4 +1,3 @@
-
 function Pagination({ currentPage, totalPages, onPageChange }) {
   // Helper to calculate visible page numbers around current page
   const getPageNumbers = () => {
@@ -19,39 +18,39 @@ function Pagination({ currentPage, totalPages, onPageChange }) {
 
   return (
     <nav
-      className="flex items-center justify-center gap-1 sm:gap-2 text-[#b5dc11] font-semibold select-none"
+      className="flex items-center justify-center gap-1 sm:gap-2 text-app-accent font-semibold select-none"
       aria-label="Pagination Navigation"
     >
       {/* Previous Button */}
       <button
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage <= 1}
-        className="px-3 py-1 rounded-xl border border-transparent hover:border-[#b5dc11] disabled:opacity-30 disabled:hover:border-transparent transition-all duration-150"
+        className="px-3 py-1 rounded-xl border border-transparent hover:border-app-accent hover:bg-app-accent/10 disabled:opacity-30 disabled:hover:border-transparent disabled:hover:bg-transparent transition-all duration-150 cursor-pointer disabled:cursor-not-allowed"
       >
         <span className="hidden sm:inline">Previous</span>
-        <span className="inline sm:hidden text-xl">&#10140;</span>
+        <span className="inline sm:hidden text-xl rotate-180 inline-block">&#10140;</span>
       </button>
 
       {/* First Page */}
       <button
         onClick={() => onPageChange(1)}
-        className={`w-8 h-8 rounded-full border border-transparent hover:border-[#b5dc11] transition-all duration-150 ${
-          currentPage === 1 ? "bg-[#b5dc11] text-black" : ""
+        className={`w-8 h-8 rounded-full border border-transparent hover:border-app-accent hover:bg-app-accent/10 transition-all duration-150 cursor-pointer ${
+          currentPage === 1 ? "!bg-app-accent !text-black font-bold shadow-md shadow-app-accent/20" : ""
         }`}
       >
         1
       </button>
 
       {/* Start Ellipsis */}
-      {currentPage > 3 && <span className="px-1 text-slate-400">...</span>}
+      {currentPage > 3 && <span className="px-1 text-app-muted">...</span>}
 
       {/* Dynamic Mid Pages */}
       {visiblePages.map((pageNum) => (
         <button
           key={pageNum}
           onClick={() => onPageChange(pageNum)}
-          className={`w-8 h-8 rounded-full border border-transparent hover:border-[#b5dc11] transition-all duration-150 ${
-            currentPage === pageNum ? "bg-[#b5dc11] text-black" : ""
+          className={`w-8 h-8 rounded-full border border-transparent hover:border-app-accent hover:bg-app-accent/10 transition-all duration-150 cursor-pointer ${
+            currentPage === pageNum ? "!bg-app-accent !text-black font-bold shadow-md shadow-app-accent/20" : ""
           }`}
         >
           {pageNum}
@@ -60,15 +59,15 @@ function Pagination({ currentPage, totalPages, onPageChange }) {
 
       {/* End Ellipsis */}
       {currentPage < totalPages - 2 && (
-        <span className="px-1 text-slate-400">...</span>
+        <span className="px-1 text-app-muted">...</span>
       )}
 
       {/* Last Page */}
       {totalPages > 1 && (
         <button
           onClick={() => onPageChange(totalPages)}
-          className={`w-8 h-8 rounded-full border border-transparent hover:border-[#b5dc11] transition-all duration-150 ${
-            currentPage === totalPages ? "bg-[#b5dc11] text-black" : ""
+          className={`w-8 h-8 rounded-full border border-transparent hover:border-app-accent hover:bg-app-accent/10 transition-all duration-150 cursor-pointer ${
+            currentPage === totalPages ? "!bg-app-accent !text-black font-bold shadow-md shadow-app-accent/20" : ""
           }`}
         >
           {totalPages}
@@ -79,7 +78,7 @@ function Pagination({ currentPage, totalPages, onPageChange }) {
       <button
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage >= totalPages}
-        className="px-3 py-1 rounded-xl border border-transparent hover:border-[#b5dc11] disabled:opacity-30 disabled:hover:border-transparent transition-all duration-150"
+        className="px-3 py-1 rounded-xl border border-transparent hover:border-app-accent hover:bg-app-accent/10 disabled:opacity-30 disabled:hover:border-transparent disabled:hover:bg-transparent transition-all duration-150 cursor-pointer disabled:cursor-not-allowed"
       >
         <span className="hidden sm:inline">Next</span>
         <span className="inline sm:hidden text-xl">&#10140;</span>

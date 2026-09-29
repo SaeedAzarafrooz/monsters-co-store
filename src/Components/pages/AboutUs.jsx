@@ -10,21 +10,21 @@ function AboutUs() {
     {
       name: "React 18",
       desc: "Component Architecture & Hooks",
-      color: "from-cyan-500/20 to-blue-500/10 border-cyan-500/30 text-cyan-400",
+      color: "from-cyan-500/20 to-blue-500/10 border-cyan-500/30 text-cyan-500 dark:text-cyan-400",
       image: reactIcon,
       glow: "drop-shadow-[0_0_12px_rgba(34,211,238,0.5)]", // Cyan Glow
     },
     {
       name: "Tailwind CSS",
       desc: "Responsive & Modern Dark UI",
-      color: "from-sky-500/20 to-teal-500/10 border-sky-500/30 text-sky-400",
+      color: "from-sky-500/20 to-teal-500/10 border-sky-500/30 text-sky-500 dark:text-sky-400",
       image: tailwindCssIcon,
       glow: "drop-shadow-[0_0_12px_rgba(56,189,248,0.5)]", // Sky Glow
     },
     {
       name: "React Router v6",
       desc: "SPA Navigation & Dynamic Transitions",
-      color: "from-red-500/20 to-orange-500/10 border-red-500/30 text-red-400",
+      color: "from-red-500/20 to-orange-500/10 border-red-500/30 text-red-500 dark:text-red-400",
       image: reactRouterIcon,
       glow: "drop-shadow-[0_0_12px_rgba(248,113,113,0.5)]", // Red Glow
     },
@@ -32,7 +32,7 @@ function AboutUs() {
       name: "Vite",
       desc: "Next-gen Fast Frontend Tooling",
       color:
-        "from-purple-500/20 to-pink-500/10 border-purple-500/30 text-purple-400",
+        "from-purple-500/20 to-pink-500/10 border-purple-500/30 text-purple-500 dark:text-purple-400",
       image: viteIcon,
       glow: "drop-shadow-[0_0_12px_rgba(192,132,252,0.5)]", // Purple Glow
     },
@@ -40,7 +40,7 @@ function AboutUs() {
       name: "Rick & Morty API",
       desc: "RESTful Endpoints & Data Ingestion",
       color:
-        "from-emerald-500/20 to-green-500/10 border-emerald-500/30 text-emerald-400",
+        "from-emerald-500/20 to-green-500/10 border-emerald-500/30 text-emerald-500 dark:text-emerald-400",
       image: rick_mortyApiIcon,
       glow: "drop-shadow-[0_0_12px_rgba(52,211,153,0.5)]", // Emerald Glow
     },
@@ -48,7 +48,7 @@ function AboutUs() {
       name: "Intersection Observer",
       desc: "Infinite Scroll & Viewport Triggers",
       color:
-        "from-amber-500/20 to-yellow-500/10 border-amber-500/30 text-amber-400",
+        "from-amber-500/20 to-yellow-500/10 border-amber-500/30 text-amber-500 dark:text-amber-400",
       image: Intersection_Observer_ApiIcon,
       glow: "drop-shadow-[0_0_12px_rgba(251,191,36,0.5)]", // Amber Glow
     },
@@ -70,20 +70,20 @@ function AboutUs() {
   ];
 
   return (
-    <div className="min-h-[calc(100vh-140px)] py-12 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto text-slate-200">
+    <div className="min-h-[calc(100vh-140px)] py-12 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto text-app-text transition-colors duration-200">
       {/* Hero Section */}
       <div className="text-center max-w-3xl mx-auto mb-16">
-        <span className="inline-block px-3 py-1 mb-4 text-xs font-semibold tracking-wider text-emerald-400 uppercase bg-emerald-500/10 rounded-full border border-emerald-500/20">
+        <span className="inline-block px-3 py-1 mb-4 text-xs font-semibold tracking-wider text-app-accent uppercase bg-app-accent/10 rounded-full border border-app-accent/20">
           The Universe Explorer Project
         </span>
-        <h1 className="text-4xl sm:text-5xl font-extrabold text-white tracking-tight mb-6">
+        <h1 className="text-4xl sm:text-5xl font-extrabold text-app-text tracking-tight mb-6">
           Exploring dimensions with modern{" "}
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">
             Frontend Engineering
           </span>
           .
         </h1>
-        <p className="text-slate-400 text-base sm:text-lg leading-relaxed">
+        <p className="text-app-muted text-base sm:text-lg leading-relaxed">
           This project was engineered to deliver a fast, reactive, and visually
           refined portal interface for exploring characters across the
           multiverse using the Rick and Morty API.
@@ -92,22 +92,22 @@ function AboutUs() {
 
       {/* Highlights / Features Grid */}
       <div className="mb-20">
-        <h2 className="text-2xl font-bold text-white mb-6 border-b border-slate-700/60 pb-3">
+        <h2 className="text-2xl font-bold text-app-text mb-6 border-b border-app-border pb-3">
           Key Technical Highlights
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {highlights.map((item, idx) => (
             <div
               key={idx}
-              className="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 hover:border-slate-700 transition duration-300"
+              className="bg-app-card border border-app-border rounded-2xl p-6 hover:border-app-accent/60 transition duration-300 shadow-sm"
             >
-              <div className="text-emerald-400 font-mono text-xs mb-2">
+              <div className="text-app-accent font-mono text-xs mb-2">
                 0{idx + 1}. FEATURE
               </div>
-              <h3 className="text-lg font-semibold text-white mb-2">
+              <h3 className="text-lg font-semibold text-app-text mb-2">
                 {item.title}
               </h3>
-              <p className="text-slate-400 text-sm leading-relaxed">
+              <p className="text-app-muted text-sm leading-relaxed">
                 {item.desc}
               </p>
             </div>
@@ -117,19 +117,19 @@ function AboutUs() {
 
       {/* Tech Stack Grid */}
       <div className="mb-20">
-        <h2 className="text-2xl font-bold text-white mb-6 border-b border-slate-700/60 pb-3">
+        <h2 className="text-2xl font-bold text-app-text mb-6 border-b border-app-border pb-3">
           Tech Stack & Tools
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {techStack.map((tech) => (
             <div
               key={tech.name}
-              className={`group relative p-5 rounded-2xl border bg-gradient-to-br ${tech.color} flex flex-col justify-between backdrop-blur-sm`}
+              className={`group relative p-5 rounded-2xl border bg-app-card bg-gradient-to-br ${tech.color} flex flex-col justify-between backdrop-blur-sm shadow-sm transition-all duration-300 hover:shadow-md`}
             >
               <div className="font-bold text-base tracking-wide">
                 {tech.name}
               </div>
-              <div className="text-xs text-slate-300 mt-2">{tech.desc}</div>
+              <div className="text-xs text-app-text/75 mt-2">{tech.desc}</div>
               <img
                 src={tech.image}
                 alt={`${tech.name}-icon`}
@@ -141,12 +141,12 @@ function AboutUs() {
       </div>
 
       {/* Developer Card (For Portfolio) */}
-      <div className="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 border border-slate-700/70 rounded-3xl p-8 sm:p-10 flex flex-col md:flex-row items-center justify-between gap-8 shadow-2xl">
+      <div className="bg-app-card border border-app-border rounded-3xl p-8 sm:p-10 flex flex-col md:flex-row items-center justify-between gap-8 shadow-xl transition-colors duration-200">
         <div className="text-center md:text-left">
-          <h3 className="text-2xl font-bold text-white">
+          <h3 className="text-2xl font-bold text-app-text">
             Crafted by Saeed Azarafrooz
           </h3>
-          <p className="text-slate-400 text-sm mt-2 max-w-md">
+          <p className="text-app-muted text-sm mt-2 max-w-md">
             Frontend Developer focused on building clean, high-performance web
             applications with React, Next.js, and modern CSS tooling.
           </p>
@@ -156,7 +156,7 @@ function AboutUs() {
             href="https://github.com/Saeedazarafrooz"
             target="_blank"
             rel="noopener noreferrer"
-            className="px-5 py-2.5 text-sm font-medium rounded-xl bg-slate-700/80 hover:bg-slate-700 text-white transition border border-slate-600/80"
+            className="px-5 py-2.5 text-sm font-medium rounded-xl bg-app-hover hover:bg-app-card text-app-text transition border border-app-border"
           >
             GitHub
           </a>

@@ -11,7 +11,6 @@ const BUNDLE_PRESETS = [
 function ProductFilter({ activeFilters, onApplyFilters, onResetFilters }) {
   const [localFilters, setLocalFilters] = useState(activeFilters);
   const [activeBundle, setActiveBundle] = useState(() => {
-    // English comment: Determine initial active bundle based on incoming activeFilters
     const matched = BUNDLE_PRESETS.find(
       (b) =>
         b.filters.name === activeFilters.name &&
@@ -25,7 +24,6 @@ function ProductFilter({ activeFilters, onApplyFilters, onResetFilters }) {
 
   useEffect(() => {
     setLocalFilters(activeFilters);
-    // English comment: Keep active bundle button highlighted when activeFilters changes
     const matched = BUNDLE_PRESETS.find(
       (b) =>
         b.filters.name === activeFilters.name &&
@@ -70,27 +68,27 @@ function ProductFilter({ activeFilters, onApplyFilters, onResetFilters }) {
         <button
           type="button"
           onClick={() => setIsOpenMobile((prev) => !prev)}
-          className="w-full flex items-center justify-between px-4 py-3 bg-slate-800 text-slate-200 border border-slate-700 rounded-xl font-medium text-sm shadow-md"
+          className="w-full flex items-center justify-between px-4 py-3 bg-app-card text-app-text border border-app-border rounded-xl font-medium text-sm shadow-md"
         >
           <span className="flex items-center gap-2">
             <span>⚙️</span> Filter & Bundles
           </span>
-          <span className="text-xs bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded-full">
+          <span className="text-xs bg-app-accent/20 text-app-accent px-2.5 py-0.5 rounded-full font-bold">
             {isOpenMobile ? "Hide" : "Show"}
           </span>
         </button>
       </div>
 
-      {/* Filter panel container: Unified card on mobile, separated clean cards on desktop */}
+      {/* Filter panel container */}
       <div
-        className={`bg-slate-800/95 border border-slate-700/80 rounded-2xl p-5 shadow-2xl backdrop-blur-md space-y-6 max-h-[calc(100vh-3rem)] overflow-y-auto lg:bg-transparent lg:border-none lg:p-0 lg:shadow-none lg:backdrop-blur-none lg:space-y-4 lg:max-h-none lg:overflow-visible ${
+        className={`space-y-4 max-h-[calc(100vh-3rem)] overflow-y-auto lg:max-h-none lg:overflow-visible ${
           isOpenMobile ? "block" : "hidden lg:block"
         }`}
       >
         {/* Section 1: Sticker Bundles Card */}
-        <div className="space-y-3 lg:bg-slate-800/95 lg:border lg:border-slate-700/80 lg:rounded-2xl lg:p-5 lg:shadow-2xl lg:backdrop-blur-md">
-          <div className="border-b border-slate-700 pb-3">
-            <h3 className="font-extrabold text-sm sm:text-base text-slate-100 flex items-center justify-center lg:justify-start gap-2">
+        <div className="bg-app-card border border-app-border rounded-2xl p-5 shadow-lg space-y-3">
+          <div className="border-b border-app-border pb-3">
+            <h3 className="font-extrabold text-sm sm:text-base text-app-text flex items-center justify-center lg:justify-start gap-2">
               <span>📦</span> Sticker Bundles
             </h3>
           </div>
@@ -101,10 +99,10 @@ function ProductFilter({ activeFilters, onApplyFilters, onResetFilters }) {
                 key={b.id}
                 type="button"
                 onClick={() => handleBundleClick(b)}
-                className={`w-full text-left px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 border ${
+                className={`w-full text-left px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 border cursor-pointer ${
                   activeBundle === b.id
-                    ? "bg-emerald-500 text-slate-950 border-emerald-400 shadow-md shadow-emerald-500/20 translate-x-1"
-                    : "bg-slate-900/60 text-slate-300 border-slate-700 hover:bg-slate-700/70 hover:text-white"
+                    ? "!bg-app-accent !text-black border-app-accent shadow-md shadow-app-accent/20 translate-x-1 font-bold"
+                    : "bg-app-hover text-app-text border-app-border hover:border-app-accent/50 hover:brightness-105"
                 }`}
               >
                 {b.label}
@@ -114,9 +112,9 @@ function ProductFilter({ activeFilters, onApplyFilters, onResetFilters }) {
         </div>
 
         {/* Section 2: Custom Parameters Filter Card */}
-        <div className="pt-2 border-t border-slate-700 lg:border-t-0 lg:pt-4 lg:bg-slate-800/95 lg:border lg:border-slate-700/80 lg:rounded-2xl lg:p-5 lg:shadow-2xl lg:backdrop-blur-md space-y-4">
-          <div className="border-b border-slate-700 pb-3">
-            <h3 className="font-extrabold text-sm sm:text-base text-slate-100 flex items-center justify-center lg:justify-start gap-2">
+        <div className="bg-app-card border border-app-border rounded-2xl p-5 shadow-lg space-y-4">
+          <div className="border-b border-app-border pb-3">
+            <h3 className="font-extrabold text-sm sm:text-base text-app-text flex items-center justify-center lg:justify-start gap-2">
               <span>🌌</span> Multiverse Filter
             </h3>
           </div>
@@ -124,7 +122,7 @@ function ProductFilter({ activeFilters, onApplyFilters, onResetFilters }) {
           {/* Query parameters form */}
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-[11px] font-semibold text-slate-400 mb-1">
+              <label className="block text-[11px] font-semibold text-app-muted mb-1">
                 Search by Name
               </label>
               <input
@@ -133,29 +131,29 @@ function ProductFilter({ activeFilters, onApplyFilters, onResetFilters }) {
                 placeholder="e.g. Rick, Morty, Bird..."
                 value={localFilters.name}
                 onChange={handleChange}
-                className="w-full bg-slate-900/90 border border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-emerald-400 transition"
+                className="w-full bg-app-hover border border-app-border rounded-lg px-3 py-2 text-xs text-app-text placeholder:text-app-muted/70 focus:outline-none focus:border-app-accent transition"
               />
             </div>
 
             <div>
-              <label className="block text-[11px] font-semibold text-slate-400 mb-1">
+              <label className="block text-[11px] font-semibold text-app-muted mb-1">
                 Status
               </label>
               <select
                 name="status"
                 value={localFilters.status}
                 onChange={handleChange}
-                className="w-full bg-slate-900/90 border border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-100 focus:outline-none focus:border-emerald-400 transition"
+                className="w-full bg-app-hover border border-app-border rounded-lg px-3 py-2 text-xs text-app-text focus:outline-none focus:border-app-accent transition cursor-pointer"
               >
-                <option value="">All Statuses</option>
-                <option value="alive">Alive</option>
-                <option value="dead">Dead</option>
-                <option value="unknown">Unknown</option>
+                <option value="" className="bg-app-card text-app-text">All Statuses</option>
+                <option value="alive" className="bg-app-card text-app-text">Alive</option>
+                <option value="dead" className="bg-app-card text-app-text">Dead</option>
+                <option value="unknown" className="bg-app-card text-app-text">Unknown</option>
               </select>
             </div>
 
             <div>
-              <label className="block text-[11px] font-semibold text-slate-400 mb-1">
+              <label className="block text-[11px] font-semibold text-app-muted mb-1">
                 Species
               </label>
               <input
@@ -164,39 +162,39 @@ function ProductFilter({ activeFilters, onApplyFilters, onResetFilters }) {
                 placeholder="e.g. Human, Alien, Robot..."
                 value={localFilters.species}
                 onChange={handleChange}
-                className="w-full bg-slate-900/90 border border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-emerald-400 transition"
+                className="w-full bg-app-hover border border-app-border rounded-lg px-3 py-2 text-xs text-app-text placeholder:text-app-muted/70 focus:outline-none focus:border-app-accent transition"
               />
             </div>
 
             <div>
-              <label className="block text-[11px] font-semibold text-slate-400 mb-1">
+              <label className="block text-[11px] font-semibold text-app-muted mb-1">
                 Gender
               </label>
               <select
                 name="gender"
                 value={localFilters.gender}
                 onChange={handleChange}
-                className="w-full bg-slate-900/90 border border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-100 focus:outline-none focus:border-emerald-400 transition"
+                className="w-full bg-app-hover border border-app-border rounded-lg px-3 py-2 text-xs text-app-text focus:outline-none focus:border-app-accent transition cursor-pointer"
               >
-                <option value="">All Genders</option>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-                <option value="genderless">Genderless</option>
-                <option value="unknown">Unknown</option>
+                <option value="" className="bg-app-card text-app-text">All Genders</option>
+                <option value="male" className="bg-app-card text-app-text">Male</option>
+                <option value="female" className="bg-app-card text-app-text">Female</option>
+                <option value="genderless" className="bg-app-card text-app-text">Genderless</option>
+                <option value="unknown" className="bg-app-card text-app-text">Unknown</option>
               </select>
             </div>
 
             <div className="flex gap-2 pt-2">
               <button
                 type="submit"
-                className="flex-1 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold py-2 rounded-lg text-xs transition shadow-md shadow-emerald-500/20 active:scale-[0.98]"
+                className="flex-1 bg-app-accent hover:brightness-105 text-black font-bold py-2 rounded-lg text-xs transition shadow-md shadow-app-accent/20 active:scale-[0.98] cursor-pointer"
               >
                 Apply Filter
               </button>
               <button
                 type="button"
                 onClick={handleReset}
-                className="px-3 py-2 bg-slate-700 hover:bg-slate-600 text-slate-300 font-semibold rounded-lg text-xs transition"
+                className="px-3 py-2 bg-app-hover hover:brightness-95 text-app-text border border-app-border font-semibold rounded-lg text-xs transition cursor-pointer"
               >
                 Reset
               </button>

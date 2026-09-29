@@ -76,8 +76,8 @@ function BackToTop({ threshold = 500 }) {
         group fixed right-5 z-50
         flex justify-center items-center
         w-12 h-12 rounded-full
-        bg-[#f3f3f3] text-black font-bold
-        shadow-lg shadow-black/30
+        bg-app-card border border-app-border text-app-text font-bold
+        shadow-lg shadow-black/20 hover:border-emerald-500/50
         hover:brightness-95 active:scale-95
         transition-[transform,opacity,bottom] duration-300 ease-out
         ${
@@ -92,7 +92,7 @@ function BackToTop({ threshold = 500 }) {
         src={Arrowup}
         alt="arrow-up"
         className="
-          w-8
+          w-7 h-7 object-contain opacity-80 group-hover:opacity-100
           transition-all duration-200 ease-in-out
           group-hover:drop-shadow-[0_4px_4px_rgba(0,0,0,0.35)]
           group-hover:-translate-y-0.5
@@ -101,4 +101,5 @@ function BackToTop({ threshold = 500 }) {
     </button>
   );
 }
+
 export default BackToTop;
