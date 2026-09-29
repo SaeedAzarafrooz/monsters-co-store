@@ -1,3 +1,31 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  /* Light Theme */
+  --bg-primary: #eef2f6;        /* slate-100 */
+  --bg-secondary: #f8fafc;      /* slate-50 for cards,modals and menus*/
+  --bg-tertiary: #e2e8f0;       /* slate-200 for hover and inputs */
+  --border-color: #cbd5e1;      /* slate-300 */
+  --text-primary: #0f172a;      /* slate-900 */
+  --text-secondary: #475569;    /* slate-600 */
+  --accent-color: #84cc16;      /* project signature color */
+}
+
+html.dark {
+  /* Dark Theme */
+  --bg-primary: #020617;        /* slate-950 */
+  --bg-secondary: #0f172a;      /* slate-900 */
+  --bg-tertiary: #1e293b;       /* slate-800 */
+  --border-color: #334155;      /* slate-700 */
+  --text-primary: #f8fafc;      /* slate-50 */
+  --text-secondary: #94a3b8;    /* slate-400 */
+  --accent-color: #b5dc11;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
