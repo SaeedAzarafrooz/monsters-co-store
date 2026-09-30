@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useCart } from "../context/CartContext";
 
 export function CardSkeleton() {
   return (
@@ -22,6 +23,11 @@ export function CardSkeleton() {
 function Card({ props, onClick }) {
   const { image, name, id, episode, gender, status, species, type } = props;
   const [imageLoaded, setImageLoaded] = useState(false);
+
+  // Cart context integration
+  const { cartItems, addToCart, decreaseQuantity } = useCart();
+  const currentItemInCart = cartItems.find((item) => item.id === id);
+  const currentQuantity = currentItemInCart ? currentItemInCart.quantity : 0;
 
   // Logic for Star Rating
   const epCount = episode?.length || 0;
@@ -88,13 +94,54 @@ function Card({ props, onClick }) {
            <span className="px-2 py-0.5 rounded-md bg-app-border/40 border border-app-border text-app-text-muted">{gender}</span>
         </div>
 
-        {/* Footer: Episodes */}
+        {/* Footer: Episodes & Cart Actions */}
         <div className="pt-2 border-t border-app-border flex items-center justify-between text-xs">
           <div className="text-app-text-muted text-[11px] flex items-center gap-1">
             <span>📺</span>
             <span>{episode?.length || 0} {episode?.length === 1 ? "Ep" : "Eps"}</span>
           </div>
-          {/* Space reserved for future Add to Cart button */}
+
+          {/* Cart Action Button / Controls */}
+          {currentQuantity === 0 ? (
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                addToCart(props);
+              }}
+              className="px-2.5 py-1 text-[11px] font-semibold rounded-lg bg-emerald-500/15 hover:bg-emerald-500 text-emerald-600 hover:text-white dark:text-emerald-400 dark:hover:text-slate-900 border border-emerald-500/30 transition-all duration-200 active:scale-95 flex items-center gap-1"
+            >
+              <span>+</span>
+              <span>Add</span>
+            </button>
+          ) : (
+            <div
+              onClick={(e) => e.stopPropagation()}
+              className="flex items-center gap-1.5 bg-app-border/40 border border-app-border px-1 py-0.5 rounded-lg"
+            >
+              <button
+                type="button"
+                onClick={() => decreaseQuantity(id)}
+                className="w-5 h-5 flex items-center justify-center rounded text-app-text-muted hover:text-rose-500 hover:bg-rose-500/10 transition-colors font-bold text-xs"
+                title={currentQuantity === 1 ? "Remove" : "Decrease"}
+              >
+                {currentQuantity === 1 ? "✕" : "−"}
+              </button>
+
+              <span className="text-[11px] font-bold font-mono text-app-text px-1">
+                {currentQuantity}
+              </span>
+
+              <button
+                type="button"
+                onClick={() => addToCart(props)}
+                className="w-5 h-5 flex items-center justify-center rounded text-emerald-500 hover:bg-emerald-500/20 transition-colors font-bold text-xs"
+                title="Increase"
+              >
+                +
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>
