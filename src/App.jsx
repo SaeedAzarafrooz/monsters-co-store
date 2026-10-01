@@ -9,7 +9,9 @@ import ProfileLayout from "./Components/pages/profile/ProfileLayout";
 import Overview from "./Components/pages/profile/Overview";
 import UnderConstruction from "./Components/UnderConstruction";
 import NotFound from "./Components/pages/NotFound";
-import Checkout from "./Components/pages/Checkout";
+import Checkout from "./Components/pages/cart/Checkout";
+import OrderHistory from "./Components/pages/orders/OrderHistory";
+import OrderTracking from "./Components/pages/orders/OrderTracking";
 
 function App() {
   return (
@@ -23,6 +25,9 @@ function App() {
           <Route path="/about" element={<AboutUs />} />
           <Route path="/contact" element={<ContactUs />} />
           <Route path="/checkout" element={<Checkout />} />
+
+<Route path="/orders" element={<OrderHistory />} />
+<Route path="/orders/:orderId" element={<OrderTracking />} />
 
           <Route path="/profile" element={<ProfileLayout />}>
             <Route index element={<Overview />} />
