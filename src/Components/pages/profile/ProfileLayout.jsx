@@ -21,7 +21,7 @@ export default function ProfileLayout() {
               className={({ isActive }) =>
                 `px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 ${
                   isActive
-                    ? "bg-rose-500/10 text-rose-500 border border-rose-500/20"
+                    ? "bg-app-accent/10 text-app-accent border border-app-accent/30"
                     : "text-app-muted hover:bg-app-hover hover:text-app-text"
                 }`
               }
@@ -32,6 +32,7 @@ export default function ProfileLayout() {
         </nav>
       </aside>
 
+      {/* Main Content Area */}
       <main className="flex-1 w-full min-w-0 bg-app-card border border-app-border rounded-2xl p-6 md:p-8">
         <Outlet />
       </main>
