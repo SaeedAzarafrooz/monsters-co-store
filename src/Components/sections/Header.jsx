@@ -87,6 +87,47 @@ const NAV_ITEMS = [
   },
 ];
 
+const ACCOUNT_ITEMS = [
+  {
+    label: "Dashboard",
+    path: "/profile",
+    icon: (
+      <svg
+        className="w-5 h-5 opacity-80"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+          d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"
+        />
+      </svg>
+    ),
+  },
+  {
+    label: "My Orders",
+    path: "/profile/orders",
+    icon: (
+      <svg
+        className="w-5 h-5 opacity-80"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+          d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
+        />
+      </svg>
+    ),
+  },
+];
+
 function Header() {
   const [toggle, setToggle] = useState(false);
   const [appearanceSubmenu, setAppearanceSubmenu] = useState(false);
@@ -172,7 +213,7 @@ function Header() {
           src={logo}
           alt="Logo"
         />
-        <span className="text-lg sm:text-xl md:text-lg lg:text-xl xl:text-2xl font-black tracking-wide text-app-text group-hover:text-[#b5dc11] transition-colors whitespace-nowrap">
+        <span className="text-lg sm:text-xl md:text-lg lg:text-xl xl:text-2xl font-black tracking-wide text-app-text group-hover:text-app-accent transition-colors whitespace-nowrap">
           Monsters Co.
         </span>
       </NavLink>
@@ -187,7 +228,7 @@ function Header() {
             className={({ isActive }) =>
               `px-2.5 lg:px-3.5 py-1.5 transition-colors duration-200 cursor-pointer whitespace-nowrap ${
                 isActive
-                  ? "text-[#b5dc11] font-bold"
+                  ? "text-app-accent font-bold"
                   : "text-app-muted hover:text-app-text"
               }`
             }
@@ -198,7 +239,7 @@ function Header() {
 
         {/* Sliding Active Indicator */}
         <span
-          className="absolute bottom-0 h-[3px] bg-[#b5dc11] rounded-full transition-all duration-300 ease-out pointer-events-none"
+          className="absolute bottom-0 h-[3px] bg-app-accent rounded-full transition-all duration-300 ease-out pointer-events-none"
           style={{
             left: `${indicatorStyle.left}px`,
             width: `${indicatorStyle.width}px`,
@@ -226,7 +267,7 @@ function Header() {
               className="w-5 h-5 lg:w-6 lg:h-6 object-contain group-hover:scale-110 transition-transform duration-200 dark:invert"
             />
             {totalItemsCount > 0 && (
-              <span className="absolute -top-1 -right-1 min-w-[20px] h-5 px-1.5 bg-[#b5dc11] text-slate-950 text-[11px] font-black font-mono rounded-full flex items-center justify-center shadow-md animate-in zoom-in-75 duration-200">
+              <span className="absolute -top-1 -right-1 min-w-[20px] h-5 px-1.5 bg-app-accent text-app-bg text-[11px] font-black font-mono rounded-full flex items-center justify-center shadow-md animate-in zoom-in-75 duration-200">
                 {totalItemsCount}
               </span>
             )}
@@ -241,7 +282,7 @@ function Header() {
                   <span className="font-bold text-sm text-app-text">
                     Cart Summary
                   </span>
-                  <span className="px-2 py-0.5 text-[11px] font-mono rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-semibold border border-emerald-500/20">
+                  <span className="px-2 py-0.5 text-[11px] font-mono rounded-full bg-app-accent/10 text-app-accent font-semibold border border-app-accent/20">
                     {totalItemsCount} {totalItemsCount === 1 ? "item" : "items"}
                   </span>
                 </div>
@@ -299,7 +340,7 @@ function Header() {
                             {item.name}
                           </h4>
                           <div className="flex items-center gap-2 mt-1 text-[11px] text-app-muted">
-                            <span className="font-mono text-emerald-600 dark:text-emerald-400 font-bold">
+                            <span className="font-mono text-app-accent font-bold">
                               ${unitPrice}
                             </span>
                             <span>×</span>
@@ -324,7 +365,7 @@ function Header() {
                 <div className="p-3 border-t border-app-border bg-app-bg/60 flex flex-col gap-2.5">
                   <div className="flex items-center justify-between px-1 text-sm font-semibold">
                     <span className="text-app-muted">Estimated Total:</span>
-                    <span className="font-mono font-black text-base text-emerald-600 dark:text-emerald-400">
+                    <span className="font-mono font-black text-base text-app-accent">
                       ${totalPrice.toFixed(1)}
                     </span>
                   </div>
@@ -332,7 +373,7 @@ function Header() {
                     type="button"
                     to="/checkout"
                     onClick={handleCheckoutClick}
-                    className="w-full py-2.5 px-4 bg-[#b5dc11] hover:bg-[#a2c60f] text-slate-950 font-bold text-sm rounded-xl transition-all duration-200 active:scale-[0.98] shadow-md flex items-center justify-center gap-2 cursor-pointer"
+                    className="w-full py-2.5 px-4 bg-app-accent hover:opacity-90 text-app-bg font-bold text-sm rounded-xl transition-all duration-200 active:scale-[0.98] shadow-md flex items-center justify-center gap-2 cursor-pointer"
                   >
                     <span>Proceed to Checkout</span>
                     <svg
@@ -371,23 +412,23 @@ function Header() {
           >
             <div className="relative">
               <img
-                className="h-8 w-8 lg:h-9 lg:w-9 rounded-full object-cover border border-app-border group-hover:border-[#b5dc11] transition-colors"
+                className="h-8 w-8 lg:h-9 lg:w-9 rounded-full object-cover border border-app-border group-hover:border-app-accent transition-colors"
                 src={guestProfile}
                 alt="Guest"
               />
-              <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-500 border-2 border-app-card rounded-full" />
+              <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-app-accent border-2 border-app-card rounded-full" />
             </div>
             <div className="hidden lg:flex flex-col text-left">
               <span className="text-xs font-bold text-app-text">
                 Guest User
               </span>
-              <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-mono">
+              <span className="text-[10px] text-app-accent font-mono">
                 Online
               </span>
             </div>
             <svg
               className={`w-4 h-4 text-app-muted transition-transform duration-200 ${
-                toggle ? "rotate-180 text-[#b5dc11]" : ""
+                toggle ? "rotate-180 text-app-accent" : ""
               }`}
               fill="none"
               viewBox="0 0 24 24"
@@ -465,7 +506,7 @@ function Header() {
                         <span>{opt.label}</span>
                         {theme === opt.id && (
                           <svg
-                            className="w-4 h-4 text-[#b5dc11]"
+                            className="w-4 h-4 text-app-accent"
                             fill="none"
                             viewBox="0 0 24 24"
                             stroke="currentColor"
@@ -492,7 +533,7 @@ function Header() {
                         src={guestProfile}
                         alt="Guest Profile"
                       />
-                      <span className="absolute bottom-0 right-0 w-3 h-3 bg-emerald-500 border-2 border-app-bg rounded-full" />
+                      <span className="absolute bottom-0 right-0 w-3 h-3 bg-app-accent border-2 border-app-bg rounded-full" />
                     </div>
                     <div className="flex flex-col truncate">
                       <span className="text-sm font-bold text-app-text truncate">
@@ -511,16 +552,21 @@ function Header() {
                     </div>
                   </div>
 
-                  {/* 2. Navigation items */}
-                  <div className="py-2" onClick={() => setToggle(false)}>
-                    {NAV_ITEMS.map((item) => (
+                  {/* 2. Account Links (Dashboard & Orders) */}
+                  <div className="py-2">
+                    <div className="px-4 py-1 text-[11px] font-bold uppercase tracking-wider text-app-muted">
+                      Account
+                    </div>
+                    {ACCOUNT_ITEMS.map((item) => (
                       <NavLink
                         key={item.path}
                         to={item.path}
+                        end={item.path === "/profile"}
+                        onClick={() => setToggle(false)}
                         className={({ isActive }) =>
                           `flex items-center gap-3.5 px-4 py-2.5 text-sm font-medium transition-colors ${
                             isActive
-                              ? "bg-[#b5dc11]/15 text-[#b5dc11] border-r-2 border-[#b5dc11] font-semibold"
+                              ? "bg-app-accent/15 text-app-accent border-r-2 border-app-accent font-semibold"
                               : "text-app-text hover:bg-app-hover"
                           }`
                         }
@@ -531,7 +577,31 @@ function Header() {
                     ))}
                   </div>
 
-                  {/* 3. Settings / Preferences Section */}
+                  {/* 3. Navigation items (Mobile Only, or General Navigation) */}
+                  <div className="py-2 md:hidden">
+                    <div className="px-4 py-1 text-[11px] font-bold uppercase tracking-wider text-app-muted">
+                      Navigation
+                    </div>
+                    {NAV_ITEMS.map((item) => (
+                      <NavLink
+                        key={item.path}
+                        to={item.path}
+                        onClick={() => setToggle(false)}
+                        className={({ isActive }) =>
+                          `flex items-center gap-3.5 px-4 py-2.5 text-sm font-medium transition-colors ${
+                            isActive
+                              ? "bg-app-accent/15 text-app-accent border-r-2 border-app-accent font-semibold"
+                              : "text-app-text hover:bg-app-hover"
+                          }`
+                        }
+                      >
+                        {item.icon}
+                        <span>{item.label}</span>
+                      </NavLink>
+                    ))}
+                  </div>
+
+                  {/* 4. Settings / Preferences Section */}
                   <div className="py-2 text-sm text-app-text">
                     {/* Appearance toggle button */}
                     <button
@@ -613,7 +683,7 @@ function Header() {
                     </button>
                   </div>
 
-                  {/* 4. Close Action */}
+                  {/* 5. Close Action */}
                   <div className="p-2">
                     <button
                       type="button"
