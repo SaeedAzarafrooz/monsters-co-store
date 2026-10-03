@@ -12,6 +12,7 @@ import NotFound from "./Components/pages/NotFound";
 import Checkout from "./Components/pages/cart/Checkout";
 import OrderHistory from "./Components/pages/orders/OrderHistory";
 import OrderTracking from "./Components/pages/orders/OrderTracking";
+import Favorites from "./Components/pages/profile/Favorites";
 // Helper component for backward compatibility redirect with dynamic param
 function NavigateToProfileOrder() {
   const { orderId } = useParams();
@@ -30,13 +31,17 @@ function App() {
           <Route path="/checkout" element={<Checkout />} />
 
           {/* Direct orders tracking & fallback */}
-          <Route path="/orders" element={<Navigate to="/profile/orders" replace />} />
+          <Route
+            path="/orders"
+            element={<Navigate to="/profile/orders" replace />}
+          />
           <Route path="/orders/:orderId" element={<NavigateToProfileOrder />} />
           {/* Account Profile Section */}
           <Route path="/profile" element={<ProfileLayout />}>
             <Route index element={<Overview />} />
             <Route path="orders" element={<OrderHistory />} />
-              <Route path="orders/:orderId" element={<OrderTracking />} />
+            <Route path="orders/:orderId" element={<OrderTracking />} />
+            <Route path="favorites" element={<Favorites />} />
             <Route
               path="settings"
               element={
