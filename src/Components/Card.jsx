@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useCart } from "../context/CartContext";
+import { useFavorites } from "../context/FavoritesContext";
 
 export function CardSkeleton() {
   return (
@@ -21,13 +22,17 @@ export function CardSkeleton() {
 }
 
 function Card({ props, onClick }) {
-  const { image, name, id, episode, gender, status, species, type } = props;
+  const { image, name, id, episode, gender, status, species } = props;
   const [imageLoaded, setImageLoaded] = useState(false);
 
   // Cart context integration
   const { cartItems, addToCart, decreaseQuantity } = useCart();
   const currentItemInCart = cartItems.find((item) => item.id === id);
   const currentQuantity = currentItemInCart ? currentItemInCart.quantity : 0;
+
+  // Favorites context integration
+  const { isFavorite, toggleFavorite } = useFavorites();
+  const favorited = isFavorite(id);
 
   // Logic for Star Rating
   const epCount = episode?.length || 0;
@@ -58,11 +63,11 @@ function Card({ props, onClick }) {
     >
       {/* 1. Header: ID, Star, Name (Centered) */}
       <div className="p-2 flex justify-center items-center gap-1 shrink-0">
-          <span className={`text-[18px] ${starRating.color}`}>★</span>
-       <div>
-         <h3 title={name} className="text-center text-lg font-bold text-app-text truncate w-full">
-          {name}
-        </h3>
+        <span className={`text-[18px] ${starRating.color}`}>★</span>
+        <div>
+          <h3 title={name} className="text-center text-lg font-bold text-app-text truncate w-full">
+            {name}
+          </h3>
         </div>
       </div>
 
@@ -82,16 +87,49 @@ function Card({ props, onClick }) {
           <span className={`w-1.5 h-1.5 rounded-full ${statusConfig.dot}`} />
           {status}
         </div>
-        <div className="absolute top-3 right-3 px-2 py-0.5 rounded-full text-xs font-bold font-mono text-emerald-600 dark:text-emerald-300 bg-app-card/90 border border-emerald-500/30 backdrop-blur-md">
-          ${calculatedPrice}
+
+        {/* Favorite Heart Button & Price Tag */}
+        <div className="absolute top-3 right-3 flex items-center gap-1.5">
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              toggleFavorite(props);
+            }}
+            className="w-7 h-7 flex items-center justify-center rounded-full bg-app-card/90 border border-app-border backdrop-blur-md hover:scale-110 active:scale-90 transition-transform shadow-sm"
+            aria-label={favorited ? "Remove from favorites" : "Add to favorites"}
+            title={favorited ? "Remove from favorites" : "Add to favorites"}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className={`w-4 h-4 transition-colors ${
+                favorited
+                  ? "fill-rose-500 text-rose-500"
+                  : "fill-none text-app-muted hover:text-rose-500"
+              }`}
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+              />
+            </svg>
+          </button>
+
+          <div className="px-2 py-0.5 rounded-full text-xs font-bold font-mono text-emerald-600 dark:text-emerald-300 bg-app-card/90 border border-emerald-500/30 backdrop-blur-md">
+            ${calculatedPrice}
+          </div>
         </div>
       </div>
 
       {/* 3. Details & Footer */}
       <div className="p-4 flex flex-col justify-between flex-1">
         <div className="flex flex-wrap items-center gap-1.5 text-[11px] text-app-text-muted">
-           <span className="px-2 py-0.5 rounded-md bg-app-border/40 border border-app-border text-app-text">{species}</span>
-           <span className="px-2 py-0.5 rounded-md bg-app-border/40 border border-app-border text-app-text-muted">{gender}</span>
+          <span className="px-2 py-0.5 rounded-md bg-app-border/40 border border-app-border text-app-text">{species}</span>
+          <span className="px-2 py-0.5 rounded-md bg-app-border/40 border border-app-border text-app-text-muted">{gender}</span>
         </div>
 
         {/* Footer: Episodes & Cart Actions */}
