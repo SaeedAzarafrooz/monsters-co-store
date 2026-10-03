@@ -4,6 +4,7 @@ export default function ProfileLayout() {
   const navItems = [
     { name: "Overview", path: "/profile" },
     { name: "Orders", path: "/profile/orders" },
+    { name: "Favorites", path: "/profile/favorites" },
     { name: "Settings", path: "/profile/settings" },
   ];
 

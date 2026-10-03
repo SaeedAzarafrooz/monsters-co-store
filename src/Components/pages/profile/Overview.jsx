@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { getOrders } from "../../../utils/orders";
+import { useFavorites } from "../../../context/FavoritesContext";
 
 function formatDate(date) {
   if (!date) return "Date unavailable";
@@ -12,10 +13,15 @@ export default function Overview() {
   const orders = getOrders();
   const latestOrder = orders[0] || null;
   const recentOrders = orders.slice(0, 3);
+  const { favorites, totalFavoritesCount } = useFavorites();
+  const previewFavorites = favorites.slice(0, 4);
 
-  const activeOrdersCount = orders.filter(
+  // Find active orders
+  const activeOrders = orders.filter(
     (o) => o.status === "Processing" || o.status === "Packed" || o.status === "Shipped"
-  ).length;
+  );
+  const activeOrdersCount = activeOrders.length;
+  const currentActiveOrder = activeOrders[0] || null;
 
   const totalSpent = orders.reduce(
     (sum, o) => sum + (Number(o.total) || 0),
@@ -37,25 +43,50 @@ export default function Overview() {
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="rounded-2xl border border-app-border bg-app-bg p-5">
-          <p className="text-xs font-bold uppercase tracking-wider text-app-muted">
-            Total Orders
-          </p>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {/* Total Orders Tile (clickable -> all orders) */}
+        <Link
+          to="/profile/orders"
+          className="group relative rounded-2xl border border-app-border bg-app-bg p-5 transition-all duration-200 hover:border-app-accent hover:bg-app-hover"
+        >
+          <div className="flex items-center justify-between">
+            <p className="text-xs font-bold uppercase tracking-wider text-app-muted group-hover:text-app-text">
+              Total Orders
+            </p>
+            <span className="text-xs font-bold text-app-accent opacity-0 transition-opacity group-hover:opacity-100">
+              View All &rarr;
+            </span>
+          </div>
           <p className="mt-2 text-3xl font-black text-app-text">
             {orders.length}
           </p>
-        </div>
+        </Link>
 
-        <div className="rounded-2xl border border-app-border bg-app-bg p-5">
-          <p className="text-xs font-bold uppercase tracking-wider text-app-muted">
-            Active Orders
-          </p>
+        {/* Active Orders Tile (clickable -> active order tracking or orders list) */}
+        <Link
+          to={
+            currentActiveOrder
+              ? `/profile/orders/${currentActiveOrder.id}`
+              : "/profile/orders"
+          }
+          className="group relative rounded-2xl border border-app-border bg-app-bg p-5 transition-all duration-200 hover:border-app-accent hover:bg-app-hover"
+        >
+          <div className="flex items-center justify-between">
+            <p className="text-xs font-bold uppercase tracking-wider text-app-muted group-hover:text-app-text">
+              Active Orders
+            </p>
+            {activeOrdersCount > 0 && (
+              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-app-accent/15 text-app-accent">
+                In Transit
+              </span>
+            )}
+          </div>
           <p className="mt-2 text-3xl font-black text-app-accent">
             {activeOrdersCount}
           </p>
-        </div>
+        </Link>
 
+        {/* Total Spent Tile */}
         <div className="rounded-2xl border border-app-border bg-app-bg p-5">
           <p className="text-xs font-bold uppercase tracking-wider text-app-muted">
             Total Spent
@@ -64,6 +95,31 @@ export default function Overview() {
             ${totalSpent.toFixed(2)}
           </p>
         </div>
+
+        {/* Saved Favorites Tile (clickable -> favorites page with badge) */}
+        <Link
+          to="/profile/favorites"
+          className="group relative rounded-2xl border border-app-border bg-app-bg p-5 transition-all duration-200 hover:border-app-accent hover:bg-app-hover"
+        >
+          <div className="flex items-center justify-between">
+            <p className="text-xs font-bold uppercase tracking-wider text-app-muted group-hover:text-app-text">
+              Saved Favorites
+            </p>
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-rose-500/10 text-rose-500 border border-rose-500/20">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-3 h-3 fill-current"
+                viewBox="0 0 24 24"
+              >
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+              </svg>
+              Favorites
+            </span>
+          </div>
+          <p className="mt-2 text-3xl font-black text-rose-500">
+            {totalFavoritesCount}
+          </p>
+        </Link>
       </div>
 
       {/* User Info & Default Shipping */}
@@ -108,6 +164,65 @@ export default function Overview() {
         </div>
       </div>
 
+      {/* Recent Favorites Preview Section */}
+      <div className="rounded-2xl border border-app-border bg-app-bg p-5 sm:p-6">
+        <div className="flex items-center justify-between gap-3 mb-5">
+          <div>
+            <h2 className="text-lg font-extrabold text-app-text">
+              Favorites Preview
+            </h2>
+            <p className="text-xs text-app-muted mt-0.5">
+              Characters you have saved to your wishlist
+            </p>
+          </div>
+          {totalFavoritesCount > 0 && (
+            <Link
+              to="/profile/favorites"
+              className="text-xs font-bold text-app-accent hover:underline"
+            >
+              View All ({totalFavoritesCount})
+            </Link>
+          )}
+        </div>
+
+        {totalFavoritesCount === 0 ? (
+          <div className="py-6 text-center">
+            <p className="text-sm text-app-muted">
+              You have not saved any favorites yet.
+            </p>
+            <Link
+              to="/products"
+              className="mt-2 inline-block text-xs font-bold text-app-accent hover:underline"
+            >
+              Explore Characters
+            </Link>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+            {previewFavorites.map((item) => (
+              <div
+                key={item.id}
+                className="flex items-center gap-3 p-2.5 rounded-xl border border-app-border bg-app-card"
+              >
+                <img
+                  src={item.image}
+                  alt={item.name}
+                  className="w-12 h-12 rounded-lg object-cover border border-app-border shrink-0"
+                />
+                <div className="min-w-0 flex-1">
+                  <p className="font-bold text-sm text-app-text truncate">
+                    {item.name}
+                  </p>
+                  <p className="text-xs text-app-muted truncate">
+                    {item.species}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
       {/* Recent Orders Section */}
       <div className="rounded-2xl border border-app-border bg-app-bg p-5 sm:p-6">
         <div className="flex items-center justify-between gap-3 mb-5">
@@ -131,7 +246,9 @@ export default function Overview() {
 
         {recentOrders.length === 0 ? (
           <div className="py-8 text-center">
-            <p className="text-sm text-app-muted">You have placed no orders yet.</p>
+            <p className="text-sm text-app-muted">
+              You have placed no orders yet.
+            </p>
             <Link
               to="/products"
               className="mt-3 inline-block text-xs font-bold text-app-accent hover:underline"
