@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import Header from "./Components/sections/Header";
+import Header from "./Components/sections/header/Header";
 import Footer from "./Components/sections/Footer";
 import Home from "./Components/pages/Home";
 import ContactUs from "./Components/pages/ContactUs";
@@ -13,6 +13,7 @@ import Checkout from "./Components/pages/cart/Checkout";
 import OrderHistory from "./Components/pages/profile/orders/OrderHistory";
 import OrderTracking from "./Components/pages/profile/orders/OrderTracking";
 import Favorites from "./Components/pages/profile/Favorites";
+import Authentication from "./Components/pages/auth/Authentication";
 
 function App() {
   return (
@@ -25,7 +26,7 @@ function App() {
           <Route path="/about" element={<AboutUs />} />
           <Route path="/contact" element={<ContactUs />} />
           <Route path="/checkout" element={<Checkout />} />
-
+          <Route path="/auth" element={<Authentication />} />
 
           {/* Account Profile Section */}
           <Route path="/profile" element={<ProfileLayout />}>
@@ -33,7 +34,15 @@ function App() {
             <Route path="orders" element={<OrderHistory />} />
             <Route path="orders/:orderId" element={<OrderTracking />} />
             <Route path="favorites" element={<Favorites />} />
-            <Route path="settings" element={<UnderConstruction title="Account Settings" description="Personalization and security settings are under development." />} />
+            <Route
+              path="settings"
+              element={
+                <UnderConstruction
+                  title="Account Settings"
+                  description="Personalization and security settings are under development."
+                />
+              }
+            />
           </Route>
 
           <Route path="*" element={<NotFound />} />

@@ -1,12 +1,13 @@
 import { useState, useRef, useEffect } from "react";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
-import { useTheme } from "../../context/ThemeContext";
-import { useCart } from "../../context/CartContext";
-import logo from "../../assets/Logo.png";
-import guestProfile from "../../assets/guestProfile.png";
-import menu from "../../assets/menu.png";
-import cross from "../../assets/cross.png";
-import shoppingBagIcon from "../../assets/shopping-bag.svg";
+import { useTheme } from "../../../context/ThemeContext";
+import { useCart } from "../../../context/CartContext";
+import { useAuth } from "../../../context/AuthContext";
+import logo from "../../../assets/Logo.png";
+import guestProfile from "../../../assets/guestProfile.png";
+import menu from "../../../assets/menu.png";
+import cross from "../../../assets/cross.png";
+import shoppingBagIcon from "../../../assets/shopping-bag.svg";
 
 const NAV_ITEMS = [
   {
@@ -153,6 +154,7 @@ function Header() {
   const [cartOpen, setCartOpen] = useState(false);
   const { theme, setTheme } = useTheme();
   const { cartItems, totalItemsCount, totalPrice } = useCart();
+  const { currentUser, logout } = useAuth();
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -219,6 +221,17 @@ function Header() {
     setCartOpen(false);
     navigate("/checkout");
   };
+
+  const handleLogout = async () => {
+    await logout();
+    setToggle(false);
+    navigate("/");
+  };
+
+  const displayName =
+    currentUser?.displayName ||
+    (currentUser?.email ? currentUser.email.split("@")[0] : "Guest User");
+  const userPhoto = currentUser?.photoURL || guestProfile;
 
   return (
     <header className="relative z-40 w-full min-h-20 md:min-h-24 flex justify-between items-center px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 border-b border-app-border bg-app-card transition-colors duration-200">
@@ -432,17 +445,17 @@ function Header() {
             <div className="relative">
               <img
                 className="h-8 w-8 lg:h-9 lg:w-9 rounded-full object-cover border border-app-border group-hover:border-app-accent transition-colors"
-                src={guestProfile}
-                alt="Guest"
+                src={userPhoto}
+                alt={displayName}
               />
               <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-app-accent border-2 border-app-card rounded-full" />
             </div>
             <div className="hidden lg:flex flex-col text-left">
-              <span className="text-xs font-bold text-app-text">
-                Guest User
+              <span className="text-xs font-bold text-app-text max-w-[110px] truncate">
+                {displayName}
               </span>
               <span className="text-[10px] text-app-accent font-mono">
-                Online
+                {currentUser ? "Signed In" : "Online"}
               </span>
             </div>
             <svg
@@ -549,52 +562,66 @@ function Header() {
                     <div className="relative shrink-0">
                       <img
                         className="h-11 w-11 rounded-full object-cover border border-app-border shadow-sm"
-                        src={guestProfile}
-                        alt="Guest Profile"
+                        src={userPhoto}
+                        alt={displayName}
                       />
                       <span className="absolute bottom-0 right-0 w-3 h-3 bg-app-accent border-2 border-app-bg rounded-full" />
                     </div>
-                    <div className="flex flex-col truncate">
+                    <div className="flex flex-col truncate flex-1 min-w-0">
                       <span className="text-sm font-bold text-app-text truncate">
-                        Guest User
+                        {displayName}
                       </span>
                       <span className="text-xs text-app-muted truncate">
-                        @guest_portal
+                        {currentUser?.email || "@guest_portal"}
                       </span>
-                      <Link
-                        to="/profile"
-                        onClick={() => setToggle(false)}
-                        className="text-[11px] text-app-accent hover:underline cursor-pointer mt-0.5"
-                      >
-                        Manage Profile
-                      </Link>
+                      {currentUser && (
+                        <Link
+                          to="/profile"
+                          onClick={() => setToggle(false)}
+                          className="text-[11px] text-app-accent hover:underline cursor-pointer mt-0.5"
+                        >
+                          Manage Profile
+                        </Link>
+                      )}
                     </div>
                   </div>
 
-                  {/* 2. Account Links (Dashboard & Orders) */}
-                  <div className="py-2">
-                    <div className="px-4 py-1 text-[11px] font-bold uppercase tracking-wider text-app-muted">
-                      Account
-                    </div>
-                    {ACCOUNT_ITEMS.map((item) => (
-                      <NavLink
-                        key={item.path}
-                        to={item.path}
-                        end={item.path === "/profile"}
+                  {/* 2. Account Links OR Guest Sign In */}
+                  {!currentUser ? (
+                    <div className="p-3 bg-app-card">
+                      <Link
+                        to="/auth"
                         onClick={() => setToggle(false)}
-                        className={({ isActive }) =>
-                          `flex items-center gap-3.5 px-4 py-2.5 text-sm font-medium transition-colors ${
-                            isActive
-                              ? "bg-app-accent/15 text-app-accent border-r-2 border-app-accent font-semibold"
-                              : "text-app-text hover:bg-app-hover"
-                          }`
-                        }
+                        className="w-full flex items-center justify-center py-2 px-3 rounded-xl bg-app-accent text-app-bg font-extrabold text-xs transition-opacity hover:opacity-90 shadow-sm"
                       >
-                        {item.icon}
-                        <span>{item.label}</span>
-                      </NavLink>
-                    ))}
-                  </div>
+                        Sign In / Register
+                      </Link>
+                    </div>
+                  ) : (
+                    <div className="py-2">
+                      <div className="px-4 py-1 text-[11px] font-bold uppercase tracking-wider text-app-muted">
+                        Account
+                      </div>
+                      {ACCOUNT_ITEMS.map((item) => (
+                        <NavLink
+                          key={item.path}
+                          to={item.path}
+                          end={item.path === "/profile"}
+                          onClick={() => setToggle(false)}
+                          className={({ isActive }) =>
+                            `flex items-center gap-3.5 px-4 py-2.5 text-sm font-medium transition-colors ${
+                              isActive
+                                ? "bg-app-accent/15 text-app-accent border-r-2 border-app-accent font-semibold"
+                                : "text-app-text hover:bg-app-hover"
+                            }`
+                          }
+                        >
+                          {item.icon}
+                          <span>{item.label}</span>
+                        </NavLink>
+                      ))}
+                    </div>
+                  )}
 
                   {/* 3. Navigation items (Mobile Only, or General Navigation) */}
                   <div className="py-2 md:hidden">
@@ -702,8 +729,31 @@ function Header() {
                     </button>
                   </div>
 
-                  {/* 5. Close Action */}
-                  <div className="p-2">
+                  {/* 5. Close / Sign Out Action */}
+                  <div className="p-2 space-y-1.5">
+                    {currentUser && (
+                      <button
+                        type="button"
+                        onClick={handleLogout}
+                        className="w-full flex items-center justify-center gap-2 py-2 rounded-xl text-xs font-semibold text-rose-500 bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/20 transition-colors cursor-pointer"
+                      >
+                        <svg
+                          className="w-4 h-4"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                          />
+                        </svg>
+                        <span>Sign Out</span>
+                      </button>
+                    )}
+
                     <button
                       type="button"
                       onClick={() => setToggle(false)}

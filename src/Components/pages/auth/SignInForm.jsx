@@ -1,0 +1,146 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import FormInput from "../../FormInput";
+import {
+  signInAuthUserWithEmailAndPassword,
+  signInWithGooglePopup,
+} from "../../../utils/firebase/firebase";
+
+const defaultFormFields = {
+  email: "",
+  password: "",
+};
+
+export default function SignInForm() {
+  const [formFields, setFormFields] = useState(defaultFormFields);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const navigate = useNavigate();
+
+  const { email, password } = formFields;
+
+  const resetForm = () => {
+    setFormFields(defaultFormFields);
+    setErrorMessage("");
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormFields((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setErrorMessage("");
+    setIsSubmitting(true);
+
+    try {
+      await signInAuthUserWithEmailAndPassword(email, password);
+      resetForm();
+      navigate("/profile");
+    } catch (error) {
+      if (
+        error.code === "auth/invalid-credential" ||
+        error.code === "auth/user-not-found" ||
+        error.code === "auth/wrong-password"
+      ) {
+        setErrorMessage("Invalid email or password.");
+      } else if (error.code === "auth/too-many-requests") {
+        setErrorMessage("Access temporarily disabled due to many failed attempts. Try again later.");
+      } else {
+        setErrorMessage("Failed to sign in. Please try again.");
+      }
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleGoogleSignIn = async () => {
+    setErrorMessage("");
+    try {
+      await signInWithGooglePopup();
+      navigate("/profile");
+    } catch (error) {
+      if (error.code !== "auth/popup-closed-by-user") {
+        setErrorMessage("Google sign in failed. Please try again.");
+      }
+    }
+  };
+
+  return (
+    <div className="w-full max-w-md rounded-2xl border border-app-border bg-app-card p-6 sm:p-8 space-y-6">
+      <div>
+        <h2 className="text-xl font-black text-app-text">Welcome Back</h2>
+        <p className="mt-1 text-xs text-app-muted">
+          Sign in with your email and password to access your account.
+        </p>
+      </div>
+
+      {errorMessage && (
+        <div className="rounded-xl border border-rose-500/20 bg-rose-500/10 p-3 text-xs font-semibold text-rose-500">
+          {errorMessage}
+        </div>
+      )}
+
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <FormInput
+          label="Email Address"
+          id="signin-email"
+          name="email"
+          type="email"
+          required
+          value={email}
+          onChange={handleChange}
+          placeholder="name@example.com"
+        />
+
+        <FormInput
+          label="Password"
+          id="signin-password"
+          name="password"
+          type="password"
+          required
+          value={password}
+          onChange={handleChange}
+          placeholder="••••••••"
+        />
+
+        <div className="pt-2 space-y-3">
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="w-full rounded-xl bg-app-accent px-4 py-2.5 text-sm font-extrabold text-app-bg transition-opacity hover:opacity-90 disabled:opacity-50"
+          >
+            {isSubmitting ? "Signing in..." : "Sign In"}
+          </button>
+
+          <button
+            type="button"
+            onClick={handleGoogleSignIn}
+            className="w-full flex items-center justify-center gap-2 rounded-xl border border-app-border bg-app-bg px-4 py-2.5 text-sm font-bold text-app-text transition-colors hover:bg-app-hover"
+          >
+            <svg className="w-4 h-4" viewBox="0 0 24 24">
+              <path
+                fill="#4285F4"
+                d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.8-2.4 3.65v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.14z"
+              />
+              <path
+                fill="#34A853"
+                d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z"
+              />
+              <path
+                fill="#FBBC05"
+                d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15z"
+              />
+              <path
+                fill="#EA4335"
+                d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"
+              />
+            </svg>
+            Sign in with Google
+          </button>
+        </div>
+      </form>
+    </div>
+  );
+}
