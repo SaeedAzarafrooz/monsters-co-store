@@ -6,17 +6,20 @@ import { BrowserRouter } from "react-router-dom";
 import { ThemeProvider } from "./context/ThemeContext.jsx";
 import { CartProvider } from "./context/CartContext.jsx";
 import { FavoritesProvider } from "./context/FavoritesContext.jsx";
+import { AuthProvider } from "./context/AuthContext.jsx";
 
 createRoot(document.getElementById("root")).render(
   // <StrictMode>
   <BrowserRouter>
-    <ThemeProvider>
-      <CartProvider>
-        <FavoritesProvider>
-          <App />
-        </FavoritesProvider>
-      </CartProvider>
-    </ThemeProvider>
+    <AuthProvider>
+      <ThemeProvider>
+        <CartProvider>
+          <FavoritesProvider>
+            <App />
+          </FavoritesProvider>
+        </CartProvider>
+      </ThemeProvider>
+    </AuthProvider>
   </BrowserRouter>
   // </StrictMode>
 );
