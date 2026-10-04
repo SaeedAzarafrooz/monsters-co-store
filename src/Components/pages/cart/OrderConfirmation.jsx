@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
 function OrderConfirmation({ orderId }) {
-  const trackingPath = orderId ? `/orders/${orderId}` : "/orders";
+  const trackingPath = orderId ? `/profile/orders/${orderId}` : "/profile/orders";
 
   return (
     <div className="w-[700px] h-full flex flex-col items-center justify-center text-center space-y-4">
@@ -44,7 +44,7 @@ function OrderConfirmation({ orderId }) {
         </Link>
 
         <Link
-          to="/orders"
+          to="/profile/orders"
           className="inline-block px-6 py-3 rounded-xl bg-app-hover text-app-text font-bold border border-app-border hover:opacity-90 transition-opacity"
         >
           Order History

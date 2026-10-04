@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate, useParams } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Header from "./Components/sections/Header";
 import Footer from "./Components/sections/Footer";
 import Home from "./Components/pages/Home";
@@ -10,14 +10,10 @@ import Overview from "./Components/pages/profile/Overview";
 import UnderConstruction from "./Components/UnderConstruction";
 import NotFound from "./Components/pages/NotFound";
 import Checkout from "./Components/pages/cart/Checkout";
-import OrderHistory from "./Components/pages/orders/OrderHistory";
-import OrderTracking from "./Components/pages/orders/OrderTracking";
+import OrderHistory from "./Components/pages/profile/orders/OrderHistory";
+import OrderTracking from "./Components/pages/profile/orders/OrderTracking";
 import Favorites from "./Components/pages/profile/Favorites";
-// Helper component for backward compatibility redirect with dynamic param
-function NavigateToProfileOrder() {
-  const { orderId } = useParams();
-  return <Navigate to={`/profile/orders/${orderId}`} replace />;
-}
+
 function App() {
   return (
     <div className="flex flex-col bg-app-bg min-h-screen">
@@ -30,27 +26,14 @@ function App() {
           <Route path="/contact" element={<ContactUs />} />
           <Route path="/checkout" element={<Checkout />} />
 
-          {/* Direct orders tracking & fallback */}
-          <Route
-            path="/orders"
-            element={<Navigate to="/profile/orders" replace />}
-          />
-          <Route path="/orders/:orderId" element={<NavigateToProfileOrder />} />
+
           {/* Account Profile Section */}
           <Route path="/profile" element={<ProfileLayout />}>
             <Route index element={<Overview />} />
             <Route path="orders" element={<OrderHistory />} />
             <Route path="orders/:orderId" element={<OrderTracking />} />
             <Route path="favorites" element={<Favorites />} />
-            <Route
-              path="settings"
-              element={
-                <UnderConstruction
-                  title="Account Settings"
-                  description="Personalization and security settings are under development."
-                />
-              }
-            />
+            <Route path="settings" element={<UnderConstruction title="Account Settings" description="Personalization and security settings are under development." />} />
           </Route>
 
           <Route path="*" element={<NotFound />} />

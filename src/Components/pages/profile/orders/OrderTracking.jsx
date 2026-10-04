@@ -1,5 +1,5 @@
 import { Link, useParams } from "react-router-dom";
-import { getOrderById } from "../../../utils/orders";
+import { getOrderById } from "../../../../utils/orders";
 
 const TRACKING_STEPS = ["Processing", "Packed", "Shipped", "Delivered"];
 
