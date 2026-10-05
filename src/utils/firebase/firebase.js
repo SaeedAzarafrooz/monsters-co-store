@@ -15,6 +15,7 @@ import {
   getDoc,
   setDoc,
   serverTimestamp,
+  updateDoc 
 } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -83,3 +84,50 @@ export const signOutUser = async () => await signOut(auth);
 
 export const onAuthStateChangedListener = (callback) =>
   onAuthStateChanged(auth, callback);
+
+
+
+// ==========================================
+// User Synced Data (Cart, Favorites, Theme, Addresses, Orders)
+// ==========================================
+
+// Read a user's synced app data (cart, favorites, theme)
+export const getUserSyncedData = async (uid) => {
+  if (!uid) return null;
+  try {
+    const userDocRef = doc(db, "users", uid);
+    const userSnapshot = await getDoc(userDocRef);
+    if (userSnapshot.exists()) {
+      const data = userSnapshot.data();
+      return {
+        cartItems: data.cartItems || [],
+        favorites: data.favorites || [],
+        theme: data.theme || null,
+        addresses: data.addresses || [],
+        orders: data.orders || { current: [], completed: [] },
+      };
+    }
+    return null;
+  } catch (error) {
+    console.error("Error getting user synced data:", error);
+    return null;
+  }
+};
+
+// Persist a user's synced app data to Firestore
+export const saveUserSyncedData = async (uid, dataToSave) => {
+  if (!uid) return;
+  try {
+    const userDocRef = doc(db, "users", uid);
+    await setDoc(
+      userDocRef,
+      {
+        ...dataToSave,
+        updatedAt: serverTimestamp(),
+      },
+      { merge: true }
+    );
+  } catch (error) {
+    console.error("Error saving user synced data:", error);
+  }
+};

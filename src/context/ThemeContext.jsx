@@ -1,47 +1,84 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState, useRef } from "react";
+import { useAuth } from "./AuthContext";
+import { getUserSyncedData, saveUserSyncedData } from "../utils/firebase/firebase";
 
 const ThemeContext = createContext();
 
 export function ThemeProvider({ children }) {
-    // 'dark' | 'light' | 'system'
-    const [theme, setTheme] = useState(() => {
-        return localStorage.getItem("app_theme") || "system";
-    });
+  const { currentUser, loading: authLoading } = useAuth();
+  const [theme, setTheme] = useState(() => {
+    const saved = localStorage.getItem("app_theme");
+    return saved || "system";
+  });
 
-    useEffect(() => {
-        const root = document.documentElement;
-        const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+  const isSyncingWithCloud = useRef(false);
 
-        const applyTheme = () => {
-            const isDark =
-                theme === "dark" ||
-                (theme === "system" && mediaQuery.matches);
+  // Apply theme class to document element and persist to localStorage
+  useEffect(() => {
+    const root = document.documentElement;
+    if (theme === "dark") {
+      root.classList.add("dark");
+    } else {
+      root.classList.remove("dark");
+    }
+    localStorage.setItem("app_theme", theme);
+  }, [theme]);
 
-            if (isDark) {
-                root.classList.add("dark");
-            } else {
-                root.classList.remove("dark");
-            }
-        };
+  // Sync theme with Firestore upon login
+  useEffect(() => {
+    if (authLoading) return;
 
-        applyTheme();
-        localStorage.setItem("app_theme", theme);
+    let isSubscribed = true;
 
-        const handleSystemChange = () => {
-            if (theme === "system") {
-                applyTheme();
-            }
-        };
+    const syncTheme = async () => {
+      if (currentUser) {
+        isSyncingWithCloud.current = true;
+        const cloudData = await getUserSyncedData(currentUser.uid);
 
-        mediaQuery.addEventListener("change", handleSystemChange);
-        return () => mediaQuery.removeEventListener("change", handleSystemChange);
-    }, [theme]);
+        if (!isSubscribed) return;
 
-    return (
-        <ThemeContext.Provider value={{ theme, setTheme }}>
-            {children}
-        </ThemeContext.Provider>
-    );
+        if (cloudData?.theme) {
+          setTheme(cloudData.theme);
+        } else {
+          // If no cloud theme exists yet, save current local theme
+          await saveUserSyncedData(currentUser.uid, { theme });
+        }
+
+        setTimeout(() => {
+          isSyncingWithCloud.current = false;
+        }, 100);
+      }
+    };
+
+    syncTheme();
+
+    return () => {
+      isSubscribed = false;
+    };
+  }, [currentUser, authLoading]);
+
+  // Persist live theme change to cloud if user is logged in
+  useEffect(() => {
+    if (!authLoading && currentUser && !isSyncingWithCloud.current) {
+      saveUserSyncedData(currentUser.uid, { theme });
+    }
+  }, [theme, currentUser, authLoading]);
+
+  const toggleTheme = () => {
+    setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
+  };
+
+  return (
+    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+      {children}
+    </ThemeContext.Provider>
+  );
 }
 
-export const useTheme = () => useContext(ThemeContext);
+export function useTheme() {
+  const context = useContext(ThemeContext);
+  if (!context) {
+    throw new Error("useTheme must be used within a ThemeProvider");
+  }
+  return context;
+}
