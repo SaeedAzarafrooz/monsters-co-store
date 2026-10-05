@@ -4,9 +4,10 @@
 
 :root {
   /* Light Theme */
-  --bg-primary: #eef2f6;        /* slate-100 */
-  --bg-secondary: #f8fafc;      /* slate-50 for cards,modals and menus*/
-  --bg-tertiary: #e2e8f0;       /* slate-200 for hover and inputs */
+ --bg-primary: #e2e8f0;   /* was slate-100, now slate-200 */
+  --bg-secondary: #eef2f6; /* was slate-50, now slate-100 */
+  --bg-tertiary: #cbd5e1;  /* was slate-200, now slate-300 */
+
   --border-color: #cbd5e1;      /* slate-300 */
   --text-primary: #0f172a;      /* slate-900 */
   --text-secondary: #475569;    /* slate-600 */
