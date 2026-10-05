@@ -10,6 +10,7 @@ export default function CartDropdown({
   totalItemsCount,
   cartItems,
   totalPrice,
+  isHydrating,
 }) {
   const navigate = useNavigate();
 
@@ -36,10 +37,15 @@ export default function CartDropdown({
           alt="Cart"
           className="w-5 h-5 lg:w-6 lg:h-6 object-contain group-hover:scale-110 transition-transform duration-200 dark:invert"
         />
-        {totalItemsCount > 0 && (
-          <span className="absolute -top-1 -right-1 min-w-[20px] h-5 px-1.5 bg-app-accent text-app-bg text-[11px] font-black font-mono rounded-full flex items-center justify-center shadow-md animate-in zoom-in-75 duration-200">
-            {totalItemsCount}
-          </span>
+        {/* Cart Badge or Hydration Spinner */}
+        {isHydrating ? (
+          <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-app-card border-2 border-app-accent border-t-transparent animate-spin shadow-md" />
+        ) : (
+          totalItemsCount > 0 && (
+            <span className="absolute -top-1 -right-1 min-w-[20px] h-5 px-1.5 bg-app-accent text-app-bg text-[11px] font-black font-mono rounded-full flex items-center justify-center shadow-md animate-in zoom-in-75 duration-200">
+              {totalItemsCount}
+            </span>
+          )
         )}
       </button>
 

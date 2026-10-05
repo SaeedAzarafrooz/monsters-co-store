@@ -8,6 +8,7 @@ import guestProfile from "../../../assets/guestProfile.png";
 import CartDropdown from "./CartDropdown";
 import AccountDropdown from "./AccountDropdown";
 import DesktopNavbar from "./DesktopNavbar";
+import { useFavorites } from "../../../context/FavoritesContext";
 
 const NAV_ITEMS = [
   {
@@ -153,7 +154,8 @@ function Header() {
   const [appearanceSubmenu, setAppearanceSubmenu] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
   const { theme, setTheme } = useTheme();
-  const { cartItems, totalItemsCount, totalPrice } = useCart();
+  const { cartItems, totalItemsCount, totalPrice, isHydrating  } = useCart();
+
   const { currentUser, logout } = useAuth();
 
   const location = useLocation();
@@ -218,7 +220,7 @@ function Header() {
   };
 
   const handleLogout = async () => {
-    await logout();
+    logout();
     setToggle(false);
     navigate("/");
   };
@@ -258,6 +260,7 @@ function Header() {
           totalItemsCount={totalItemsCount}
           cartItems={cartItems}
           totalPrice={totalPrice}
+          isHydrating={isHydrating}
         />
 
         {/* 4. Account / Menu Section */}
