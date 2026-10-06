@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import FormInput from "../../FormInput";
 import {
   signInAuthUserWithEmailAndPassword,
   signInWithGooglePopup,
 } from "../../../utils/firebase/firebase";
+import FormInput from "../../ui/FormInput";
 
 const defaultFormFields = {
   email: "",

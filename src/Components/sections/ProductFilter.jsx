@@ -1,5 +1,10 @@
 import { useState, useEffect } from "react";
+import { Input } from "../ui/Input";
+import { Select } from "../ui/Select";
+import { FormField } from "../ui/FormField";
+import { Button } from "../ui/Button";
 
+// English comment: Presets for quick multiverse sticker filtering
 const BUNDLE_PRESETS = [
   { id: "all", label: "🌟 All Stickers", filters: { name: "", status: "", species: "", gender: "" } },
   { id: "rick", label: "🧪 Rick & Science", filters: { name: "Rick", status: "", species: "", gender: "" } },
@@ -63,20 +68,34 @@ function ProductFilter({ activeFilters, onApplyFilters, onResetFilters }) {
 
   return (
     <aside className="w-full lg:w-72 flex-shrink-0 lg:sticky lg:top-6 lg:self-start z-10">
-      {/* Mobile filter toggle */}
+      {/* Mobile filter toggle trigger */}
       <div className="lg:hidden mb-4">
-        <button
+        <Button
           type="button"
+          variant="outline"
           onClick={() => setIsOpenMobile((prev) => !prev)}
-          className="w-full flex items-center justify-between px-4 py-3 bg-app-card text-app-text border border-app-border rounded-xl font-medium text-sm shadow-md"
+          className="w-full justify-between px-4 py-3 h-auto rounded-xl font-medium text-sm shadow-sm hover:bg-muted/50"
         >
           <span className="flex items-center gap-2">
-            <span>⚙️</span> Filter & Bundles
+            <svg
+              className="w-4 h-4 text-primary"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"
+              />
+            </svg>
+            Filter & Bundles
           </span>
-          <span className="text-xs bg-app-accent/20 text-app-accent px-2.5 py-0.5 rounded-full font-bold">
+          <span className="text-xs bg-primary/10 text-primary px-2.5 py-0.5 rounded-full font-bold">
             {isOpenMobile ? "Hide" : "Show"}
           </span>
-        </button>
+        </Button>
       </div>
 
       {/* Filter panel container */}
@@ -86,118 +105,112 @@ function ProductFilter({ activeFilters, onApplyFilters, onResetFilters }) {
         }`}
       >
         {/* Section 1: Sticker Bundles Card */}
-        <div className="bg-app-card border border-app-border rounded-2xl p-5 shadow-lg space-y-3">
-          <div className="border-b border-app-border pb-3">
-            <h3 className="font-extrabold text-sm sm:text-base text-app-text flex items-center justify-center lg:justify-start gap-2">
+        <div className="bg-card text-card-foreground border border-border rounded-2xl p-5 shadow-sm space-y-3 transition-colors">
+          <div className="border-b border-border pb-3">
+            <h3 className="font-extrabold text-sm sm:text-base text-foreground flex items-center justify-center lg:justify-start gap-2">
               <span>📦</span> Sticker Bundles
             </h3>
           </div>
 
           <div className="flex flex-col gap-1.5 pt-1">
-            {BUNDLE_PRESETS.map((b) => (
-              <button
-                key={b.id}
-                type="button"
-                onClick={() => handleBundleClick(b)}
-                className={`w-full text-left px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 border cursor-pointer ${
-                  activeBundle === b.id
-                    ? "!bg-app-accent !text-black border-app-accent shadow-md shadow-app-accent/20 translate-x-1 font-bold"
-                    : "bg-app-hover text-app-text border-app-border hover:border-app-accent/50 hover:brightness-105"
-                }`}
-              >
-                {b.label}
-              </button>
-            ))}
+            {BUNDLE_PRESETS.map((b) => {
+              const isSelected = activeBundle === b.id;
+              return (
+                <Button
+                  key={b.id}
+                  type="button"
+                  variant={isSelected ? "default" : "secondary"}
+                  onClick={() => handleBundleClick(b)}
+                  className={`w-full justify-start text-xs font-semibold rounded-xl h-auto py-2 px-3 border transition-all duration-200 ${
+                    isSelected
+                      ? "border-primary shadow-sm font-bold translate-x-1"
+                      : "bg-muted/40 text-foreground border-border hover:border-primary/50 hover:bg-muted/70"
+                  }`}
+                >
+                  {b.label}
+                </Button>
+              );
+            })}
           </div>
         </div>
 
         {/* Section 2: Custom Parameters Filter Card */}
-        <div className="bg-app-card border border-app-border rounded-2xl p-5 shadow-lg space-y-4">
-          <div className="border-b border-app-border pb-3">
-            <h3 className="font-extrabold text-sm sm:text-base text-app-text flex items-center justify-center lg:justify-start gap-2">
+        <div className="bg-card text-card-foreground border border-border rounded-2xl p-5 shadow-sm space-y-4 transition-colors">
+          <div className="border-b border-border pb-3">
+            <h3 className="font-extrabold text-sm sm:text-base text-foreground flex items-center justify-center lg:justify-start gap-2">
               <span>🌌</span> Multiverse Filter
             </h3>
           </div>
 
           {/* Query parameters form */}
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <label className="block text-[11px] font-semibold text-app-muted mb-1">
-                Search by Name
-              </label>
-              <input
-                type="text"
+          <form onSubmit={handleSubmit} className="space-y-3">
+            <FormField label="Search by Name" id="filter-name">
+              <Input
+                id="filter-name"
                 name="name"
                 placeholder="e.g. Rick, Morty, Bird..."
                 value={localFilters.name}
                 onChange={handleChange}
-                className="w-full bg-app-hover border border-app-border rounded-lg px-3 py-2 text-xs text-app-text placeholder:text-app-muted/70 focus:outline-none focus:border-app-accent transition"
               />
-            </div>
+            </FormField>
 
-            <div>
-              <label className="block text-[11px] font-semibold text-app-muted mb-1">
-                Status
-              </label>
-              <select
+            <FormField label="Status" id="filter-status">
+              <Select
+                id="filter-status"
                 name="status"
                 value={localFilters.status}
                 onChange={handleChange}
-                className="w-full bg-app-hover border border-app-border rounded-lg px-3 py-2 text-xs text-app-text focus:outline-none focus:border-app-accent transition cursor-pointer"
               >
-                <option value="" className="bg-app-card text-app-text">All Statuses</option>
-                <option value="alive" className="bg-app-card text-app-text">Alive</option>
-                <option value="dead" className="bg-app-card text-app-text">Dead</option>
-                <option value="unknown" className="bg-app-card text-app-text">Unknown</option>
-              </select>
-            </div>
+                <option value="" className="bg-card text-card-foreground">All Statuses</option>
+                <option value="alive" className="bg-card text-card-foreground">Alive</option>
+                <option value="dead" className="bg-card text-card-foreground">Dead</option>
+                <option value="unknown" className="bg-card text-card-foreground">Unknown</option>
+              </Select>
+            </FormField>
 
-            <div>
-              <label className="block text-[11px] font-semibold text-app-muted mb-1">
-                Species
-              </label>
-              <input
-                type="text"
+            <FormField label="Species" id="filter-species">
+              <Input
+                id="filter-species"
                 name="species"
                 placeholder="e.g. Human, Alien, Robot..."
                 value={localFilters.species}
                 onChange={handleChange}
-                className="w-full bg-app-hover border border-app-border rounded-lg px-3 py-2 text-xs text-app-text placeholder:text-app-muted/70 focus:outline-none focus:border-app-accent transition"
               />
-            </div>
+            </FormField>
 
-            <div>
-              <label className="block text-[11px] font-semibold text-app-muted mb-1">
-                Gender
-              </label>
-              <select
+            <FormField label="Gender" id="filter-gender">
+              <Select
+                id="filter-gender"
                 name="gender"
                 value={localFilters.gender}
                 onChange={handleChange}
-                className="w-full bg-app-hover border border-app-border rounded-lg px-3 py-2 text-xs text-app-text focus:outline-none focus:border-app-accent transition cursor-pointer"
               >
-                <option value="" className="bg-app-card text-app-text">All Genders</option>
-                <option value="male" className="bg-app-card text-app-text">Male</option>
-                <option value="female" className="bg-app-card text-app-text">Female</option>
-                <option value="genderless" className="bg-app-card text-app-text">Genderless</option>
-                <option value="unknown" className="bg-app-card text-app-text">Unknown</option>
-              </select>
-            </div>
+                <option value="" className="bg-card text-card-foreground">All Genders</option>
+                <option value="male" className="bg-card text-card-foreground">Male</option>
+                <option value="female" className="bg-card text-card-foreground">Female</option>
+                <option value="genderless" className="bg-card text-card-foreground">Genderless</option>
+                <option value="unknown" className="bg-card text-card-foreground">Unknown</option>
+              </Select>
+            </FormField>
 
             <div className="flex gap-2 pt-2">
-              <button
+              <Button
                 type="submit"
-                className="flex-1 bg-app-accent hover:brightness-105 text-black font-bold py-2 rounded-lg text-xs transition shadow-md shadow-app-accent/20 active:scale-[0.98] cursor-pointer"
+                variant="default"
+                size="sm"
+                className="flex-1 font-bold shadow-sm"
               >
                 Apply Filter
-              </button>
-              <button
+              </Button>
+              <Button
                 type="button"
+                variant="outline"
+                size="sm"
                 onClick={handleReset}
-                className="px-3 py-2 bg-app-hover hover:brightness-95 text-app-text border border-app-border font-semibold rounded-lg text-xs transition cursor-pointer"
+                className="px-3"
               >
                 Reset
-              </button>
+              </Button>
             </div>
           </form>
         </div>
@@ -206,4 +219,5 @@ function ProductFilter({ activeFilters, onApplyFilters, onResetFilters }) {
   );
 }
 
+export { ProductFilter };
 export default ProductFilter;

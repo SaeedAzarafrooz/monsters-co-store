@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useCart } from "../context/CartContext";
 import { useFavorites } from "../context/FavoritesContext";
+import { Badge } from "./ui/Badge";
+import { Button } from "./ui/Button";
 
 // ==========================================
 // Loading Skeleton for Initial Page Load & Image Loading
@@ -80,24 +82,24 @@ function Card({ props, onClick }) {
       ? { color: "text-muted-foreground" }
       : { color: "text-amber-700" };
 
-  // Status badge styling
+  // Status badge config with semantic badge variants & dots
   const statusConfig =
     {
       Alive: {
+        variant: "success",
         dot: "bg-success shadow-[0_0_8px_hsl(var(--success)/0.8)]",
-        badge: "text-success border-success/40",
       },
       Dead: {
+        variant: "destructive",
         dot: "bg-destructive shadow-[0_0_8px_hsl(var(--destructive)/0.8)]",
-        badge: "text-destructive border-destructive/40",
       },
       unknown: {
+        variant: "warning",
         dot: "bg-warning shadow-[0_0_8px_hsl(var(--warning)/0.8)]",
-        badge: "text-warning border-warning/40",
       },
     }[status] || {
+      variant: "outline",
       dot: "bg-muted-foreground",
-      badge: "text-muted-foreground border-border",
     };
 
   const calculatedPrice = (parseInt(episode?.length || 1, 10) * 0.4).toFixed(1);
@@ -158,23 +160,28 @@ function Card({ props, onClick }) {
           loading="lazy"
         />
 
-        {/* Floating Badges: Status (Solid backdrop, crisp borders and text) */}
-        <div
-          className={`absolute top-3 left-3 flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-semibold border backdrop-blur-md bg-card/90 shadow-sm ${statusConfig.badge}`}
-        >
-          <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${statusConfig.dot}`} />
-          {status}
+        {/* Floating Badges: Status (Uses UI Badge primitive) */}
+        <div className="absolute top-3 left-3">
+          <Badge
+            variant={statusConfig.variant}
+            className="gap-1.5 px-2.5 py-0.5 text-[10px] backdrop-blur-md bg-card/90 shadow-sm"
+          >
+            <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${statusConfig.dot}`} />
+            {status}
+          </Badge>
         </div>
 
         {/* Favorite Heart Button & Price Tag */}
         <div className="absolute top-3 right-3 flex items-center gap-1.5">
-          <button
+          <Button
             type="button"
+            variant="outline"
+            size="icon"
             onClick={(e) => {
               e.stopPropagation();
               toggleFavorite(props);
             }}
-            className="w-7 h-7 flex items-center justify-center rounded-full bg-card/90 border border-border backdrop-blur-md hover:scale-110 active:scale-90 transition-transform shadow-sm"
+            className="w-7 h-7 rounded-full bg-card/90 border-border backdrop-blur-md hover:scale-110 active:scale-90 transition-transform shadow-sm p-0"
             aria-label={favorited ? "Remove from favorites" : "Add to favorites"}
             title={favorited ? "Remove from favorites" : "Add to favorites"}
           >
@@ -195,23 +202,32 @@ function Card({ props, onClick }) {
                 d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
               />
             </svg>
-          </button>
+          </Button>
 
-          <div className="px-2 py-0.5 rounded-full text-xs font-bold font-mono text-primary bg-card/90 border border-primary/30 backdrop-blur-md shadow-sm">
+          <Badge
+            variant="outline"
+            className="px-2 py-0.5 text-xs font-mono font-bold text-primary border-primary/30 bg-card/90 backdrop-blur-md shadow-sm"
+          >
             ${calculatedPrice}
-          </div>
+          </Badge>
         </div>
       </div>
 
       {/* 3. Details & Footer */}
       <div className="p-4 flex flex-col justify-between flex-1">
-        <div className="flex wrap items-center gap-1.5 text-[11px] text-muted-foreground">
-          <span className="px-2 py-0.5 rounded-md bg-muted/60 border border-border text-foreground">
+        <div className="flex flex-wrap items-center gap-1.5">
+          <Badge
+            variant="outline"
+            className="bg-muted/60 border-border text-[11px] font-normal text-foreground px-2 py-0.5 rounded-md"
+          >
             {species}
-          </span>
-          <span className="px-2 py-0.5 rounded-md bg-muted/60 border border-border text-muted-foreground">
+          </Badge>
+          <Badge
+            variant="outline"
+            className="bg-muted/60 border-border text-[11px] font-normal text-muted-foreground px-2 py-0.5 rounded-md"
+          >
             {gender}
-          </span>
+          </Badge>
         </div>
 
         {/* Footer: Episodes & Cart Actions */}
@@ -225,43 +241,48 @@ function Card({ props, onClick }) {
 
           {/* Cart Action Button / Controls */}
           {currentQuantity === 0 ? (
-            <button
+            <Button
               type="button"
+              size="sm"
               onClick={(e) => {
                 e.stopPropagation();
                 addToCart(props);
               }}
-              className="px-2.5 py-1 text-[11px] font-semibold rounded-lg bg-primary/15 hover:bg-primary text-primary hover:text-primary-foreground border border-primary/30 transition-all duration-200 active:scale-95 flex items-center gap-1"
+              className="h-7 px-2.5 text-[11px] rounded-lg gap-1"
             >
               <span>+</span>
               <span>Add</span>
-            </button>
+            </Button>
           ) : (
             <div
               onClick={(e) => e.stopPropagation()}
               className="flex items-center gap-1.5 bg-muted/60 border border-border px-1 py-0.5 rounded-lg"
             >
-              <button
+              <Button
                 type="button"
+                variant="ghost"
+                size="icon"
                 onClick={() => decreaseQuantity(id)}
-                className="w-5 h-5 flex items-center justify-center rounded text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors font-bold text-xs"
+                className="w-5 h-5 p-0 rounded text-muted-foreground hover:text-destructive hover:bg-destructive/10 font-bold text-xs"
                 title={currentQuantity === 1 ? "Remove" : "Decrease"}
               >
                 {currentQuantity === 1 ? "✕" : "−"}
-              </button>
+              </Button>
 
-              <span className="text-[11px] font-bold font-mono text-foreground px-1">
+              <span className="text-[11px] font-bold font-mono text-foreground px-1 select-none">
                 {currentQuantity}
               </span>
 
-              <button
+              <Button
                 type="button"
+                variant="ghost"
+                size="icon"
                 onClick={() => addToCart(props)}
-                className="w-5 h-5 flex items-center justify-center rounded text-primary hover:bg-primary/20 transition-colors font-bold text-xs"
+                className="w-5 h-5 p-0 rounded text-primary hover:bg-primary/20 font-bold text-xs"
                 title="Increase"
               >
                 +
-              </button>
+              </Button>
             </div>
           )}
         </div>
@@ -270,4 +291,5 @@ function Card({ props, onClick }) {
   );
 }
 
+export { Card };
 export default Card;

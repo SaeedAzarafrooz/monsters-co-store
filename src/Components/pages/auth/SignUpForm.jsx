@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import FormInput from "../../FormInput";
+import FormInput from "../../ui/FormInput";
 import {
   createAuthUserWithEmailAndPassword,
   createUserDocumentFromAuth,
