@@ -2,31 +2,142 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ==========================================================================
+   1) PRIMITIVES (Raw color palette - Independent of active theme)
+   ========================================================================== */
 :root {
-  /* Light Theme */
- --bg-primary: #e2e8f0;   /* was slate-100, now slate-200 */
-  --bg-secondary: #eef2f6; /* was slate-50, now slate-100 */
-  --bg-tertiary: #cbd5e1;  /* was slate-200, now slate-300 */
+  --slate-50: 210 40% 98%;
+  --slate-100: 210 40% 96%;
+  --slate-200: 214 32% 91%;
+  --slate-300: 213 27% 84%;
+  --slate-400: 215 20% 65%;
+  --slate-500: 215 16% 47%;
+  --slate-600: 215 19% 35%;
+  --slate-700: 215 25% 27%;
+  --slate-800: 217 33% 17%;
+  --slate-900: 222 47% 11%;
+  --slate-950: 223 84% 5%;
 
-  --border-color: #cbd5e1;      /* slate-300 */
-  --text-primary: #0f172a;      /* slate-900 */
-  --text-secondary: #475569;    /* slate-600 */
-  --accent-color: #84cc16;      /* project signature color */
+  /* Brand Colors - Lime / Monster Green */
+  --lime-400: 82 84% 50%;
+  --lime-500: 84 81% 44%;
+  --lime-950: 83 78% 8%;
+
+  /* Feedback Colors */
+  --red-500: 0 84% 60%;
+  --red-600: 0 72% 51%;
+  --amber-500: 38 92% 50%;
+  --green-500: 142 71% 45%;
 }
 
+/* ==========================================================================
+   2) SEMANTIC TOKENS - LIGHT THEME (Default)
+   ========================================================================== */
+:root {
+  /* Surface / Backgrounds */
+  --background: var(--slate-50);
+  --background-secondary: var(--slate-200);
+  --card: 0 0% 100%;
+  --popover: 0 0% 100%;
+
+  /* Foregrounds / Typography */
+  --foreground: var(--slate-900);
+  --muted-foreground: var(--slate-500);
+  --card-foreground: var(--slate-900);
+
+  /* Brand / Accents */
+  --primary: var(--lime-500);
+  --primary-foreground: var(--slate-950);
+  --accent: var(--lime-400);
+  --accent-foreground: var(--slate-950);
+
+  /* Status / Feedback */
+  --destructive: var(--red-600);
+  --destructive-foreground: 0 0% 100%;
+  --success: var(--green-500);
+  --warning: var(--amber-500);
+
+  /* Lines, Borders & Focus Rings */
+  --border: var(--slate-300);
+  --input: var(--slate-300);
+  --ring: var(--lime-500);
+
+  /* Global Geometry & Shadows */
+  --radius: 0.75rem;
+  --overlay: 222 47% 11%;
+
+  /* ==========================================================================
+     Backward Compatibility Aliases (Prevents UI breakage in existing code)
+     ========================================================================== */
+  --bg-primary: hsl(var(--background));
+  --bg-secondary: hsl(var(--card));
+  --bg-tertiary: hsl(var(--background-secondary));
+  --border-color: hsl(var(--border));
+  --text-primary: hsl(var(--foreground));
+  --text-secondary: hsl(var(--muted-foreground));
+  --accent-color: hsl(var(--primary));
+}
+
+/* ==========================================================================
+   3) SEMANTIC TOKENS - DARK THEME
+   ========================================================================== */
 html.dark {
-  /* Dark Theme */
-  --bg-primary: #020617;        /* slate-950 */
-  --bg-secondary: #0f172a;      /* slate-900 */
-  --bg-tertiary: #1e293b;       /* slate-800 */
-  --border-color: #334155;      /* slate-700 */
-  --text-primary: #f8fafc;      /* slate-50 */
-  --text-secondary: #94a3b8;    /* slate-400 */
-  --accent-color: #b5dc11;
+  /* Surface / Backgrounds */
+  --background: var(--slate-950);
+  --background-secondary: var(--slate-900);
+  --card: var(--slate-900);
+  --popover: var(--slate-900);
+
+  /* Foregrounds / Typography */
+  --foreground: var(--slate-50);
+  --muted-foreground: var(--slate-400);
+  --card-foreground: var(--slate-50);
+
+  /* Brand / Accents */
+  --primary: var(--lime-400);
+  --primary-foreground: var(--slate-950);
+  --accent: var(--lime-400);
+  --accent-foreground: var(--slate-950);
+
+  /* Status / Feedback */
+  --destructive: var(--red-500);
+  --success: var(--green-500);
+  --warning: var(--amber-500);
+
+  /* Lines, Borders & Focus Rings */
+  --border: var(--slate-800);
+  --input: var(--slate-700);
+  --ring: var(--lime-400);
+
+  /* Global Geometry & Shadows */
+  --overlay: 0 0% 0%;
+
+  /* ==========================================================================
+     Backward Compatibility Aliases (Dark mode)
+     ========================================================================== */
+  --bg-primary: hsl(var(--background));
+  --bg-secondary: hsl(var(--card));
+  --bg-tertiary: hsl(var(--background-secondary));
+  --border-color: hsl(var(--border));
+  --text-primary: hsl(var(--foreground));
+  --text-secondary: hsl(var(--muted-foreground));
+  --accent-color: hsl(var(--accent));
 }
 
-body {
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
-  transition: background-color 0.25s ease, color 0.25s ease;
+/* ==========================================================================
+   4) BASE STYLES
+   ========================================================================== */
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    transition: background-color 0.25s ease, color 0.25s ease;
+  }
+
+  html.dark .glow-accent {
+    box-shadow: 0 0 12px hsl(var(--accent) / 0.35);
+  }
 }
