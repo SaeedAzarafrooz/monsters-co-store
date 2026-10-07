@@ -3,20 +3,25 @@ import { useCart } from "../context/CartContext";
 import { useFavorites } from "../context/FavoritesContext";
 import { Badge } from "./ui/Badge";
 import { Button } from "./ui/Button";
+import crossIcon from "../assets/cross.png";
+import DNAIcon from "../assets/DNA-Icon.png";
+import GenderIcon from "../assets/Gender2-Icon.png";
+import TVShowIcon from "../assets/TV-show-Icon.png";
 
 // ==========================================
 // Loading Skeleton for Initial Page Load & Image Loading
 // ==========================================
 export function CardSkeleton() {
-  // Reusable shimmer block with visible contrast in both light & dark themes
   const Shimmer = ({ className }) => (
-    <div className={`relative overflow-hidden bg-foreground/10 rounded-md ${className}`}>
+    <div
+      className={`relative overflow-hidden bg-foreground/10 rounded-md ${className}`}
+    >
       <div className="absolute inset-0 -translate-x-full animate-shimmer bg-gradient-to-r from-transparent via-foreground/10 to-transparent" />
     </div>
   );
 
   return (
-    <div className="flex flex-col bg-card border border-border w-64 h-[410px] rounded-2xl overflow-hidden shadow-card">
+    <div className="flex flex-col bg-card border border-border w-64 h-[435px] rounded-2xl overflow-hidden shadow-card">
       {/* Header Skeleton */}
       <div className="p-3 flex justify-center items-center gap-2 border-b border-border/40 shrink-0">
         <Shimmer className="w-4 h-4 rounded-full" />
@@ -24,7 +29,7 @@ export function CardSkeleton() {
       </div>
 
       {/* Image Skeleton */}
-      <div className="w-full h-56 bg-foreground/5 shrink-0 relative flex items-center justify-center overflow-hidden">
+      <div className="w-full h-52 bg-foreground/5 shrink-0 relative flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 -translate-x-full animate-shimmer bg-gradient-to-r from-transparent via-foreground/10 to-transparent" />
         <svg
           className="w-10 h-10 text-foreground/20"
@@ -37,20 +42,21 @@ export function CardSkeleton() {
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
-            d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+            d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2 2v12a2 2 0 002 2z"
           />
         </svg>
       </div>
 
       {/* Content & Footer Skeleton */}
-      <div className="p-4 flex flex-col justify-between flex-1">
-        <div className="flex gap-2">
-          <Shimmer className="w-14 h-5" />
-          <Shimmer className="w-12 h-5" />
+      <div className="p-3.5 flex flex-col justify-between flex-1">
+        <div className="flex flex-col gap-1.5">
+          <Shimmer className="w-24 h-5 rounded-md" />
+          <Shimmer className="w-20 h-5 rounded-md" />
+          <Shimmer className="w-16 h-5 rounded-md" />
         </div>
         <div className="pt-2 border-t border-border/40 flex items-center justify-between">
-          <Shimmer className="w-16 h-4" />
-          <Shimmer className="w-14 h-7 rounded-lg" />
+          <Shimmer className="w-14 h-6" />
+          <Shimmer className="w-16 h-8 rounded-xl" />
         </div>
       </div>
     </div>
@@ -79,28 +85,27 @@ function Card({ props, onClick }) {
     epCount > 50
       ? { color: "text-amber-400" }
       : epCount > 30
-      ? { color: "text-muted-foreground" }
-      : { color: "text-amber-700" };
+        ? { color: "text-muted-foreground" }
+        : { color: "text-amber-700" };
 
   // Status badge config with semantic badge variants & dots
-  const statusConfig =
-    {
-      Alive: {
-        variant: "success",
-        dot: "bg-success shadow-[0_0_8px_hsl(var(--success)/0.8)]",
-      },
-      Dead: {
-        variant: "destructive",
-        dot: "bg-destructive shadow-[0_0_8px_hsl(var(--destructive)/0.8)]",
-      },
-      unknown: {
-        variant: "warning",
-        dot: "bg-warning shadow-[0_0_8px_hsl(var(--warning)/0.8)]",
-      },
-    }[status] || {
-      variant: "outline",
-      dot: "bg-muted-foreground",
-    };
+  const statusConfig = {
+    Alive: {
+      variant: "success",
+      dot: "bg-success shadow-[0_0_8px_hsl(var(--success)/0.8)]",
+    },
+    Dead: {
+      variant: "destructive",
+      dot: "bg-destructive shadow-[0_0_8px_hsl(var(--destructive)/0.8)]",
+    },
+    unknown: {
+      variant: "warning",
+      dot: "bg-warning shadow-[0_0_8px_hsl(var(--warning)/0.8)]",
+    },
+  }[status] || {
+    variant: "outline",
+    dot: "bg-muted-foreground",
+  };
 
   const calculatedPrice = (parseInt(episode?.length || 1, 10) * 0.4).toFixed(1);
 
@@ -108,7 +113,6 @@ function Card({ props, onClick }) {
   if (!imageLoaded) {
     return (
       <>
-        {/* Preload image in background to trigger onLoad */}
         <img
           src={image}
           alt={name}
@@ -132,47 +136,51 @@ function Card({ props, onClick }) {
         }
       }}
       className="
-        group relative flex flex-col w-64 h-[410px] rounded-2xl cursor-pointer overflow-hidden
+        group relative flex flex-col w-64 min-h-[435px] rounded-2xl cursor-pointer overflow-hidden
         bg-card border border-border hover:border-primary/50
         shadow-card hover:shadow-card-hover
         transition-all duration-300 ease-out hover:-translate-y-1.5 backdrop-blur-sm
       "
     >
-      {/* 1. Header: Star & Name (Centered) */}
-      <div className="p-2 flex justify-center items-center gap-1 shrink-0">
-        <span className={`text-[18px] ${starRating.color}`}>★</span>
+      {/* 1. Header: Star & Name */}
+      <div className="p-2.5 flex justify-center items-center gap-1.5 shrink-0 border-b border-border/30">
+        <span className={`text-[17px] leading-none ${starRating.color}`}>
+          ★
+        </span>
         <div className="min-w-0">
           <h3
             title={name}
-            className="text-center text-lg font-bold text-foreground truncate w-full"
+            className="text-center text-base font-bold text-foreground truncate w-full"
           >
             {name}
           </h3>
         </div>
       </div>
 
-      {/* 2. Image Container */}
-      <div className="relative w-full h-56 bg-muted/60 shrink-0 overflow-hidden flex items-center justify-center">
+      {/* 2. Image Container (No hover transition on image) */}
+      <div className="relative w-full h-52 bg-muted/60 shrink-0 overflow-hidden flex items-center justify-center">
         <img
-          className="w-full h-full object-cover transition-opacity duration-300 opacity-100"
+          className="w-full h-full object-cover"
           src={image}
           alt={name}
           loading="lazy"
         />
 
-        {/* Floating Badges: Status (Uses UI Badge primitive) */}
+        {/* Floating Badges: Status */}
         <div className="absolute top-3 left-3">
           <Badge
             variant={statusConfig.variant}
             className="gap-1.5 px-2.5 py-0.5 text-[10px] backdrop-blur-md bg-card/90 shadow-sm"
           >
-            <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${statusConfig.dot}`} />
+            <span
+              className={`w-1.5 h-1.5 rounded-full shrink-0 ${statusConfig.dot}`}
+            />
             {status}
           </Badge>
         </div>
 
-        {/* Favorite Heart Button & Price Tag */}
-        <div className="absolute top-3 right-3 flex items-center gap-1.5">
+        {/* Favorite Button */}
+        <div className="absolute top-3 right-3">
           <Button
             type="button"
             variant="outline"
@@ -182,7 +190,9 @@ function Card({ props, onClick }) {
               toggleFavorite(props);
             }}
             className="w-7 h-7 rounded-full bg-card/90 border-border backdrop-blur-md hover:scale-110 active:scale-90 transition-transform shadow-sm p-0"
-            aria-label={favorited ? "Remove from favorites" : "Add to favorites"}
+            aria-label={
+              favorited ? "Remove from favorites" : "Add to favorites"
+            }
             title={favorited ? "Remove from favorites" : "Add to favorites"}
           >
             <svg
@@ -203,44 +213,80 @@ function Card({ props, onClick }) {
               />
             </svg>
           </Button>
-
-          <Badge
-            variant="outline"
-            className="px-2 py-0.5 text-xs font-mono font-bold text-primary border-primary/30 bg-card/90 backdrop-blur-md shadow-sm"
-          >
-            ${calculatedPrice}
-          </Badge>
         </div>
       </div>
 
       {/* 3. Details & Footer */}
-      <div className="p-4 flex flex-col justify-between flex-1">
-        <div className="flex flex-wrap items-center gap-1.5">
-          <Badge
-            variant="outline"
-            className="bg-muted/60 border-border text-[11px] font-normal text-foreground px-2 py-0.5 rounded-md"
-          >
-            {species}
-          </Badge>
-          <Badge
-            variant="outline"
-            className="bg-muted/60 border-border text-[11px] font-normal text-muted-foreground px-2 py-0.5 rounded-md"
-          >
-            {gender}
-          </Badge>
-        </div>
+      <div className="p-3.5 flex flex-col justify-between flex-1 gap-2.5">
+        {/* Compact Stacked Tags with Instant Tooltips */}
+        <div className="flex flex-col items-start gap-2.5">
+          {/* Species Tag */}
+          <div className="group/tip relative inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-muted/40 border border-border/50 text-[11px] text-foreground hover:bg-muted/70 transition-colors">
+            <img
+              src={DNAIcon}
+              alt="Remove"
+              className="absolute drop-shadow-[0_0_6px_rgba(56,189,248,0.6)] w-6 h-6 object-contain opacity-70 group-hover/dec:opacity-100 transition-opacity"
+            />
+            <span className="ml-10 font-medium truncate max-w-[170px]">
+              {species}
+            </span>
 
-        {/* Footer: Episodes & Cart Actions */}
-        <div className="pt-2 border-t border-border flex items-center justify-between text-xs">
-          <div className="text-muted-foreground text-[11px] flex items-center gap-1">
-            <span>📺</span>
-            <span>
-              {episode?.length || 0} {episode?.length === 1 ? "Ep" : "Eps"}
+            {/* Instant Tooltip */}
+            <span className="pointer-events-none absolute left-full ml-1.5 top-1/2 -translate-y-1/2 z-30 opacity-0 group-hover/tip:opacity-100 transition-opacity duration-150 rounded bg-popover text-popover-foreground border border-border px-1.5 py-0.5 text-[10px] font-medium shadow-md whitespace-nowrap">
+              Character Species
             </span>
           </div>
 
-          {/* Cart Action Button / Controls */}
-          {currentQuantity === 0 ? (
+          {/* Gender Tag */}
+          <div className="group/tip relative inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-muted/40 border border-border/50 text-[11px] text-foreground hover:bg-muted/70 transition-colors">
+            <img
+              src={GenderIcon}
+              alt="Remove"
+              className="absolute drop-shadow-[0_0_6px_rgba(56,189,248,0.6)] w-6 h-6 object-contain opacity-70 group-hover/dec:opacity-100 transition-opacity"
+            />
+            <span className="ml-10 font-medium truncate max-w-[170px]">
+              {gender}
+            </span>
+
+            {/* Instant Tooltip */}
+            <span className="pointer-events-none absolute left-full ml-1.5 top-1/2 -translate-y-1/2 z-30 opacity-0 group-hover/tip:opacity-100 transition-opacity duration-150 rounded bg-popover text-popover-foreground border border-border px-1.5 py-0.5 text-[10px] font-medium shadow-md whitespace-nowrap">
+              Character Gender
+            </span>
+          </div>
+
+          {/* Episodes Tag */}
+          <div className="group/tip relative inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-muted/40 border border-border/50 text-[11px] text-foreground hover:bg-muted/70 transition-colors">
+            <img
+              src={TVShowIcon}
+              alt="Remove"
+              className="absolute drop-shadow-[0_0_6px_rgba(56,189,248,0.6)] w-6 h-6 object-contain opacity-70 group-hover/dec:opacity-100 transition-opacity"
+            />
+            <span className="ml-10 font-mono font-medium">
+              {episode?.length || 0} {episode?.length === 1 ? "Ep" : "Eps"}
+            </span>
+
+            {/* Instant Tooltip */}
+            <span className="pointer-events-none absolute left-full ml-1.5 top-1/2 -translate-y-1/2 z-30 opacity-0 group-hover/tip:opacity-100 transition-opacity duration-150 rounded bg-popover text-popover-foreground border border-border px-1.5 py-0.5 text-[10px] font-medium shadow-md whitespace-nowrap">
+              Total Episodes Appeared In
+            </span>
+          </div>
+        </div>
+
+        {/* Footer: Price & Cart Action */}
+        <div className="pt-2 border-t border-border flex items-center justify-between">
+          {/* Price Section */}
+          <div className="flex flex-col">
+            <span className="text-[10px] text-muted-foreground font-medium uppercase tracking-wider">
+              Price
+            </span>
+            <span className="text-sm font-bold font-mono text-primary">
+              ${calculatedPrice}
+            </span>
+          </div>
+
+          {/* Cart Action Container (Seamless fixed size with slide transition) */}
+          <div className="relative w-[82px] h-8 overflow-hidden rounded-xl">
+            {/* 1. Add to Cart Button */}
             <Button
               type="button"
               size="sm"
@@ -248,43 +294,110 @@ function Card({ props, onClick }) {
                 e.stopPropagation();
                 addToCart(props);
               }}
-              className="h-7 px-2.5 text-[11px] rounded-lg gap-1"
+              className={`
+                absolute inset-0 w-full h-full rounded-xl gap-1.5 text-xs font-semibold shadow-sm p-0 justify-center
+                transition-all duration-300 ease-out
+                ${
+                  currentQuantity === 0
+                    ? "translate-x-0 opacity-100 pointer-events-auto"
+                    : "translate-x-full opacity-0 pointer-events-none"
+                }
+              `}
+              title="Add to cart"
             >
-              <span>+</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-3.5 h-3.5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+                />
+              </svg>
               <span>Add</span>
             </Button>
-          ) : (
+
+            {/* 2. Quantity Controls Capsule */}
             <div
               onClick={(e) => e.stopPropagation()}
-              className="flex items-center gap-1.5 bg-muted/60 border border-border px-1 py-0.5 rounded-lg"
+              className={`
+                absolute inset-0 flex items-center h-full w-full bg-muted/60 border border-border rounded-xl shadow-inner
+                transition-all duration-300 ease-out
+                ${
+                  currentQuantity > 0
+                    ? "translate-x-0 opacity-100 pointer-events-auto"
+                    : "-translate-x-full opacity-0 pointer-events-none"
+                }
+              `}
             >
+              {/* Decrease / Remove Button */}
               <Button
                 type="button"
                 variant="ghost"
-                size="icon"
                 onClick={() => decreaseQuantity(id)}
-                className="w-5 h-5 p-0 rounded text-muted-foreground hover:text-destructive hover:bg-destructive/10 font-bold text-xs"
+                className="
+                  group/dec h-full w-7 p-0 flex items-center justify-center
+                  text-muted-foreground hover:text-destructive hover:bg-destructive/15
+                  rounded-l-xl rounded-r-none transition-colors shrink-0
+                "
                 title={currentQuantity === 1 ? "Remove" : "Decrease"}
               >
-                {currentQuantity === 1 ? "✕" : "−"}
+                {currentQuantity === 1 ? (
+                  <img
+                    src={crossIcon}
+                    alt="Remove"
+                    className="w-3 h-3 object-contain opacity-70 group-hover/dec:opacity-100 transition-opacity"
+                  />
+                ) : (
+                  <svg
+                    className="w-3 h-3"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                  >
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                  </svg>
+                )}
               </Button>
 
-              <span className="text-[11px] font-bold font-mono text-foreground px-1 select-none">
+              {/* Quantity */}
+              <span className="text-xs font-bold font-mono text-foreground px-1 select-none min-w-[24px] text-center leading-none">
                 {currentQuantity}
               </span>
 
+              {/* Increase Button */}
               <Button
                 type="button"
                 variant="ghost"
-                size="icon"
                 onClick={() => addToCart(props)}
-                className="w-5 h-5 p-0 rounded text-primary hover:bg-primary/20 font-bold text-xs"
+                className="
+                  group/inc h-full w-7 p-0 flex items-center justify-center
+                  text-muted-foreground hover:text-primary hover:bg-primary/15
+                  rounded-r-xl rounded-l-none transition-colors shrink-0
+                "
                 title="Increase"
               >
-                +
+                <svg
+                  className="w-3 h-3"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                >
+                  <line x1="12" y1="5" x2="12" y2="19" />
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                </svg>
               </Button>
             </div>
-          )}
+          </div>
         </div>
       </div>
     </div>
