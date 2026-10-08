@@ -3,6 +3,7 @@ import { Input } from "../ui/Input";
 import { Select } from "../ui/Select";
 import { FormField } from "../ui/FormField";
 import { Button } from "../ui/Button";
+import { Icon } from "../ui";
 
 // English comment: Presets for quick multiverse sticker filtering
 const BUNDLE_PRESETS = [
@@ -77,19 +78,7 @@ function ProductFilter({ activeFilters, onApplyFilters, onResetFilters }) {
           className="w-full justify-between px-4 py-3 h-auto rounded-xl font-medium text-sm shadow-sm hover:bg-muted/50"
         >
           <span className="flex items-center gap-2">
-            <svg
-              className="w-4 h-4 text-primary"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"
-              />
-            </svg>
+            <Icon name="filter" size="md" className="text-primary" />
             Filter & Bundles
           </span>
           <span className="text-xs bg-primary/10 text-primary px-2.5 py-0.5 rounded-full font-bold">

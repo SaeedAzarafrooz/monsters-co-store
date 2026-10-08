@@ -98,18 +98,7 @@ function OrderTracking() {
                       ].join(" ")}
                     >
                       {isComplete ? (
-                        <svg
-                          className="h-4 w-4 stroke-[2.5]"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M5 13l4 4L19 7"
-                          />
-                        </svg>
+                        <Icon name="check" size="sm" className="stroke-[2.5]" />
                       ) : (
                         index + 1
                       )}

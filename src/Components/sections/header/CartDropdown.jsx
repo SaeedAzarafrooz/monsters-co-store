@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import shoppingBagIcon from "../../../assets/shopping-bag.svg";
 import cross from "../../../assets/cross.png";
+import { Icon } from "../../ui";
 
 export default function CartDropdown({
   cartContainerRef,
@@ -32,10 +33,9 @@ export default function CartDropdown({
         className="relative flex items-center justify-center w-10 h-10 lg:w-11 lg:h-11 rounded-2xl bg-app-bg hover:bg-app-hover border border-app-border transition-all cursor-pointer shadow-sm group"
         aria-label="Shopping Cart"
       >
-        <img
-          src={shoppingBagIcon}
-          alt="Cart"
-          className="w-5 h-5 lg:w-6 lg:h-6 object-contain group-hover:scale-110 transition-transform duration-200 dark:invert"
+        <Icon
+          name="bag"
+          className="w-5 h-5 lg:w-6 lg:h-6 group-hover:scale-110 transition-transform duration-200"
         />
         {/* Cart Badge or Hydration Spinner */}
         {isHydrating ? (
@@ -80,11 +80,7 @@ export default function CartDropdown({
           <div className="max-h-72 overflow-y-auto divide-y divide-app-border p-2 space-y-1">
             {cartItems.length === 0 ? (
               <div className="py-8 flex flex-col items-center justify-center text-center px-4">
-                <img
-                  src={shoppingBagIcon}
-                  alt="Empty Cart"
-                  className="w-12 h-12 opacity-30 mb-2 dark:invert"
-                />
+                <Icon name="bag" className="w-12 h-12 opacity-30" />
                 <p className="text-sm font-semibold text-app-text">
                   Your cart is empty
                 </p>
@@ -151,20 +147,7 @@ export default function CartDropdown({
                 className="w-full py-2.5 px-4 bg-app-accent hover:opacity-90 text-app-bg font-bold text-sm rounded-xl transition-all duration-200 active:scale-[0.98] shadow-md flex items-center justify-center gap-2 cursor-pointer"
               >
                 <span>Proceed to Checkout</span>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-4 w-4"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M13 7l5 5m0 0l-5 5m5-5H6"
-                  />
-                </svg>
+                <Icon name="arrow-right" size="sm" />
               </Link>
             </div>
           )}

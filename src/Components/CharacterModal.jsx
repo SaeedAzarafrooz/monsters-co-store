@@ -4,10 +4,10 @@ import { useCart } from "../context/CartContext";
 import { useFavorites } from "../context/FavoritesContext";
 import { Badge } from "./ui/Badge";
 import { Button } from "./ui/Button";
-import crossIcon from "../assets/cross.png";
 import DNAIcon from "../assets/DNA-Icon.png";
 import GenderIcon from "../assets/Gender2-Icon.png";
 import TVShowIcon from "../assets/TV-show-Icon.png";
+import { Icon } from "./ui";
 
 /**
  * Character detail modal dialog.
@@ -75,8 +75,8 @@ export default function CharacterModal({ character, onClose }) {
     epCount > 50
       ? { color: "text-amber-400" }
       : epCount > 30
-      ? { color: "text-muted-foreground" }
-      : { color: "text-amber-700" };
+        ? { color: "text-muted-foreground" }
+        : { color: "text-amber-700" };
 
   // Status configuration matching the Card component
   const statusConfig = {
@@ -128,7 +128,9 @@ export default function CharacterModal({ character, onClose }) {
         <div className="relative z-10 flex items-start justify-between px-6 py-4 border-b border-border/40 bg-card/70 backdrop-blur-md">
           <div className="flex flex-col gap-1.5 min-w-0">
             <div className="flex items-center gap-2">
-              <span className={`text-[22px] leading-none shrink-0 ${starRating.color}`}>
+              <span
+                className={`text-[22px] leading-none shrink-0 ${starRating.color}`}
+              >
                 ★
               </span>
               <h2
@@ -161,26 +163,21 @@ export default function CharacterModal({ character, onClose }) {
               size="icon"
               onClick={() => toggleFavorite(character)}
               className="w-8 h-8 rounded-xl bg-card border-border hover:border-destructive/40 hover:bg-destructive/10 active:scale-95 transition-all p-0"
-              aria-label={favorited ? "Remove from favorites" : "Add to favorites"}
+              aria-label={
+                favorited ? "Remove from favorites" : "Add to favorites"
+              }
               title={favorited ? "Remove from favorites" : "Add to favorites"}
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className={`w-4 h-4 transition-colors ${
+              <Icon
+                name="heart"
+                size="sm"
+                fill={favorited ? "currentColor" : "none"}
+                className={`transition-colors ${
                   favorited
-                    ? "fill-destructive text-destructive"
-                    : "fill-none text-muted-foreground hover:text-destructive"
+                    ? "text-destructive"
+                    : "text-muted-foreground hover:text-destructive"
                 }`}
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth="2"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                />
-              </svg>
+              />
             </Button>
 
             <Button
@@ -191,11 +188,7 @@ export default function CharacterModal({ character, onClose }) {
               aria-label="Close modal"
               className="w-8 h-8 rounded-xl bg-card border-border hover:border-destructive/40 hover:bg-destructive/10 active:scale-95 transition-all p-0 group/close"
             >
-              <img
-                src={crossIcon}
-                alt="Close"
-                className="w-3.5 h-3.5 object-contain opacity-70 group-hover/close:opacity-100 transition-opacity"
-              />
+              <Icon name="close" size="xs" className="opacity-70 group-hover/close:opacity-100 transition-opacity" />
             </Button>
           </div>
         </div>
@@ -226,8 +219,12 @@ export default function CharacterModal({ character, onClose }) {
                     className="w-5 h-5 object-contain drop-shadow-[0_0_6px_rgba(56,189,248,0.6)] shrink-0"
                   />
                   <div className="min-w-0">
-                    <span className="text-[10px] text-muted-foreground block leading-tight">Species</span>
-                    <span className="font-semibold truncate block">{species}</span>
+                    <span className="text-[10px] text-muted-foreground block leading-tight">
+                      Species
+                    </span>
+                    <span className="font-semibold truncate block">
+                      {species}
+                    </span>
                   </div>
                 </div>
 
@@ -239,8 +236,12 @@ export default function CharacterModal({ character, onClose }) {
                     className="w-5 h-5 object-contain drop-shadow-[0_0_6px_rgba(56,189,248,0.6)] shrink-0"
                   />
                   <div className="min-w-0">
-                    <span className="text-[10px] text-muted-foreground block leading-tight">Gender</span>
-                    <span className="font-semibold truncate block">{gender}</span>
+                    <span className="text-[10px] text-muted-foreground block leading-tight">
+                      Gender
+                    </span>
+                    <span className="font-semibold truncate block">
+                      {gender}
+                    </span>
                   </div>
                 </div>
 
@@ -252,7 +253,9 @@ export default function CharacterModal({ character, onClose }) {
                     className="w-5 h-5 object-contain drop-shadow-[0_0_6px_rgba(56,189,248,0.6)] shrink-0"
                   />
                   <div className="min-w-0">
-                    <span className="text-[10px] text-muted-foreground block leading-tight">Episodes</span>
+                    <span className="text-[10px] text-muted-foreground block leading-tight">
+                      Episodes
+                    </span>
                     <span className="font-semibold font-mono truncate block">
                       {epCount} {epCount === 1 ? "Ep" : "Eps"}
                     </span>
@@ -277,8 +280,12 @@ export default function CharacterModal({ character, onClose }) {
                     Origin Dimension / Planet
                   </span>
                   <p className="text-foreground font-medium flex items-center gap-1.5">
-                    <span role="img" aria-label="origin">🌍</span>
-                    <span className="truncate">{origin?.name || "Unknown"}</span>
+                    <span role="img" aria-label="origin">
+                      🌍
+                    </span>
+                    <span className="truncate">
+                      {origin?.name || "Unknown"}
+                    </span>
                   </p>
                 </div>
 
@@ -288,8 +295,12 @@ export default function CharacterModal({ character, onClose }) {
                     Last Known Location
                   </span>
                   <p className="text-foreground font-medium flex items-center gap-1.5">
-                    <span role="img" aria-label="location">📍</span>
-                    <span className="truncate">{location?.name || "Unknown"}</span>
+                    <span role="img" aria-label="location">
+                      📍
+                    </span>
+                    <span className="truncate">
+                      {location?.name || "Unknown"}
+                    </span>
                   </p>
                 </div>
               </div>
@@ -328,20 +339,7 @@ export default function CharacterModal({ character, onClose }) {
                 `}
                 title="Add to cart"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="w-3.5 h-3.5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-                  />
-                </svg>
+                <Icon name="cart" size="xs" strokeWidth={2} />
                 <span>Add</span>
               </Button>
 
@@ -371,22 +369,12 @@ export default function CharacterModal({ character, onClose }) {
                   title={currentQuantity === 1 ? "Remove" : "Decrease"}
                 >
                   {currentQuantity === 1 ? (
-                    <img
-                      src={crossIcon}
-                      alt="Remove"
-                      className="w-3 h-3 object-contain opacity-70 group-hover/dec:opacity-100 transition-opacity"
+                    <Icon
+                      name="close"
+                      className="w-3 h-3 opacity-70 group-hover/dec:opacity-100 transition-opacity"
                     />
                   ) : (
-                    <svg
-                      className="w-3 h-3"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2.5"
-                      strokeLinecap="round"
-                    >
-                      <line x1="5" y1="12" x2="19" y2="12" />
-                    </svg>
+                    <Icon name="minus" className="w-3 h-3" strokeWidth={2.5} />
                   )}
                 </Button>
 
@@ -407,17 +395,7 @@ export default function CharacterModal({ character, onClose }) {
                   "
                   title="Increase"
                 >
-                  <svg
-                    className="w-3 h-3"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2.5"
-                    strokeLinecap="round"
-                  >
-                    <line x1="12" y1="5" x2="12" y2="19" />
-                    <line x1="5" y1="12" x2="19" y2="12" />
-                  </svg>
+                  <Icon name="plus" className="w-3 h-3" strokeWidth={2.5} />
                 </Button>
               </div>
             </div>
@@ -427,7 +405,8 @@ export default function CharacterModal({ character, onClose }) {
           <div className="pt-2 border-t border-border">
             <div className="flex items-center justify-between mb-3">
               <h3 className="text-xs uppercase tracking-wider font-semibold text-muted-foreground">
-                Appeared In {episode.length} Episode{episode.length > 1 ? "s" : ""}
+                Appeared In {episode.length} Episode
+                {episode.length > 1 ? "s" : ""}
               </h3>
             </div>
 

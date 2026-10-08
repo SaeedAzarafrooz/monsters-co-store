@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useFavorites } from "../../../context/FavoritesContext";
 import Card, { CardSkeleton } from "../../Card";
+import { Icon } from "../../ui";
 
 export default function Favorites() {
   const { favorites, favoriteIds, isHydrating, clearFavorites } = useFavorites();
@@ -42,9 +43,7 @@ export default function Favorites() {
       ) : favorites.length === 0 ? (
         <div className="py-16 text-center bg-app-bg border border-app-border rounded-2xl p-8">
           <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-rose-500/10 flex items-center justify-center text-rose-500">
-            <svg xmlns="http://www.w3.org/2000/svg" className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-            </svg>
+            <Icon name="heart" size="xl" />
           </div>
           <h3 className="text-base font-bold text-app-text">No favorites yet</h3>
           <p className="text-xs text-app-muted mt-1 max-w-sm mx-auto">
