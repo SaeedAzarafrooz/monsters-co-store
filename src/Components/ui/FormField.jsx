@@ -19,7 +19,9 @@ export function FormField({
   className,
   children,
 }) {
-  const spanClass = colSpan ? colSpanMap[colSpan] || `col-span-${colSpan}` : "w-full";
+  const spanClass = colSpan
+    ? colSpanMap[colSpan] || `col-span-${colSpan}`
+    : "w-full";
 
   return (
     <div className={cn("flex flex-col space-y-1.5", spanClass, className)}>

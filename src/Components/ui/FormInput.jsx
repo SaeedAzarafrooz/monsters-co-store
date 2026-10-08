@@ -20,4 +20,5 @@ const FormInput = forwardRef(
 );
 
 FormInput.displayName = "FormInput";
+export {FormInput};
 export default FormInput;

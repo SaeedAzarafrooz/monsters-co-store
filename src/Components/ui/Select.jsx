@@ -1,6 +1,7 @@
 // src/Components/ui/Select.jsx
 import { forwardRef, useState, useRef, useEffect } from "react";
 import { cn } from "../../utils/utils";
+import { Icon } from "./Icon";
 
 const Select = forwardRef(
   (
@@ -85,18 +86,10 @@ const Select = forwardRef(
           <span className={cn("truncate", !selectedOption?.label && "text-muted-foreground")}>
             {selectedOption ? selectedOption.label : placeholder}
           </span>
-
-          <svg
-            className={cn(
+<Icon name="chevron-down" size="sm" className={cn(
               "w-4 h-4 text-muted-foreground shrink-0 transition-transform duration-200",
               isOpen && "rotate-180 text-primary"
-            )}
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-          </svg>
+            )}/>
         </button>
 
         {/* Dropdown Menu */}
@@ -117,9 +110,7 @@ const Select = forwardRef(
                 >
                   <span className="truncate">{opt.label}</span>
                   {isSelected && (
-                    <svg className="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 13l4 4L19 7" />
-                    </svg>
+                    <Icon name="check" size="sm" lassName="shrink-0"/>
                   )}
                 </div>
               );
