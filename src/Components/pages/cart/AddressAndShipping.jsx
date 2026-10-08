@@ -1,153 +1,148 @@
-function AddressAndShipping({ formData, setFormData, shippingMethod, setShippingMethod }) {
-  const onChange = (key) => (e) =>
-    setFormData((prev) => ({ ...prev, [key]: e.target.value }));
+import {
+  FormInput,
+  FormGrid,
+  OptionCard,
+  CardBody,
+  CardHeader,
+  CardTitle,
+} from "../../ui";
+import { validateField } from "./addressValidation";
+
+function AddressAndShipping({
+  formData,
+  setFormData,
+  formErrors = {},
+  setFormErrors,
+  shippingMethod,
+  setShippingMethod,
+  onSubmit,
+  submitLabel,
+}) {
+  const handleChange = (key) => (e) => {
+    const value = e.target.value;
+    setFormData((prev) => ({ ...prev, [key]: value }));
+
+    // Real-time error clearance on correction
+    if (setFormErrors && formErrors[key]) {
+      const error = validateField(key, value);
+      setFormErrors((prev) => ({
+        ...prev,
+        [key]: error || undefined,
+      }));
+    }
+  };
+
+  const handleBlur = (key) => () => {
+    if (setFormErrors) {
+      const error = validateField(key, formData[key]);
+      if (error) {
+        setFormErrors((prev) => ({ ...prev, [key]: error }));
+      }
+    }
+  };
 
   return (
-    <div className="w-[700px] h-full overflow-y-auto pr-2 space-y-6">
-      <div>
-        <h2 className="text-lg font-extrabold mb-4 pb-2 border-b border-app-border">
-          Shipping Address
-        </h2>
-        <div className="space-y-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-bold mb-1.5">
-                Full name <span className="text-app-accent">*</span>
-              </label>
-              <input
-                type="text"
-                value={formData.fullName}
-                onChange={onChange("fullName")}
-                placeholder="Rick Sanchez"
-                className="w-full bg-app-hover text-app-text p-3 rounded-xl border border-app-border outline-none focus:ring-2 focus:ring-app-accent/30 text-sm"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-bold mb-1.5">
-                Email address <span className="text-app-accent">*</span>
-              </label>
-              <input
-                type="email"
-                value={formData.email}
-                onChange={onChange("email")}
-                placeholder="rick@citadel.com"
-                className="w-full bg-app-hover text-app-text p-3 rounded-xl border border-app-border outline-none focus:ring-2 focus:ring-app-accent/30 text-sm"
-              />
-            </div>
-          </div>
+    <CardBody scrollable>
+      <CardHeader>
+        <CardTitle>Shipping Address</CardTitle>
+      </CardHeader>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-bold mb-1.5">Phone number</label>
-              <input
-                type="tel"
-                value={formData.phone}
-                onChange={onChange("phone")}
-                placeholder="+1 (555) 019-2834"
-                className="w-full bg-app-hover text-app-text p-3 rounded-xl border border-app-border outline-none focus:ring-2 focus:ring-app-accent/30 text-sm"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-bold mb-1.5">
-                Street address <span className="text-app-accent">*</span>
-              </label>
-              <input
-                type="text"
-                value={formData.addressLine1}
-                onChange={onChange("addressLine1")}
-                placeholder="123 Dimension C-137 St."
-                className="w-full bg-app-hover text-app-text p-3 rounded-xl border border-app-border outline-none focus:ring-2 focus:ring-app-accent/30 text-sm"
-              />
-            </div>
-          </div>
+      <FormGrid columns={2} onSubmit={onSubmit} submitLabel={submitLabel}>
+        <FormInput
+          id="fullName"
+          label="Full name *"
+          value={formData.fullName}
+          onChange={handleChange("fullName")}
+          onBlur={handleBlur("fullName")}
+          error={formErrors.fullName}
+          placeholder="Rick Sanchez"
+        />
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-bold mb-1.5">
-                City <span className="text-app-accent">*</span>
-              </label>
-              <input
-                type="text"
-                value={formData.city}
-                onChange={onChange("city")}
-                placeholder="Seattle"
-                className="w-full bg-app-hover text-app-text p-3 rounded-xl border border-app-border outline-none focus:ring-2 focus:ring-app-accent/30 text-sm"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-bold mb-1.5">
-                Postal / ZIP code <span className="text-app-accent">*</span>
-              </label>
-              <input
-                type="text"
-                value={formData.zipCode}
-                onChange={onChange("zipCode")}
-                placeholder="98101"
-                className="w-full bg-app-hover text-app-text p-3 rounded-xl border border-app-border outline-none focus:ring-2 focus:ring-app-accent/30 text-sm"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
+        <FormInput
+          id="email"
+          label="Email address *"
+          type="email"
+          value={formData.email}
+          onChange={handleChange("email")}
+          onBlur={handleBlur("email")}
+          error={formErrors.email}
+          placeholder="rick@citadel.com"
+        />
 
-      <div>
-        <h2 className="text-lg font-extrabold mb-4 pb-2 border-b border-app-border">
+        <FormInput
+          id="phone"
+          label="Phone number"
+          type="tel"
+          value={formData.phone}
+          onChange={handleChange("phone")}
+          onBlur={handleBlur("phone")}
+          error={formErrors.phone}
+          placeholder="+1 (555) 019-2834"
+        />
+
+        <FormInput
+          id="addressLine1"
+          label="Street address *"
+          value={formData.addressLine1}
+          onChange={handleChange("addressLine1")}
+          onBlur={handleBlur("addressLine1")}
+          error={formErrors.addressLine1}
+          placeholder="123 Dimension C-137 St."
+        />
+
+        <FormInput
+          id="city"
+          label="City *"
+          value={formData.city}
+          onChange={handleChange("city")}
+          onBlur={handleBlur("city")}
+          error={formErrors.city}
+          placeholder="Seattle"
+        />
+
+        <FormInput
+          id="zipCode"
+          label="Postal / ZIP code *"
+          value={formData.zipCode}
+          onChange={handleChange("zipCode")}
+          onBlur={handleBlur("zipCode")}
+          error={formErrors.zipCode}
+          placeholder="98101"
+        />
+      </FormGrid>
+
+      <div className="mt-6">
+        <h2 className="text-lg font-extrabold mb-4 pb-2 border-b border-border">
           Shipping Method
         </h2>
         <div className="space-y-3">
-          <label
-            onClick={() => setShippingMethod("standard")}
-            className={`flex items-center justify-between p-4 rounded-xl border cursor-pointer transition-all ${
-              shippingMethod === "standard"
-                ? "border-app-accent bg-app-accent/5"
-                : "border-app-border bg-app-hover"
-            }`}
-          >
-            <div className="flex items-center gap-3">
-              <input
-                type="radio"
-                name="shipping"
-                checked={shippingMethod === "standard"}
-                onChange={() => setShippingMethod("standard")}
-                className="accent-app-accent"
-              />
-              <div>
-                <p className="font-bold text-sm">Standard Delivery</p>
-                <p className="text-xs text-app-muted">3–5 business days</p>
-              </div>
-            </div>
-            <span className="font-extrabold text-app-accent text-sm">$4.99</span>
-          </label>
+          <OptionCard
+            name="shipping"
+            value="standard"
+            checked={shippingMethod === "standard"}
+            onChange={() => setShippingMethod("standard")}
+            title="Standard Delivery"
+            description="3–5 business days"
+            badge={
+              <span className="font-extrabold text-primary text-sm">$4.99</span>
+            }
+          />
 
-          <label
-            onClick={() => setShippingMethod("express")}
-            className={`flex items-center justify-between p-4 rounded-xl border cursor-pointer transition-all ${
-              shippingMethod === "express"
-                ? "border-app-accent bg-app-accent/5"
-                : "border-app-border bg-app-hover"
-            }`}
-          >
-            <div className="flex items-center gap-3">
-              <input
-                type="radio"
-                name="shipping"
-                checked={shippingMethod === "express"}
-                onChange={() => setShippingMethod("express")}
-                className="accent-app-accent"
-              />
-              <div>
-                <p className="font-bold text-sm">Express Courier</p>
-                <p className="text-xs text-app-muted">1–2 business days</p>
-              </div>
-            </div>
-            <span className="font-extrabold text-app-accent text-sm">$9.99</span>
-          </label>
+          <OptionCard
+            name="shipping"
+            value="express"
+            checked={shippingMethod === "express"}
+            onChange={() => setShippingMethod("express")}
+            title="Express Courier"
+            description="1–2 business days"
+            badge={
+              <span className="font-extrabold text-primary text-sm">$9.99</span>
+            }
+          />
         </div>
       </div>
-    </div>
+    </CardBody>
   );
 }
-
-
 
 export default AddressAndShipping;
