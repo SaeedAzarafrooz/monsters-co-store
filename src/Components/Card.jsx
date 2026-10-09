@@ -131,7 +131,7 @@ function Card({ props, onClick }) {
         group relative flex flex-col w-64 min-h-[435px] rounded-2xl cursor-pointer overflow-hidden
         bg-card border border-border hover:border-primary/50
         shadow-card hover:shadow-card-hover
-        transition-all duration-300 ease-out hover:-translate-y-1.5 backdrop-blur-sm
+        transition-all duration-300 ease-out hover:-translate-y-1.5 [backface-visibility:hidden] will-change-transform backdrop-blur-sm
       "
     >
       {/* 1. Header: Star & Name */}
