@@ -1,9 +1,13 @@
 import reactIcon from "../../assets/react.svg";
 import tailwindCssIcon from "../../assets/Tailwind_CSS_Logo.png";
 import reactRouterIcon from "../../assets/react-router-logo.png";
+import CVAIcon from "../../assets/CVA.png";
 import viteIcon from "../../assets/vite-icon.webp";
 import rick_mortyApiIcon from "../../assets/Rick&MortyAPI.png";
 import Intersection_Observer_ApiIcon from "../../assets/Intersection_Observer_Api.png";
+import { Container } from "../ui/Container";
+import { Badge } from "../ui/Badge";
+import { buttonVariants } from "../ui/Button";
 
 function AboutUs() {
   const techStack = [
@@ -20,6 +24,13 @@ function AboutUs() {
       color: "from-sky-500/20 to-teal-500/10 border-sky-500/30 text-sky-500 dark:text-sky-400",
       image: tailwindCssIcon,
       glow: "drop-shadow-[0_0_12px_rgba(56,189,248,0.5)]", // Sky Glow
+    },
+    {
+      name: "CVA & Design System",
+      desc: "Type-safe Variant-Driven Component Library",
+      color: "from-lime-500/20 to-emerald-500/10 border-lime-500/30 text-lime-500 dark:text-lime-400",
+      image: CVAIcon,
+      glow: "drop-shadow-[0_0_12px_rgba(132,204,22,0.5)]", // Lime Glow
     },
     {
       name: "React Router v6",
@@ -60,6 +71,10 @@ function AboutUs() {
       desc: "Custom hook with IntersectionObserver for non-blocking pagination.",
     },
     {
+      title: "Modular Atomic UI Architecture",
+      desc: "Variant-based, reusable component system (CVA) decoupled with semantic Tailwind CSS design tokens.",
+    },
+    {
       title: "Dynamic Sliding Indicator",
       desc: "DOM ref-driven fluid active indicators for top-level navigation.",
     },
@@ -70,20 +85,23 @@ function AboutUs() {
   ];
 
   return (
-    <div className="min-h-[calc(100vh-140px)] py-12 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto text-app-text transition-colors duration-200">
+    <Container className="min-h-[calc(100vh-140px)] py-12 text-foreground transition-colors duration-200">
       {/* Hero Section */}
       <div className="text-center max-w-3xl mx-auto mb-16">
-        <span className="inline-block px-3 py-1 mb-4 text-xs font-semibold tracking-wider text-app-accent uppercase bg-app-accent/10 rounded-full border border-app-accent/20">
+        <Badge
+          variant="outline"
+          className="mb-4 text-xs font-semibold tracking-wider text-primary uppercase bg-primary/10 border-primary/20"
+        >
           The Universe Explorer Project
-        </span>
-        <h1 className="text-4xl sm:text-5xl font-extrabold text-app-text tracking-tight mb-6">
+        </Badge>
+        <h1 className="text-4xl sm:text-5xl font-extrabold text-foreground tracking-tight mb-6">
           Exploring dimensions with modern{" "}
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">
             Frontend Engineering
           </span>
           .
         </h1>
-        <p className="text-app-muted text-base sm:text-lg leading-relaxed">
+        <p className="text-muted-foreground text-base sm:text-lg leading-relaxed">
           This project was engineered to deliver a fast, reactive, and visually
           refined portal interface for exploring characters across the
           multiverse using the Rick and Morty API.
@@ -92,22 +110,22 @@ function AboutUs() {
 
       {/* Highlights / Features Grid */}
       <div className="mb-20">
-        <h2 className="text-2xl font-bold text-app-text mb-6 border-b border-app-border pb-3">
+        <h2 className="text-2xl font-bold text-foreground mb-6 border-b border-border pb-3">
           Key Technical Highlights
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {highlights.map((item, idx) => (
             <div
               key={idx}
-              className="bg-app-card border border-app-border rounded-2xl p-6 hover:border-app-accent/60 transition duration-300 shadow-sm"
+              className="bg-card border border-border rounded-2xl p-6 hover:border-primary/60 transition duration-300 shadow-sm"
             >
-              <div className="text-app-accent font-mono text-xs mb-2">
+              <div className="text-primary font-mono text-xs mb-2">
                 0{idx + 1}. FEATURE
               </div>
-              <h3 className="text-lg font-semibold text-app-text mb-2">
+              <h3 className="text-lg font-semibold text-foreground mb-2">
                 {item.title}
               </h3>
-              <p className="text-app-muted text-sm leading-relaxed">
+              <p className="text-muted-foreground text-sm leading-relaxed">
                 {item.desc}
               </p>
             </div>
@@ -117,19 +135,19 @@ function AboutUs() {
 
       {/* Tech Stack Grid */}
       <div className="mb-20">
-        <h2 className="text-2xl font-bold text-app-text mb-6 border-b border-app-border pb-3">
+        <h2 className="text-2xl font-bold text-foreground mb-6 border-b border-border pb-3">
           Tech Stack & Tools
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {techStack.map((tech) => (
             <div
               key={tech.name}
-              className={`group relative p-5 rounded-2xl border bg-app-card bg-gradient-to-br ${tech.color} flex flex-col justify-between backdrop-blur-sm shadow-sm transition-all duration-300 hover:shadow-md`}
+              className={`group relative p-5 rounded-2xl border bg-card bg-gradient-to-br ${tech.color} flex flex-col justify-between backdrop-blur-sm shadow-sm transition-all duration-300 hover:shadow-md`}
             >
               <div className="font-bold text-base tracking-wide">
                 {tech.name}
               </div>
-              <div className="text-xs text-app-text/75 mt-2">{tech.desc}</div>
+              <div className="text-xs text-foreground/75 mt-2">{tech.desc}</div>
               <img
                 src={tech.image}
                 alt={`${tech.name}-icon`}
@@ -141,14 +159,15 @@ function AboutUs() {
       </div>
 
       {/* Developer Card (For Portfolio) */}
-      <div className="bg-app-card border border-app-border rounded-3xl p-8 sm:p-10 flex flex-col md:flex-row items-center justify-between gap-8 shadow-xl transition-colors duration-200">
+      <div className="bg-card border border-border rounded-3xl p-8 sm:p-10 flex flex-col md:flex-row items-center justify-between gap-8 shadow-xl transition-colors duration-200">
         <div className="text-center md:text-left">
-          <h3 className="text-2xl font-bold text-app-text">
+          <h3 className="text-2xl font-bold text-foreground">
             Crafted by Saeed Azarafrooz
           </h3>
-          <p className="text-app-muted text-sm mt-2 max-w-md">
-            Frontend Developer focused on building clean, high-performance web
-            applications with React, Next.js, and modern CSS tooling.
+          <p className="text-muted-foreground text-sm mt-2 max-w-md">
+            Frontend Developer focused on crafting accessible design systems,
+            scalable React architectures, and high-performance interfaces with
+            modern Tailwind tooling.
           </p>
         </div>
         <div className="flex items-center gap-4">
@@ -156,7 +175,11 @@ function AboutUs() {
             href="https://github.com/Saeedazarafrooz"
             target="_blank"
             rel="noopener noreferrer"
-            className="px-5 py-2.5 text-sm font-medium rounded-xl bg-app-hover hover:bg-app-card text-app-text transition border border-app-border"
+            className={buttonVariants({
+              variant: "outline",
+              size: "default",
+              className: "rounded-xl font-medium border-border",
+            })}
           >
             GitHub
           </a>
@@ -170,7 +193,7 @@ function AboutUs() {
           </a>
         </div>
       </div>
-    </div>
+    </Container>
   );
 }
 
