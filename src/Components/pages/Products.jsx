@@ -7,6 +7,7 @@ import { useInfiniteScroll } from "../../hooks/useInfiniteScroll";
 import loadingGif from "../../assets/LoadingGif.svg";
 import BackToTop from "../BackToTop";
 import CharacterModal from "../CharacterModal";
+import { Container } from "../ui/Container";
 
 const BASE_URL = "https://rickandmortyapi.com/api";
 const SKELETON_COUNT = 8;
@@ -32,7 +33,7 @@ export default function Main() {
           status: "",
           species: "",
           gender: "",
-        }
+        },
   );
 
   // English comment: Update filters if bundle query parameter in URL changes
@@ -63,9 +64,11 @@ export default function Main() {
   };
 
   return (
-    <main className="w-full min-h-screen bg-app-bg py-6 px-3 sm:px-6 transition-colors duration-200">
-      <div className="w-full max-w-[1440px] mx-auto flex flex-col lg:flex-row items-start gap-6">
-        
+    <main className="w-full min-h-screen bg-background py-6 px-2 sm:px-4 transition-colors duration-200">
+      <Container
+        size="full"
+        className="max-w-[1600px] px-0 flex flex-col lg:flex-row justify-center items-start gap-4 xl:gap-6"
+      >
         {/* Sticky Sidebar Filter */}
         <ProductFilter
           activeFilters={filters}
@@ -74,38 +77,42 @@ export default function Main() {
         />
 
         {/* Product Cards Area */}
-        <div className="flex-1 w-full flex flex-col items-center">
-          <div className="w-full flex justify-center items-stretch flex-wrap gap-4">
-            
+        <div className="w-full lg:w-[1104px] flex flex-col items-center">
+          <div className="w-full flex justify-center lg:justify-start items-stretch flex-wrap gap-4">
             {/* Full grid skeleton for pagination page changes */}
-            {isPaginationActive && isLoading && (
+            {isPaginationActive &&
+              isLoading &&
               Array.from({ length: SKELETON_COUNT }).map((_, index) => (
                 <CardSkeleton key={`page-skel-${index}`} />
-              ))
-            )}
+              ))}
 
             {/* Actual character cards */}
-            {(!isPaginationActive || !isLoading) && data && data.length > 0 && (
+            {(!isPaginationActive || !isLoading) &&
+              data &&
+              data.length > 0 &&
               data.map((character) => (
-                <Card key={character.id} props={character} onClick={() => setSelectedCharacter(character)} />
-              ))
-            )}
+                <Card
+                  key={character.id}
+                  props={character}
+                  onClick={() => setSelectedCharacter(character)}
+                />
+              ))}
 
             {/* Bottom skeletons during infinite scroll appending */}
-            {!isPaginationActive && isLoading && (
+            {!isPaginationActive &&
+              isLoading &&
               Array.from({ length: 4 }).map((_, index) => (
                 <CardSkeleton key={`infinite-skel-${index}`} />
-              ))
-            )}
+              ))}
 
             {/* Empty results state */}
             {!isLoading && (!data || data.length === 0) && (
-              <div className="w-full text-center py-20 text-app-muted space-y-3">
+              <div className="w-full text-center py-20 text-muted-foreground space-y-3">
                 <span className="text-5xl block">🛸</span>
-                <p className="text-base font-semibold text-app-text">
+                <p className="text-base font-semibold text-foreground">
                   {error || "No sticker characters match these filters!"}
                 </p>
-                <p className="text-xs text-app-muted">
+                <p className="text-xs text-muted-foreground">
                   Try clearing some criteria or selecting a different bundle.
                 </p>
               </div>
@@ -135,8 +142,7 @@ export default function Main() {
             </div>
           )}
         </div>
-
-      </div>
+      </Container>
 
       {selectedCharacter && (
         <CharacterModal
