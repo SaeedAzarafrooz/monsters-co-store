@@ -1,8 +1,7 @@
 import { Link } from "react-router-dom";
-import { Badge } from "../ui/Badge";
 import { Container } from "../ui/Container";
+import { Badge } from "../ui/Badge";
 import { buttonVariants } from "../ui/Button";
-import { cn } from "../../utils/utils";
 
 function Home() {
   const perks = [
@@ -36,7 +35,7 @@ function Home() {
     {
       name: "Pickle Rick & Mad Science",
       tag: "Best Seller",
-      badgeColor: "bg-app-accent/15 text-app-accent border-app-accent/30",
+      badgeColor: "bg-primary/15 text-primary border-primary/30",
       desc: "Top iconic Rick transformations, portal guns, and garage experiment stickers.",
       price: "From $3.20",
       bundle: "rick",
@@ -60,33 +59,30 @@ function Home() {
   ];
 
   return (
-    <Container className="max-w-6xl py-8 md:py-14 text-app-text space-y-16 md:space-y-24">
+    <Container className="py-8 md:py-14 text-foreground space-y-16 md:space-y-24">
       {/* 1. HERO SHOWCASE */}
       <section className="relative text-center space-y-6 pt-4">
         {/* Portal Glow Backdrop */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[340px] sm:w-[520px] h-[340px] sm:h-[520px] bg-gradient-to-tr from-app-accent/20 via-lime-400/10 to-cyan-500/15 blur-3xl rounded-full pointer-events-none -z-10" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[340px] sm:w-[520px] h-[340px] sm:h-[520px] bg-gradient-to-tr from-primary/20 via-lime-400/10 to-cyan-500/15 blur-3xl rounded-full pointer-events-none -z-10" />
 
         {/* Portal Pill Badge */}
-        <Badge
-          variant="outline"
-          className="gap-2 px-4 py-1.5 bg-app-card border-app-accent/40 text-xs text-app-text shadow-md"
-        >
-          <span className="flex h-2 w-2 rounded-full bg-app-accent animate-ping" />
-          <span className="font-bold text-app-accent">Dimension C-137 Official</span>
-          <span className="text-app-muted/40">|</span>
-          <span className="text-app-muted">Rick & Morty Vinyl Stickers</span>
-        </Badge>
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-card border border-primary/40 text-xs text-foreground shadow-md">
+          <span className="flex h-2 w-2 rounded-full bg-primary animate-ping" />
+          <span className="font-bold text-primary">Dimension C-137 Official</span>
+          <span className="text-muted-foreground/40">|</span>
+          <span className="text-muted-foreground">Rick & Morty Vinyl Stickers</span>
+        </div>
 
         {/* Headline */}
         <h1 className="text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight leading-tight">
           Stick The Multiverse{" "}
-          <span className="bg-gradient-to-r from-app-accent via-teal-400 to-cyan-400 bg-clip-text text-transparent">
+          <span className="bg-gradient-to-r from-primary via-teal-400 to-cyan-400 bg-clip-text text-transparent">
             Everywhere
           </span>
         </h1>
 
         {/* Subtitle */}
-        <p className="max-w-2xl mx-auto text-app-muted text-sm sm:text-lg leading-relaxed">
+        <p className="max-w-2xl mx-auto text-muted-foreground text-sm sm:text-lg leading-relaxed">
           Premium waterproof vinyl stickers featuring all your favorite Rick & Morty characters,
           weird creatures, and interdimensional gadgets.
         </p>
@@ -95,10 +91,11 @@ function Home() {
         <div className="flex flex-wrap items-center justify-center gap-4 pt-3">
           <Link
             to="/products"
-            className={cn(
-              buttonVariants({ size: "lg" }),
-              "rounded-xl font-bold text-black bg-app-accent hover:brightness-105 shadow-xl shadow-app-accent/20 gap-2"
-            )}
+            className={buttonVariants({
+              variant: "default",
+              size: "lg",
+              className: "rounded-xl font-bold gap-2 shadow-xl shadow-primary/20",
+            })}
           >
             <span>Browse All Stickers</span>
             <span>✨</span>
@@ -106,10 +103,11 @@ function Home() {
 
           <Link
             to="/contact"
-            className={cn(
-              buttonVariants({ variant: "outline", size: "lg" }),
-              "rounded-xl font-semibold text-app-text bg-app-card border-app-border hover:bg-app-hover hover:border-app-accent/50 shadow-sm"
-            )}
+            className={buttonVariants({
+              variant: "outline",
+              size: "lg",
+              className: "rounded-xl font-semibold shadow-sm",
+            })}
           >
             Custom Orders / Contact
           </Link>
@@ -118,18 +116,18 @@ function Home() {
 
       {/* 2. FEATURED PACKS / CATEGORIES */}
       <section className="space-y-6">
-        <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-2 border-b border-app-border pb-4">
+        <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-2 border-b border-border pb-4">
           <div>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-app-text">
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-foreground">
               Popular Multiverse Packs
             </h2>
-            <p className="text-xs sm:text-sm text-app-muted">
+            <p className="text-xs sm:text-sm text-muted-foreground">
               Hand-picked die-cut sticker bundles trending across dimensions
             </p>
           </div>
           <Link
             to="/products"
-            className="text-xs sm:text-sm font-semibold text-app-accent hover:underline transition inline-flex items-center gap-1"
+            className="text-xs sm:text-sm font-semibold text-primary hover:underline transition inline-flex items-center gap-1"
           >
             View All Cards &rarr;
           </Link>
@@ -139,34 +137,35 @@ function Home() {
           {featuredPacks.map((pack, idx) => (
             <div
               key={idx}
-              className="p-6 rounded-2xl bg-app-card border border-app-border hover:border-app-accent/40 transition-all duration-300 flex flex-col justify-between space-y-4 group hover:-translate-y-1 shadow-md hover:shadow-xl"
+              className="p-6 rounded-2xl bg-card border border-border hover:border-primary/40 transition-all duration-300 flex flex-col justify-between space-y-4 group hover:-translate-y-1 shadow-md hover:shadow-xl"
             >
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
                   <Badge
                     variant="outline"
-                    className={`text-[11px] px-2.5 py-1 ${pack.badgeColor}`}
+                    className={`text-[11px] font-semibold px-2.5 py-1 ${pack.badgeColor}`}
                   >
                     {pack.tag}
                   </Badge>
-                  <span className="text-xs font-mono text-app-muted font-bold">
+                  <span className="text-xs font-mono text-muted-foreground font-bold">
                     {pack.price}
                   </span>
                 </div>
-                <h3 className="text-lg font-bold text-app-text group-hover:text-app-accent transition-colors">
+                <h3 className="text-lg font-bold text-foreground group-hover:text-primary transition-colors">
                   {pack.name}
                 </h3>
-                <p className="text-xs sm:text-sm text-app-muted leading-relaxed">
+                <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
                   {pack.desc}
                 </p>
               </div>
 
               <Link
                 to={`/products?bundle=${pack.bundle}`}
-                className={cn(
-                  buttonVariants({ variant: "secondary", size: "sm" }),
-                  "w-full py-2 text-center text-xs font-semibold rounded-lg bg-app-hover text-app-text border border-app-border hover:border-app-accent/50 hover:brightness-105"
-                )}
+                className={buttonVariants({
+                  variant: "secondary",
+                  size: "sm",
+                  className: "w-full border border-border hover:border-primary/50",
+                })}
               >
                 Explore Pack
               </Link>
@@ -178,10 +177,10 @@ function Home() {
       {/* 3. STORE PERKS / VALUE PROPOSITIONS */}
       <section className="space-y-8">
         <div className="text-center space-y-2">
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-app-text">
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-foreground">
             Why Our Stickers?
           </h2>
-          <p className="text-app-muted text-xs sm:text-sm max-w-lg mx-auto">
+          <p className="text-muted-foreground text-xs sm:text-sm max-w-lg mx-auto">
             Crafted for laptops, phones, skateboards, flasks, and portal gun cases.
           </p>
         </div>
@@ -190,11 +189,11 @@ function Home() {
           {perks.map((perk, idx) => (
             <div
               key={idx}
-              className={`p-5 rounded-2xl bg-app-card border border-app-border shadow-sm space-y-3 transition-all duration-300 ${perk.border} hover:-translate-y-0.5`}
+              className={`p-5 rounded-2xl bg-card border border-border shadow-sm space-y-3 transition-all duration-300 ${perk.border} hover:-translate-y-0.5`}
             >
               <div className="text-3xl">{perk.icon}</div>
-              <h3 className="text-base font-bold text-app-text">{perk.title}</h3>
-              <p className="text-xs text-app-muted leading-relaxed">
+              <h3 className="text-base font-bold text-foreground">{perk.title}</h3>
+              <p className="text-xs text-muted-foreground leading-relaxed">
                 {perk.desc}
               </p>
             </div>
@@ -203,27 +202,28 @@ function Home() {
       </section>
 
       {/* 4. PROMO & CART CALLOUT BANNER */}
-      <section className="relative overflow-hidden rounded-3xl p-8 sm:p-12 bg-app-card border border-app-accent/30 text-center space-y-4 shadow-xl">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-app-accent/10 rounded-full blur-3xl pointer-events-none" />
+      <section className="relative overflow-hidden rounded-3xl p-8 sm:p-12 bg-card border border-primary/30 text-center space-y-4 shadow-xl">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 rounded-full blur-3xl pointer-events-none" />
         <Badge
           variant="outline"
-          className="inline-block px-3 py-1 bg-app-accent/15 border-app-accent/30 text-xs font-semibold text-app-accent"
+          className="inline-block px-3 py-1 bg-primary/15 border-primary/30 text-xs font-semibold text-primary"
         >
           🎁 Portal Special Offer
         </Badge>
-        <h2 className="text-2xl sm:text-4xl font-extrabold text-app-text">
+        <h2 className="text-2xl sm:text-4xl font-extrabold text-foreground">
           Grab 3 Stickers, Get 1 Mystery Character Free!
         </h2>
-        <p className="text-app-muted text-xs sm:text-sm max-w-xl mx-auto leading-relaxed">
+        <p className="text-muted-foreground text-xs sm:text-sm max-w-xl mx-auto leading-relaxed">
           Pick your favorite characters from the shop grid. Ready to decorate your gear with Citadel-grade vinyl quality.
         </p>
         <div className="pt-2">
           <Link
             to="/products"
-            className={cn(
-              buttonVariants({ size: "lg" }),
-              "inline-flex items-center gap-2 rounded-xl font-bold text-black bg-app-accent hover:brightness-105 shadow-lg shadow-app-accent/25"
-            )}
+            className={buttonVariants({
+              variant: "default",
+              size: "lg",
+              className: "rounded-xl font-bold gap-2 shadow-lg shadow-primary/25",
+            })}
           >
             <span>Open Multiverse Shop</span>
             <span>🛒</span>
