@@ -1,15 +1,18 @@
 import { forwardRef } from "react";
 import { cn } from "../../utils/utils";
 
-const Input = forwardRef(({ className, type = "text", error, ...props }, ref) => {
+const Input = forwardRef(({ className, type = "text", as, error, ...props }, ref) => {
+  const Component = as === "textarea" ? "textarea" : "input";
+
   return (
-    <input
-      type={type}
+    <Component
+      type={as === "textarea" ? undefined : type}
       ref={ref}
       aria-invalid={!!error}
       className={cn(
         // Base styling & layout
-        "flex h-10 w-full rounded-xl border border-border bg-card px-3.5 py-2 text-sm text-foreground",
+        "flex w-full rounded-xl border border-border bg-card px-3.5 text-sm text-foreground",
+        as === "textarea" ? "py-2.5 resize-none" : "h-10 py-2",
         "placeholder:text-muted-foreground/60",
         
         // Fix Caret: Ensure caret cursor is always vibrant and visible (never black/hidden)

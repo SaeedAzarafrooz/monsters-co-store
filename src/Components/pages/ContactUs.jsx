@@ -2,8 +2,9 @@ import { useState } from "react";
 import {
   Container,
   Card,
+  CardHeader,
+  CardTitle,
   FormGrid,
-  FormField,
   FormInput,
   Button,
   Icon,
@@ -97,17 +98,18 @@ function ContactUs() {
         </p>
       </div>
 
-      {/* 50/50 Grid Layout */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
-        {/* Left Column: Direct Channels inside a matching Card */}
+        {/* Left Column: Direct Channels */}
         <Card
           padding="lg"
           className="backdrop-blur-md shadow-xl flex flex-col justify-between overflow-visible"
         >
           <div>
-            <h2 className="text-xl font-bold text-foreground mb-6">
-              Direct Channels
-            </h2>
+            <CardHeader className="px-0 pt-0 pb-6 border-b-0">
+              <CardTitle className="text-xl font-bold text-foreground">
+                Direct Channels
+              </CardTitle>
+            </CardHeader>
 
             <div className="space-y-5">
               {contactMethods.map((item) => (
@@ -115,7 +117,7 @@ function ContactUs() {
                   key={item.id}
                   className="group relative flex items-center justify-between pl-9 pr-3.5 py-3 rounded-xl border border-border/80 bg-background/40 hover:border-primary/50 transition-all duration-300"
                 >
-                  <div className="absolute -left-3 top-1/2 -translate-y-1/2 w-16 h-16 flex items-center justify-center shrink-0">
+                  <div className="absolute -left-1 top-1/2 -translate-y-1/2 w-16 h-16 flex items-center justify-center shrink-0">
                     <div
                       className={`absolute inset-0 rounded-2xl rotate-12 group-hover:rotate-0 transition-transform duration-300 shadow-md ${item.bgGradient}`}
                     />
@@ -125,7 +127,7 @@ function ContactUs() {
                     />
                   </div>
 
-                  <div className="truncate min-w-0 pr-2 pl-8">
+                  <div className="truncate min-w-0 pr-2 pl-9">
                     <div className="text-xs text-muted-foreground font-medium">
                       {item.label}
                     </div>
@@ -139,7 +141,6 @@ function ContactUs() {
                     </a>
                   </div>
 
-                  {/* Copy button */}
                   <Button
                     type="button"
                     variant="outline"
@@ -161,9 +162,11 @@ function ContactUs() {
           className="backdrop-blur-md shadow-xl flex flex-col justify-between"
         >
           <div>
-            <h2 className="text-xl font-bold text-foreground mb-6">
-              Send a Message
-            </h2>
+            <CardHeader className="px-0 pt-0 pb-6 border-b-0">
+              <CardTitle className="text-xl font-bold text-foreground">
+                Send a Message
+              </CardTitle>
+            </CardHeader>
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <FormGrid columns={1}>
@@ -189,18 +192,17 @@ function ContactUs() {
                   placeholder="you@example.com"
                 />
 
-                <FormField label="MESSAGE" id="message">
-                  <textarea
-                    id="message"
-                    name="message"
-                    rows="4"
-                    required
-                    value={formData.message}
-                    onChange={handleChange}
-                    placeholder="Write your message here..."
-                    className="flex w-full rounded-xl border border-border bg-card px-3.5 py-2.5 text-sm text-foreground placeholder:text-muted-foreground/60 transition-[border-color,box-shadow,opacity] duration-200 hover:border-primary/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:border-ring disabled:cursor-not-allowed disabled:opacity-50 resize-none caret-foreground selection:bg-primary/30 selection:text-foreground"
-                  />
-                </FormField>
+                <FormInput
+                  id="message"
+                  name="message"
+                  label="MESSAGE"
+                  as="textarea"
+                  rows={4}
+                  required
+                  value={formData.message}
+                  onChange={handleChange}
+                  placeholder="Write your message here..."
+                />
               </FormGrid>
 
               <Button
