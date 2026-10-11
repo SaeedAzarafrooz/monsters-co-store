@@ -1,7 +1,7 @@
-// src/Components/ui/Card.jsx
 import { cva } from "class-variance-authority";
 import { cn } from "../../utils/utils";
 import { forwardRef } from "react";
+import { Heading } from "./typography";
 
 const cardVariants = cva(
   "rounded-xl border border-border bg-card text-card-foreground shadow-card flex flex-col shrink-0",
@@ -37,29 +37,47 @@ export const Card = forwardRef(
 Card.displayName = "Card";
 
 export const CardHeader = forwardRef(({ className, ...props }, ref) => (
-  <div ref={ref} className={cn("p-0 pb-4 mb-4 border-b border-border", className)} {...props} />
-));
-CardHeader.displayName = "CardHeader";
-
-export const CardTitle = forwardRef(({ className, ...props }, ref) => (
-  <h3 ref={ref} className={cn("text-lg font-extrabold tracking-tight text-foreground", className)} {...props} />
-));
-CardTitle.displayName = "CardTitle";
-
-export const CardBody = forwardRef(({ className, scrollable = false, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn(
-      "w-full flex-1 min-h-0",
-      scrollable && "overflow-y-auto pr-2 space-y-6",
-      className
-    )}
+    className={cn("p-0 pb-4 mb-4 border-b border-border", className)}
     {...props}
   />
 ));
+CardHeader.displayName = "CardHeader";
+
+export const CardTitle = forwardRef(({ className, children, ...props }, ref) => (
+  <Heading
+    as="h3"
+    size="lg"
+    ref={ref}
+    className={cn("tracking-tight", className)}
+    {...props}
+  >
+    {children}
+  </Heading>
+));
+CardTitle.displayName = "CardTitle";
+
+export const CardBody = forwardRef(
+  ({ className, scrollable = false, ...props }, ref) => (
+    <div
+      ref={ref}
+      className={cn(
+        "w-full flex-1 min-h-0",
+        scrollable && "overflow-y-auto pr-2 space-y-6",
+        className
+      )}
+      {...props}
+    />
+  )
+);
 CardBody.displayName = "CardBody";
 
 export const CardFooter = forwardRef(({ className, ...props }, ref) => (
-  <div ref={ref} className={cn("pt-4 mt-auto border-t border-border", className)} {...props} />
+  <div
+    ref={ref}
+    className={cn("pt-4 mt-auto border-t border-border", className)}
+    {...props}
+  />
 ));
 CardFooter.displayName = "CardFooter";

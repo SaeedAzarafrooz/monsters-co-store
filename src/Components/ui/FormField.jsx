@@ -1,4 +1,5 @@
 import { cn } from "../../utils/utils";
+import { Text } from "./typography";
 
 const colSpanMap = {
   1: "col-span-1",
@@ -26,24 +27,32 @@ export function FormField({
   return (
     <div className={cn("flex flex-col space-y-1.5", spanClass, className)}>
       {label && (
-        <label
+        <Text
+          as="label"
           htmlFor={id}
-          className="text-xs font-bold uppercase tracking-wider text-muted-foreground select-none"
+          size="xs"
+          weight="bold"
+          className="uppercase tracking-wider text-muted-foreground select-none"
         >
           {label}
-        </label>
+        </Text>
       )}
-
       {children}
-
       {hint && !error && (
-        <p className="text-[11px] text-muted-foreground">{hint}</p>
+        <Text as="p" size="tiny" variant="muted">
+          {hint}
+        </Text>
       )}
-
       {error && (
-        <p className="text-xs font-semibold text-destructive animate-fadeIn">
+        <Text
+          as="p"
+          size="xs"
+          weight="semibold"
+          variant="destructive"
+          className="animate-fadeIn"
+        >
           {error}
-        </p>
+        </Text>
       )}
     </div>
   );

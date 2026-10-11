@@ -1,4 +1,5 @@
 import { cn } from "../../utils/utils";
+import { Heading, Text } from "./typography";
 
 export function EmptyState({ icon, title, description, action, className }) {
   return (
@@ -13,13 +14,19 @@ export function EmptyState({ icon, title, description, action, className }) {
           {icon}
         </div>
       )}
-      {title && <h3 className="text-xl font-extrabold text-foreground mb-2">{title}</h3>}
+      {title && (
+        <Heading as="h3" size="xl" className="mb-2">
+          {title}
+        </Heading>
+      )}
       {description && (
-        <p className="text-sm text-muted-foreground max-w-sm mb-6 leading-relaxed">
+        <Text variant="muted" size="base" className="max-w-sm mb-6 leading-relaxed">
           {description}
-        </p>
+        </Text>
       )}
       {action && <div>{action}</div>}
     </div>
   );
 }
+
+export default EmptyState;

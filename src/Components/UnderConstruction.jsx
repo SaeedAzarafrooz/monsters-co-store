@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
-import { Icon } from "./ui";
+import { Icon, Badge } from "./ui";
+import { Heading, Text } from "./ui/typography";
 
 function UnderConstruction({
   title = "Under Construction",
@@ -10,7 +11,7 @@ function UnderConstruction({
 
   return (
     <div className="min-h-[50vh] flex flex-col items-center justify-center text-center px-4 py-12">
-      {/* Animated / Glowing Icon */}
+      {/* Visual illustration container */}
       <div className="relative mb-6">
         <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-3xl bg-app-card border border-app-border flex items-center justify-center shadow-lg relative z-10">
           <Icon
@@ -23,20 +24,23 @@ function UnderConstruction({
         <div className="absolute inset-0 rounded-3xl bg-[#b5dc11]/20 blur-xl pointer-events-none" />
       </div>
 
-      {/* Badge */}
-      <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-[#b5dc11]/15 text-[#b5dc11] border border-[#b5dc11]/30 mb-4">
+      {/* Badge tag */}
+      <Badge
+        variant="outline"
+        className="px-3 py-1 bg-[#b5dc11]/15 text-[#b5dc11] border-[#b5dc11]/30 mb-4"
+      >
         🚧 Work in Progress
-      </span>
+      </Badge>
 
-      {/* Title & Description */}
-      <h2 className="text-2xl sm:text-3xl font-black text-app-text tracking-tight mb-2">
+      {/* Headings and descriptive copy */}
+      <Heading as="h2" size="2xl" className="text-app-text mb-2">
         {title}
-      </h2>
-      <p className="text-sm sm:text-base text-app-muted max-w-md mx-auto mb-8">
+      </Heading>
+      <Text as="p" size="base" className="text-app-muted max-w-md mx-auto mb-8">
         {description}
-      </p>
+      </Text>
 
-      {/* Action Buttons */}
+      {/* Action buttons */}
       <div className="flex flex-wrap items-center justify-center gap-3">
         {showBackButton && (
           <button
