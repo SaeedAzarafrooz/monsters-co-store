@@ -9,6 +9,7 @@ import CartDropdown from "./CartDropdown";
 import AccountDropdown from "./AccountDropdown";
 import DesktopNavbar from "./DesktopNavbar";
 import { Icon } from "../../ui";
+import AuthModal from "../../pages/auth/AuthModal";
 
 const NAV_ITEMS = [
   {
@@ -55,6 +56,7 @@ function Header() {
   const [toggle, setToggle] = useState(false);
   const [appearanceSubmenu, setAppearanceSubmenu] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const { theme, setTheme } = useTheme();
   const { cartItems, totalItemsCount, totalPrice, isHydrating  } = useCart();
 
@@ -182,8 +184,14 @@ function Header() {
           handleLogout={handleLogout}
           NAV_ITEMS={NAV_ITEMS}
           ACCOUNT_ITEMS={ACCOUNT_ITEMS}
+          onOpenAuthModal={() => setIsAuthModalOpen(true)}
         />
       </div>
+
+      <AuthModal
+        isOpen={isAuthModalOpen}
+        onClose={() => setIsAuthModalOpen(false)}
+      />
     </header>
   );
 }

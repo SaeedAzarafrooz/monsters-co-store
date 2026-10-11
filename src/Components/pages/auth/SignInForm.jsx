@@ -1,22 +1,19 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import {
   signInAuthUserWithEmailAndPassword,
   signInWithGooglePopup,
 } from "../../../utils/firebase/firebase";
-import FormInput from "../../ui/FormInput";
-import { Icon } from "../../ui";
+import { FormGrid, FormInput, Button, Icon } from "../../ui";
 
 const defaultFormFields = {
   email: "",
   password: "",
 };
 
-export default function SignInForm() {
+export default function SignInForm({ onSuccess, onSwitchToSignUp }) {
   const [formFields, setFormFields] = useState(defaultFormFields);
   const [errorMessage, setErrorMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const navigate = useNavigate();
 
   const { email, password } = formFields;
 
@@ -38,7 +35,7 @@ export default function SignInForm() {
     try {
       await signInAuthUserWithEmailAndPassword(email, password);
       resetForm();
-      navigate("/profile");
+      if (onSuccess) onSuccess();
     } catch (error) {
       if (
         error.code === "auth/invalid-credential" ||
@@ -48,7 +45,7 @@ export default function SignInForm() {
         setErrorMessage("Invalid email or password.");
       } else if (error.code === "auth/too-many-requests") {
         setErrorMessage(
-          "Access temporarily disabled due to many failed attempts. Try again later.",
+          "Access temporarily disabled due to many failed attempts. Try again later."
         );
       } else {
         setErrorMessage("Failed to sign in. Please try again.");
@@ -62,7 +59,7 @@ export default function SignInForm() {
     setErrorMessage("");
     try {
       await signInWithGooglePopup();
-      navigate("/profile");
+      if (onSuccess) onSuccess();
     } catch (error) {
       if (error.code !== "auth/popup-closed-by-user") {
         setErrorMessage("Google sign in failed. Please try again.");
@@ -71,62 +68,85 @@ export default function SignInForm() {
   };
 
   return (
-    <div className="w-full max-w-md rounded-2xl border border-app-border bg-app-card p-6 sm:p-8 space-y-6">
-      <div>
-        <h2 className="text-xl font-black text-app-text">Welcome Back</h2>
-        <p className="mt-1 text-xs text-app-muted">
-          Sign in with your email and password to access your account.
-        </p>
+    <div className="w-full min-h-[555px] flex flex-col justify-between space-y-6">
+      <div className="space-y-6">
+        <div>
+          <h2 className="text-2xl font-bold tracking-tight text-foreground">
+            Welcome Back
+          </h2>
+          <p className="mt-1 text-xs text-muted-foreground">
+            Sign in with your email and password to access your account.
+          </p>
+        </div>
+
+        {errorMessage && (
+          <div className="rounded-xl border border-destructive/30 bg-destructive/10 p-3 text-xs font-semibold text-destructive animate-fadeIn">
+            {errorMessage}
+          </div>
+        )}
+
+        <form onSubmit={handleSubmit} className="space-y-5">
+          <FormGrid columns={1}>
+            <FormInput
+              label="Email Address"
+              id="signin-email"
+              name="email"
+              type="email"
+              required
+              value={email}
+              onChange={handleChange}
+              placeholder="name@example.com"
+            />
+
+            <FormInput
+              label="Password"
+              id="signin-password"
+              name="password"
+              type="password"
+              required
+              value={password}
+              onChange={handleChange}
+              placeholder="••••••••"
+            />
+          </FormGrid>
+
+          <div className="pt-2 space-y-3">
+            <Button
+              type="submit"
+              disabled={isSubmitting}
+              isLoading={isSubmitting}
+              className="w-full h-11 text-sm font-bold shadow-md cursor-pointer"
+            >
+              {isSubmitting ? "Signing in..." : "Sign In"}
+            </Button>
+
+            <Button
+              type="button"
+              variant="outline"
+              onClick={handleGoogleSignIn}
+              className="w-full h-11 flex items-center justify-center gap-2 text-sm font-semibold cursor-pointer"
+            >
+              <Icon name="google" className="w-4 h-4" />
+              Sign in with Google
+            </Button>
+          </div>
+        </form>
       </div>
 
-      {errorMessage && (
-        <div className="rounded-xl border border-rose-500/20 bg-rose-500/10 p-3 text-xs font-semibold text-rose-500">
-          {errorMessage}
+      {onSwitchToSignUp && (
+        <div className="text-center pt-2 border-t border-border/60">
+          <p className="text-xs text-muted-foreground">
+            Don't have an account?{" "}
+            <button
+              type="button"
+              onClick={onSwitchToSignUp}
+              className="font-bold text-primary hover:underline cursor-pointer transition-colors"
+            >
+              Create Account
+            </button>
+          </p>
         </div>
       )}
-
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <FormInput
-          label="Email Address"
-          id="signin-email"
-          name="email"
-          type="email"
-          required
-          value={email}
-          onChange={handleChange}
-          placeholder="name@example.com"
-        />
-
-        <FormInput
-          label="Password"
-          id="signin-password"
-          name="password"
-          type="password"
-          required
-          value={password}
-          onChange={handleChange}
-          placeholder="••••••••"
-        />
-
-        <div className="pt-2 space-y-3">
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="w-full rounded-xl bg-app-accent px-4 py-2.5 text-sm font-extrabold text-app-bg transition-opacity hover:opacity-90 disabled:opacity-50"
-          >
-            {isSubmitting ? "Signing in..." : "Sign In"}
-          </button>
-
-          <button
-            type="button"
-            onClick={handleGoogleSignIn}
-            className="w-full flex items-center justify-center gap-2 rounded-xl border border-app-border bg-app-bg px-4 py-2.5 text-sm font-bold text-app-text transition-colors hover:bg-app-hover"
-          >
-            <Icon name="google" size="sm" />
-            Sign in with Google
-          </button>
-        </div>
-      </form>
     </div>
   );
 }

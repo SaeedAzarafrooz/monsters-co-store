@@ -13,7 +13,6 @@ import Checkout from "./Components/pages/cart/Checkout";
 import OrderHistory from "./Components/pages/profile/orders/OrderHistory";
 import OrderTracking from "./Components/pages/profile/orders/OrderTracking";
 import Favorites from "./Components/pages/profile/Favorites";
-import Authentication from "./Components/pages/auth/Authentication";
 
 function App() {
   return (
@@ -26,7 +25,6 @@ function App() {
           <Route path="/about" element={<AboutUs />} />
           <Route path="/contact" element={<ContactUs />} />
           <Route path="/checkout" element={<Checkout />} />
-          <Route path="/auth" element={<Authentication />} />
 
           {/* Account Profile Section */}
           <Route path="/profile" element={<ProfileLayout />}>

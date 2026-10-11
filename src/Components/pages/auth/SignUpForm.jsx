@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import FormInput from "../../ui/FormInput";
+import { FormGrid, FormInput, Button } from "../../ui";
 import {
   createAuthUserWithEmailAndPassword,
   createUserDocumentFromAuth,
@@ -14,11 +13,10 @@ const defaultFormFields = {
   confirmPassword: "",
 };
 
-export default function SignUpForm() {
+export default function SignUpForm({ onSuccess, onSwitchToSignIn }) {
   const [formFields, setFormFields] = useState(defaultFormFields);
   const [errorMessage, setErrorMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const navigate = useNavigate();
 
   const { displayName, email, password, confirmPassword } = formFields;
 
@@ -53,7 +51,7 @@ export default function SignUpForm() {
       await updateUserDisplayName(user, displayName);
       await createUserDocumentFromAuth(user, { displayName });
       resetForm();
-      navigate("/profile");
+      if (onSuccess) onSuccess();
     } catch (error) {
       if (error.code === "auth/email-already-in-use") {
         setErrorMessage("Cannot create user, email is already in use.");
@@ -66,75 +64,97 @@ export default function SignUpForm() {
   };
 
   return (
-    <div className="w-full max-w-md rounded-2xl border border-app-border bg-app-card p-6 sm:p-8 space-y-6">
-      <div>
-        <h2 className="text-xl font-black text-app-text">Create Account</h2>
-        <p className="mt-1 text-xs text-app-muted">
-          Sign up with your credentials to start managing your orders.
-        </p>
+    <div className="w-full min-h-[555px] flex flex-col justify-between space-y-6">
+      <div className="space-y-6">
+        <div>
+          <h2 className="text-2xl font-bold tracking-tight text-foreground">
+            Create Account
+          </h2>
+          <p className="mt-1 text-xs text-muted-foreground">
+            Sign up with your credentials to start managing your orders.
+          </p>
+        </div>
+
+        {errorMessage && (
+          <div className="rounded-xl border border-destructive/30 bg-destructive/10 p-3 text-xs font-semibold text-destructive animate-fadeIn">
+            {errorMessage}
+          </div>
+        )}
+
+        <form onSubmit={handleSubmit} className="space-y-5">
+          <FormGrid columns={1}>
+            <FormInput
+              label="Display Name"
+              id="signup-name"
+              name="displayName"
+              type="text"
+              required
+              value={displayName}
+              onChange={handleChange}
+              placeholder="e.g. John Doe"
+            />
+
+            <FormInput
+              label="Email Address"
+              id="signup-email"
+              name="email"
+              type="email"
+              required
+              value={email}
+              onChange={handleChange}
+              placeholder="name@example.com"
+            />
+
+            <FormInput
+              label="Password"
+              id="signup-password"
+              name="password"
+              type="password"
+              required
+              value={password}
+              onChange={handleChange}
+              placeholder="At least 6 characters"
+            />
+
+            <FormInput
+              label="Confirm Password"
+              id="signup-confirm"
+              name="confirmPassword"
+              type="password"
+              required
+              value={confirmPassword}
+              onChange={handleChange}
+              placeholder="Repeat password"
+            />
+          </FormGrid>
+
+          <div className="pt-2">
+            <Button
+              type="submit"
+              disabled={isSubmitting}
+              isLoading={isSubmitting}
+              className="w-full h-11 text-sm font-bold shadow-md cursor-pointer"
+            >
+              {isSubmitting ? "Creating account..." : "Sign Up"}
+            </Button>
+          </div>
+        </form>
       </div>
 
-      {errorMessage && (
-        <div className="rounded-xl border border-rose-500/20 bg-rose-500/10 p-3 text-xs font-semibold text-rose-500">
-          {errorMessage}
+      {onSwitchToSignIn && (
+        <div className="text-center pt-2 border-t border-border/60">
+          <p className="text-xs text-muted-foreground">
+            Already have an account?{" "}
+            <button
+              type="button"
+              onClick={onSwitchToSignIn}
+              className="font-bold text-primary hover:underline cursor-pointer transition-colors"
+            >
+              Sign In
+            </button>
+          </p>
         </div>
       )}
-
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <FormInput
-          label="Display Name"
-          id="signup-name"
-          name="displayName"
-          type="text"
-          required
-          value={displayName}
-          onChange={handleChange}
-          placeholder="e.g. John Doe"
-        />
-
-        <FormInput
-          label="Email Address"
-          id="signup-email"
-          name="email"
-          type="email"
-          required
-          value={email}
-          onChange={handleChange}
-          placeholder="name@example.com"
-        />
-
-        <FormInput
-          label="Password"
-          id="signup-password"
-          name="password"
-          type="password"
-          required
-          value={password}
-          onChange={handleChange}
-          placeholder="At least 6 characters"
-        />
-
-        <FormInput
-          label="Confirm Password"
-          id="signup-confirm"
-          name="confirmPassword"
-          type="password"
-          required
-          value={confirmPassword}
-          onChange={handleChange}
-          placeholder="Repeat password"
-        />
-
-        <div className="pt-2">
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="w-full rounded-xl bg-app-accent px-4 py-2.5 text-sm font-extrabold text-app-bg transition-opacity hover:opacity-90 disabled:opacity-50"
-          >
-            {isSubmitting ? "Creating account..." : "Sign Up"}
-          </button>
-        </div>
-      </form>
     </div>
   );
 }
