@@ -11,6 +11,7 @@ const textVariants = cva("transition-colors", {
       destructive: "text-destructive",
       success: "text-success",
       warning: "text-warning",
+      inherit: "text-inherit",
     },
     size: {
       lg: "text-base sm:text-lg leading-relaxed",
@@ -19,6 +20,7 @@ const textVariants = cva("transition-colors", {
       xs: "text-xs leading-normal",
       tiny: "text-[11px] leading-tight",
       micro: "text-[10px] leading-tight",
+      inherit: "text-inherit",
     },
     weight: {
       normal: "font-normal",

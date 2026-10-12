@@ -1,7 +1,6 @@
-// src/Components/ui/Badge.jsx
 import { cva } from "class-variance-authority";
 import { cn } from "../../utils/utils";
-import { Text } from "./typography";
+import { Span } from "./typography";
 
 const badgeVariants = cva(
   "inline-flex items-center rounded-full border px-2.5 py-0.5 transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 select-none",
@@ -25,11 +24,12 @@ const badgeVariants = cva(
 function Badge({ className, variant, children, ...props }) {
   return (
     <div className={cn(badgeVariants({ variant }), className)} {...props}>
-      <Text as="span" size="xs" weight="semibold" className="text-inherit">
+      <Span size="xs" weight="semibold">
         {children}
-      </Text>
+      </Span>
     </div>
   );
 }
 
 export { Badge, badgeVariants };
+export default Badge;
