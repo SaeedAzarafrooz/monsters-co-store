@@ -1,7 +1,7 @@
-// src/Components/ui/Select.jsx
 import { forwardRef, useState, useRef, useEffect } from "react";
 import { cn } from "../../utils/utils";
 import { Icon } from "./Icon";
+import { Span } from "./typography";
 
 const Select = forwardRef(
   (
@@ -13,8 +13,8 @@ const Select = forwardRef(
       name,
       id,
       placeholder = "Select an option",
-      options = [], // Format: [{ value: "", label: "All Statuses" }]
-      children,     // Fallback parser if passed as <option>
+      options = [],
+      children,
       disabled,
       ...props
     },
@@ -23,35 +23,43 @@ const Select = forwardRef(
     const [isOpen, setIsOpen] = useState(false);
     const containerRef = useRef(null);
 
-    // Extract options from either props.options or props.children (<option>)
-    const parsedOptions = options.length > 0
-      ? options
-      : (Array.isArray(children) ? children : [children])
-          .filter(Boolean)
-          .map((child) => ({
-            value: child.props?.value ?? "",
-            label: child.props?.children || child.props?.value || "",
-          }));
+    const parsedOptions =
+      options.length > 0
+        ? options
+        : (Array.isArray(children) ? children : [children])
+            .filter(Boolean)
+            .map((child) => ({
+              value: child.props?.value ?? "",
+              label: child.props?.children || child.props?.value || "",
+            }));
 
-    const selectedOption = parsedOptions.find((opt) => String(opt.value) === String(value));
+    const selectedOption = parsedOptions.find(
+      (opt) => String(opt.value) === String(value)
+    );
 
-    // Close on outside click
     useEffect(() => {
       const handleOutsideClick = (e) => {
-        if (containerRef.current && !containerRef.current.contains(e.target)) {
+        if (
+          containerRef.current &&
+          !containerRef.current.contains(e.target)
+        ) {
           setIsOpen(false);
         }
       };
+
       if (isOpen) {
         document.addEventListener("mousedown", handleOutsideClick);
       }
-      return () => document.removeEventListener("mousedown", handleOutsideClick);
+
+      return () =>
+        document.removeEventListener("mousedown", handleOutsideClick);
     }, [isOpen]);
 
     const handleSelect = (val) => {
       if (disabled) return;
+
       setIsOpen(false);
-      // Synthesize event to preserve standard onChange signature
+
       if (onChange) {
         onChange({
           target: {
@@ -83,13 +91,22 @@ const Select = forwardRef(
           )}
           {...props}
         >
-          <span className={cn("truncate", !selectedOption?.label && "text-muted-foreground")}>
+          <Span
+            size="sm"
+            variant={!selectedOption?.label ? "muted" : "default"}
+            className="truncate"
+          >
             {selectedOption ? selectedOption.label : placeholder}
-          </span>
-<Icon name="chevron-down" size="sm" className={cn(
+          </Span>
+
+          <Icon
+            name="chevron-down"
+            size="sm"
+            className={cn(
               "w-4 h-4 text-muted-foreground shrink-0 transition-transform duration-200",
               isOpen && "rotate-180 text-primary"
-            )}/>
+            )}
+          />
         </button>
 
         {/* Dropdown Menu */}
@@ -97,6 +114,7 @@ const Select = forwardRef(
           <div className="absolute z-50 left-0 right-0 mt-1.5 max-h-60 overflow-y-auto rounded-xl border border-border bg-card/95 backdrop-blur-md p-1 shadow-xl animate-in fade-in-0 zoom-in-95">
             {parsedOptions.map((opt) => {
               const isSelected = String(opt.value) === String(value);
+
               return (
                 <div
                   key={String(opt.value)}
@@ -108,9 +126,16 @@ const Select = forwardRef(
                       : "text-foreground hover:bg-muted/80 hover:text-foreground"
                   )}
                 >
-                  <span className="truncate">{opt.label}</span>
+                  <Span size="xs" weight={isSelected ? "bold" : "medium"} className="truncate text-inherit">
+                    {opt.label}
+                  </Span>
+
                   {isSelected && (
-                    <Icon name="check" size="sm" lassName="shrink-0"/>
+                    <Icon
+                      name="check"
+                      size="sm"
+                      className="shrink-0"
+                    />
                   )}
                 </div>
               );
