@@ -1,4 +1,5 @@
 import { cn } from "../../utils/utils";
+import { Span } from "./typography";
 
 const SPAN_MAP = {
   1: "col-span-1",
@@ -41,17 +42,24 @@ export function DataListHeader({ columns = [], className }) {
   return (
     <div
       className={cn(
-        "hidden sm:grid grid-cols-12 gap-4 px-4 pb-3 border-b border-border text-xs font-bold uppercase tracking-wider text-muted-foreground shrink-0",
+        "hidden sm:grid grid-cols-12 gap-4 px-4 pb-3 border-b border-border uppercase tracking-wider shrink-0",
         className
       )}
     >
       {columns.map((col, index) => {
         const spanClass = SPAN_MAP[col.span] || "col-span-1";
         const alignClass = ALIGN_MAP[col.align || "left"];
+
         return (
-          <span key={index} className={cn(spanClass, alignClass)}>
+          <Span
+            key={index}
+            size="xs"
+            weight="bold"
+            variant="muted"
+            className={cn(spanClass, alignClass)}
+          >
             {col.label}
-          </span>
+          </Span>
         );
       })}
     </div>
@@ -71,12 +79,24 @@ export function DataListRow({ children, className }) {
   );
 }
 
-export function DataListCell({ children, span = 1, align = "left", className }) {
+export function DataListCell({
+  children,
+  span = 1,
+  align = "left",
+  className,
+}) {
   const spanClass = SPAN_MAP[span] || "col-span-1";
   const alignClass = ALIGN_MAP[align];
 
   return (
-    <div className={cn(spanClass, "flex items-center w-full", alignClass, className)}>
+    <div
+      className={cn(
+        spanClass,
+        "flex items-center w-full",
+        alignClass,
+        className
+      )}
+    >
       {children}
     </div>
   );

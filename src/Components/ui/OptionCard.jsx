@@ -1,8 +1,22 @@
 import { forwardRef } from "react";
 import { cn } from "../../utils/utils";
+import { Paragraph } from "./typography";
 
 const OptionCard = forwardRef(
-  ({ checked, onChange, name, value, title, description, badge, className, ...props }, ref) => {
+  (
+    {
+      checked,
+      onChange,
+      name,
+      value,
+      title,
+      description,
+      badge,
+      className,
+      ...props
+    },
+    ref
+  ) => {
     return (
       <label
         className={cn(
@@ -25,8 +39,14 @@ const OptionCard = forwardRef(
             {...props}
           />
           <div>
-            <p className="font-bold text-sm text-foreground">{title}</p>
-            {description && <p className="text-xs text-muted-foreground">{description}</p>}
+            <Paragraph size="sm" weight="bold">
+              {title}
+            </Paragraph>
+            {description && (
+              <Paragraph size="xs" variant="muted">
+                {description}
+              </Paragraph>
+            )}
           </div>
         </div>
         {badge && <div className="shrink-0">{badge}</div>}
@@ -34,8 +54,8 @@ const OptionCard = forwardRef(
     );
   }
 );
-OptionCard.displayName = "OptionCard";
 
+OptionCard.displayName = "OptionCard";
 
 export { OptionCard };
 export default OptionCard;
