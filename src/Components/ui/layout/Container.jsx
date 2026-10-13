@@ -1,5 +1,5 @@
 import { forwardRef } from "react";
-import { cn } from "../../utils/utils";
+import { cn } from "../../../utils/utils";
 
 const Container = forwardRef(({ className, size = "default", ...props }, ref) => {
   const sizeClasses = {

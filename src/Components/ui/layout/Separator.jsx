@@ -1,5 +1,5 @@
 import { forwardRef } from "react";
-import { cn } from "../../utils/utils";
+import { cn } from "../../../utils/utils";
 
 const Separator = forwardRef(({ className, orientation = "horizontal", ...props }, ref) => (
   <div

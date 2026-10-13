@@ -1,6 +1,6 @@
 import { forwardRef } from "react";
 import { cva } from "class-variance-authority";
-import { cn } from "../../utils/utils";
+import { cn } from "../../../utils/utils";
 
 const skeletonVariants = cva("relative overflow-hidden bg-foreground/10", {
   variants: {

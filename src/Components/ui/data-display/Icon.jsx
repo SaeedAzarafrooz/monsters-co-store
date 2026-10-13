@@ -1,6 +1,6 @@
 import { forwardRef } from "react";
 import { cva } from "class-variance-authority";
-import { cn } from "../../utils/utils";
+import { cn } from "../../../utils/utils";
 
 const iconVariants = cva("shrink-0 select-none inline-block align-middle", {
   variants: {

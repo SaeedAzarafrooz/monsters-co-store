@@ -1,6 +1,6 @@
 import { forwardRef } from "react";
 import { cva } from "class-variance-authority";
-import { cn } from "../../utils/utils";
+import { cn } from "../../../utils/utils";
 
 const tooltipBubbleVariants = cva(
   "pointer-events-none absolute z-30 opacity-0 group-hover/tip:opacity-100 transition-opacity duration-150 rounded bg-popover text-popover-foreground border border-border px-1.5 py-0.5 text-[10px] font-medium shadow-md whitespace-nowrap",

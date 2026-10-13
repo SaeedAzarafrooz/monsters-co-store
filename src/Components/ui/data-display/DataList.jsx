@@ -1,5 +1,5 @@
-import { cn } from "../../utils/utils";
-import { Span } from "./typography";
+import { cn } from "../../../utils/utils";
+import { Span } from "../typography";
 
 const SPAN_MAP = {
   1: "col-span-1",

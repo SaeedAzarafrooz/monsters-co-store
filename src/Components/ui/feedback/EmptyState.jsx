@@ -1,5 +1,5 @@
-import { cn } from "../../utils/utils";
-import { Heading, Text } from "./typography";
+import { cn } from "../../../utils/utils";
+import { Heading, Text } from "../typography";
 
 export function EmptyState({ icon, title, description, action, className }) {
   return (

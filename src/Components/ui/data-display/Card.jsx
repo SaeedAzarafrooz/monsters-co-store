@@ -1,7 +1,7 @@
 import { cva } from "class-variance-authority";
-import { cn } from "../../utils/utils";
+import { cn } from "../../../utils/utils";
 import { forwardRef } from "react";
-import { Heading } from "./typography";
+import { Heading } from "../typography";
 
 const cardVariants = cva(
   "rounded-xl border border-border bg-card text-card-foreground shadow-card flex flex-col shrink-0",

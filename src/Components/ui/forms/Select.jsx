@@ -1,6 +1,6 @@
 import { forwardRef, useState, useRef, useEffect } from "react";
 import { cn } from "../../utils/utils";
-import { Icon } from "./Icon";
+import { Icon } from "./data-display/Icon";
 import { Span } from "./typography";
 
 const Select = forwardRef(

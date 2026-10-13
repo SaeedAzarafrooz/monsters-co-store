@@ -1,7 +1,7 @@
 import { forwardRef } from "react";
 import { cva } from "class-variance-authority";
-import { cn } from "../../utils/utils";
-import { Icon } from "./Icon";
+import { cn } from "../../../utils/utils";
+import { Icon } from "../data-display/Icon";
 
 const stepIndicatorVariants = cva(
   "flex items-center justify-center border-2 transition-all duration-200 select-none shrink-0",
