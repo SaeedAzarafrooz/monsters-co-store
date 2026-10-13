@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { useCart } from "../context/CartContext";
 import { useFavorites } from "../context/FavoritesContext";
-import { Badge } from "./ui/Badge";
-import { Button } from "./ui/Button";
+import { Badge, Button } from "./ui";
 import crossIcon from "../assets/cross.png";
 import DNAIcon from "../assets/DNA-Icon.png";
 import GenderIcon from "../assets/Gender2-Icon.png";

@@ -36,13 +36,13 @@ export * from "./common/Button";
    - OptionCard: Selectable card for options/shipping methods.
    - QuantityStepper: Interactive counter with slide transitions (+ / - / delete).
    ========================================================================== */
-export * from "./form/Input";
-export * from "./form/Select";
-export * from "./form/FormInput";
-export * from "./form/FormField";
-export * from "./form/FormGrid";
-export * from "./form/OptionCard";
-export * from "./form/QuantityStepper";
+export * from "./forms/Input";
+export * from "./forms/Select";
+export * from "./forms/FormInput";
+export * from "./forms/FormField";
+export * from "./forms/FormGrid";
+export * from "./forms/OptionCard";
+export * from "./forms/QuantityStepper";
 
 /* ==========================================================================
    5. Data Display & Media

@@ -1,5 +1,5 @@
-import { cn } from "../../utils/utils";
-import { Text } from "./typography";
+import { cn } from "../../../utils/utils";
+import { Text } from "../typography";
 
 const colSpanMap = {
   1: "col-span-1",

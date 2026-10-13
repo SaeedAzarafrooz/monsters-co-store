@@ -1,7 +1,5 @@
 import { Link } from "react-router-dom";
-import { Container } from "../ui/Container";
-import { Badge } from "../ui/Badge";
-import { buttonVariants } from "../ui/Button";
+import { Container, Badge, buttonVariants } from "../ui";
 
 function Home() {
   const perks = [
@@ -43,7 +41,8 @@ function Home() {
     {
       name: "Morty & Citadel Variants",
       tag: "Limited Edition",
-      badgeColor: "bg-amber-500/15 text-amber-500 dark:text-amber-400 border-amber-500/30",
+      badgeColor:
+        "bg-amber-500/15 text-amber-500 dark:text-amber-400 border-amber-500/30",
       desc: "Evil Morty, Pocket Mortys, and rare timeline alternate appearances.",
       price: "From $2.40",
       bundle: "morty",
@@ -51,7 +50,8 @@ function Home() {
     {
       name: "Aliens, Cronenbergs & Monsters",
       tag: "Fan Favorite",
-      badgeColor: "bg-cyan-500/15 text-cyan-600 dark:text-cyan-400 border-cyan-500/30",
+      badgeColor:
+        "bg-cyan-500/15 text-cyan-600 dark:text-cyan-400 border-cyan-500/30",
       desc: "Meeseeks, Birdperson, Squanchy and weird dimensional creature collectibles.",
       price: "From $1.60",
       bundle: "alien",
@@ -68,9 +68,13 @@ function Home() {
         {/* Portal Pill Badge */}
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-card border border-primary/40 text-xs text-foreground shadow-md">
           <span className="flex h-2 w-2 rounded-full bg-primary animate-ping" />
-          <span className="font-bold text-primary">Dimension C-137 Official</span>
+          <span className="font-bold text-primary">
+            Dimension C-137 Official
+          </span>
           <span className="text-muted-foreground/40">|</span>
-          <span className="text-muted-foreground">Rick & Morty Vinyl Stickers</span>
+          <span className="text-muted-foreground">
+            Rick & Morty Vinyl Stickers
+          </span>
         </div>
 
         {/* Headline */}
@@ -83,8 +87,8 @@ function Home() {
 
         {/* Subtitle */}
         <p className="max-w-2xl mx-auto text-muted-foreground text-sm sm:text-lg leading-relaxed">
-          Premium waterproof vinyl stickers featuring all your favorite Rick & Morty characters,
-          weird creatures, and interdimensional gadgets.
+          Premium waterproof vinyl stickers featuring all your favorite Rick &
+          Morty characters, weird creatures, and interdimensional gadgets.
         </p>
 
         {/* CTAs */}
@@ -94,7 +98,8 @@ function Home() {
             className={buttonVariants({
               variant: "default",
               size: "lg",
-              className: "rounded-xl font-bold gap-2 shadow-xl shadow-primary/20",
+              className:
+                "rounded-xl font-bold gap-2 shadow-xl shadow-primary/20",
             })}
           >
             <span>Browse All Stickers</span>
@@ -164,7 +169,8 @@ function Home() {
                 className={buttonVariants({
                   variant: "secondary",
                   size: "sm",
-                  className: "w-full border border-border hover:border-primary/50",
+                  className:
+                    "w-full border border-border hover:border-primary/50",
                 })}
               >
                 Explore Pack
@@ -181,7 +187,8 @@ function Home() {
             Why Our Stickers?
           </h2>
           <p className="text-muted-foreground text-xs sm:text-sm max-w-lg mx-auto">
-            Crafted for laptops, phones, skateboards, flasks, and portal gun cases.
+            Crafted for laptops, phones, skateboards, flasks, and portal gun
+            cases.
           </p>
         </div>
 
@@ -192,7 +199,9 @@ function Home() {
               className={`p-5 rounded-2xl bg-card border border-border shadow-sm space-y-3 transition-all duration-300 ${perk.border} hover:-translate-y-0.5`}
             >
               <div className="text-3xl">{perk.icon}</div>
-              <h3 className="text-base font-bold text-foreground">{perk.title}</h3>
+              <h3 className="text-base font-bold text-foreground">
+                {perk.title}
+              </h3>
               <p className="text-xs text-muted-foreground leading-relaxed">
                 {perk.desc}
               </p>
@@ -214,7 +223,8 @@ function Home() {
           Grab 3 Stickers, Get 1 Mystery Character Free!
         </h2>
         <p className="text-muted-foreground text-xs sm:text-sm max-w-xl mx-auto leading-relaxed">
-          Pick your favorite characters from the shop grid. Ready to decorate your gear with Citadel-grade vinyl quality.
+          Pick your favorite characters from the shop grid. Ready to decorate
+          your gear with Citadel-grade vinyl quality.
         </p>
         <div className="pt-2">
           <Link
@@ -222,7 +232,8 @@ function Home() {
             className={buttonVariants({
               variant: "default",
               size: "lg",
-              className: "rounded-xl font-bold gap-2 shadow-lg shadow-primary/25",
+              className:
+                "rounded-xl font-bold gap-2 shadow-lg shadow-primary/25",
             })}
           >
             <span>Open Multiverse Shop</span>

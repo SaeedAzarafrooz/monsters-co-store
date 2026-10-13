@@ -5,37 +5,39 @@ import CVAIcon from "../../assets/CVA.png";
 import viteIcon from "../../assets/vite-icon.webp";
 import rick_mortyApiIcon from "../../assets/Rick&MortyAPI.png";
 import Intersection_Observer_ApiIcon from "../../assets/Intersection_Observer_Api.png";
-import { Container } from "../ui/Container";
-import { Badge } from "../ui/Badge";
-import { buttonVariants } from "../ui/Button";
+import { Container, Badge, buttonVariants } from "../ui";
 
 function AboutUs() {
   const techStack = [
     {
       name: "React 18",
       desc: "Component Architecture & Hooks",
-      color: "from-cyan-500/20 to-blue-500/10 border-cyan-500/30 text-cyan-500 dark:text-cyan-400",
+      color:
+        "from-cyan-500/20 to-blue-500/10 border-cyan-500/30 text-cyan-500 dark:text-cyan-400",
       image: reactIcon,
       glow: "drop-shadow-[0_0_12px_rgba(34,211,238,0.5)]", // Cyan Glow
     },
     {
       name: "Tailwind CSS",
       desc: "Responsive & Modern Dark UI",
-      color: "from-sky-500/20 to-teal-500/10 border-sky-500/30 text-sky-500 dark:text-sky-400",
+      color:
+        "from-sky-500/20 to-teal-500/10 border-sky-500/30 text-sky-500 dark:text-sky-400",
       image: tailwindCssIcon,
       glow: "drop-shadow-[0_0_12px_rgba(56,189,248,0.5)]", // Sky Glow
     },
     {
       name: "CVA & Design System",
       desc: "Type-safe Variant-Driven Component Library",
-      color: "from-lime-500/20 to-emerald-500/10 border-lime-500/30 text-lime-500 dark:text-lime-400",
+      color:
+        "from-lime-500/20 to-emerald-500/10 border-lime-500/30 text-lime-500 dark:text-lime-400",
       image: CVAIcon,
       glow: "drop-shadow-[0_0_12px_rgba(132,204,22,0.5)]", // Lime Glow
     },
     {
       name: "React Router v6",
       desc: "SPA Navigation & Dynamic Transitions",
-      color: "from-red-500/20 to-orange-500/10 border-red-500/30 text-red-500 dark:text-red-400",
+      color:
+        "from-red-500/20 to-orange-500/10 border-red-500/30 text-red-500 dark:text-red-400",
       image: reactRouterIcon,
       glow: "drop-shadow-[0_0_12px_rgba(248,113,113,0.5)]", // Red Glow
     },

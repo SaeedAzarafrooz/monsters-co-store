@@ -2,8 +2,8 @@ import { useEffect, forwardRef } from "react";
 import { createPortal } from "react-dom";
 import { cva } from "class-variance-authority";
 import { cn } from "../../../utils/utils";
-import { Icon } from "../data-display/Icon";
-import { Button } from "./Button";
+import { Button, Icon } from "../index";
+
 
 const modalOverlayVariants = cva(
   "fixed inset-0 z-50 flex p-3 sm:p-4 transition-all duration-300",

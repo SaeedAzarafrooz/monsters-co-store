@@ -1,6 +1,6 @@
 import { forwardRef } from "react";
-import { cn } from "../../utils/utils";
-import { Paragraph } from "./typography";
+import { cn } from "../../../utils/utils";
+import { Paragraph } from "../typography";
 
 const OptionCard = forwardRef(
   (

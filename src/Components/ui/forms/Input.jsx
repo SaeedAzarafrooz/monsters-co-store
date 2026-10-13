@@ -1,5 +1,5 @@
 import { forwardRef } from "react";
-import { cn } from "../../utils/utils";
+import { cn } from "../../../utils/utils";
 
 const Input = forwardRef(({ className, type = "text", as, error, ...props }, ref) => {
   const Component = as === "textarea" ? "textarea" : "input";

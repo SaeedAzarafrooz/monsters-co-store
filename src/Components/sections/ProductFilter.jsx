@@ -1,17 +1,33 @@
 import { useState, useEffect } from "react";
-import { Input } from "../ui/Input";
-import { Select } from "../ui/Select";
-import { FormField } from "../ui/FormField";
-import { Button } from "../ui/Button";
-import { Icon } from "../ui";
+import { Input, Select, FormField, Button, Icon } from "../ui";
 
 // English comment: Presets for quick multiverse sticker filtering
 const BUNDLE_PRESETS = [
-  { id: "all", label: "🌟 All Stickers", filters: { name: "", status: "", species: "", gender: "" } },
-  { id: "rick", label: "🧪 Rick & Science", filters: { name: "Rick", status: "", species: "", gender: "" } },
-  { id: "morty", label: "⚡ Morty Variants", filters: { name: "Morty", status: "", species: "", gender: "" } },
-  { id: "alien", label: "👽 Alien & Monsters", filters: { name: "", status: "", species: "Alien", gender: "" } },
-  { id: "human", label: "🧑 Human Survivors", filters: { name: "", status: "Alive", species: "Human", gender: "" } },
+  {
+    id: "all",
+    label: "🌟 All Stickers",
+    filters: { name: "", status: "", species: "", gender: "" },
+  },
+  {
+    id: "rick",
+    label: "🧪 Rick & Science",
+    filters: { name: "Rick", status: "", species: "", gender: "" },
+  },
+  {
+    id: "morty",
+    label: "⚡ Morty Variants",
+    filters: { name: "Morty", status: "", species: "", gender: "" },
+  },
+  {
+    id: "alien",
+    label: "👽 Alien & Monsters",
+    filters: { name: "", status: "", species: "Alien", gender: "" },
+  },
+  {
+    id: "human",
+    label: "🧑 Human Survivors",
+    filters: { name: "", status: "Alive", species: "Human", gender: "" },
+  },
 ];
 
 function ProductFilter({ activeFilters, onApplyFilters, onResetFilters }) {
@@ -22,7 +38,7 @@ function ProductFilter({ activeFilters, onApplyFilters, onResetFilters }) {
         b.filters.name === activeFilters.name &&
         b.filters.status === activeFilters.status &&
         b.filters.species === activeFilters.species &&
-        b.filters.gender === activeFilters.gender
+        b.filters.gender === activeFilters.gender,
     );
     return matched ? matched.id : "all";
   });
@@ -35,7 +51,7 @@ function ProductFilter({ activeFilters, onApplyFilters, onResetFilters }) {
         b.filters.name === activeFilters.name &&
         b.filters.status === activeFilters.status &&
         b.filters.species === activeFilters.species &&
-        b.filters.gender === activeFilters.gender
+        b.filters.gender === activeFilters.gender,
     );
     setActiveBundle(matched ? matched.id : "");
   }, [activeFilters]);
@@ -150,10 +166,21 @@ function ProductFilter({ activeFilters, onApplyFilters, onResetFilters }) {
                 value={localFilters.status}
                 onChange={handleChange}
               >
-                <option value="" className="bg-card text-card-foreground">All Statuses</option>
-                <option value="alive" className="bg-card text-card-foreground">Alive</option>
-                <option value="dead" className="bg-card text-card-foreground">Dead</option>
-                <option value="unknown" className="bg-card text-card-foreground">Unknown</option>
+                <option value="" className="bg-card text-card-foreground">
+                  All Statuses
+                </option>
+                <option value="alive" className="bg-card text-card-foreground">
+                  Alive
+                </option>
+                <option value="dead" className="bg-card text-card-foreground">
+                  Dead
+                </option>
+                <option
+                  value="unknown"
+                  className="bg-card text-card-foreground"
+                >
+                  Unknown
+                </option>
               </Select>
             </FormField>
 
@@ -174,11 +201,27 @@ function ProductFilter({ activeFilters, onApplyFilters, onResetFilters }) {
                 value={localFilters.gender}
                 onChange={handleChange}
               >
-                <option value="" className="bg-card text-card-foreground">All Genders</option>
-                <option value="male" className="bg-card text-card-foreground">Male</option>
-                <option value="female" className="bg-card text-card-foreground">Female</option>
-                <option value="genderless" className="bg-card text-card-foreground">Genderless</option>
-                <option value="unknown" className="bg-card text-card-foreground">Unknown</option>
+                <option value="" className="bg-card text-card-foreground">
+                  All Genders
+                </option>
+                <option value="male" className="bg-card text-card-foreground">
+                  Male
+                </option>
+                <option value="female" className="bg-card text-card-foreground">
+                  Female
+                </option>
+                <option
+                  value="genderless"
+                  className="bg-card text-card-foreground"
+                >
+                  Genderless
+                </option>
+                <option
+                  value="unknown"
+                  className="bg-card text-card-foreground"
+                >
+                  Unknown
+                </option>
               </Select>
             </FormField>
 

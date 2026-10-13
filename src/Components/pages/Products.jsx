@@ -7,7 +7,7 @@ import { useInfiniteScroll } from "../../hooks/useInfiniteScroll";
 import loadingGif from "../../assets/LoadingGif.svg";
 import BackToTop from "../BackToTop";
 import CharacterModal from "../CharacterModal";
-import { Container } from "../ui/Container";
+import { Container } from "../ui";
 
 const BASE_URL = "https://rickandmortyapi.com/api";
 const SKELETON_COUNT = 8;

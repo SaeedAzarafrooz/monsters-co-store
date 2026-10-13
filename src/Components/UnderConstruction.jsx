@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Icon, Badge } from "./ui";
-import { Heading, Text } from "./ui/typography";
+import { Heading, Text } from "./ui";
 
 function UnderConstruction({
   title = "Under Construction",

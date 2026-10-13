@@ -1,9 +1,8 @@
 import { forwardRef } from "react";
 import { cva } from "class-variance-authority";
-import { cn } from "../../utils/utils";
-import { Button } from "./Button";
-import { Icon } from "./Icon";
-import crossIcon from "../../assets/cross.png";
+import { cn } from "../../../utils/utils";
+import { Button, Icon } from "../index";
+import crossIcon from "../../../assets/cross.png";
 
 const quantityStepperVariants = cva(
   "relative overflow-hidden transition-all select-none",
@@ -18,7 +17,7 @@ const quantityStepperVariants = cva(
     defaultVariants: {
       size: "default",
     },
-  }
+  },
 );
 
 export const QuantityStepper = forwardRef(
@@ -34,7 +33,7 @@ export const QuantityStepper = forwardRef(
       disabled = false,
       ...props
     },
-    ref
+    ref,
   ) => {
     const isAdded = quantity > 0;
 
@@ -76,7 +75,7 @@ export const QuantityStepper = forwardRef(
             "absolute inset-0 w-full h-full rounded-xl gap-1.5 font-semibold shadow-sm p-0 justify-center transition-all duration-300 ease-out",
             isAdded
               ? "translate-x-full opacity-0 pointer-events-none"
-              : "translate-x-0 opacity-100 pointer-events-auto"
+              : "translate-x-0 opacity-100 pointer-events-auto",
           )}
           title="Add to cart"
         >
@@ -90,7 +89,7 @@ export const QuantityStepper = forwardRef(
             "absolute inset-0 flex items-center h-full w-full bg-muted/60 border border-border rounded-xl shadow-inner transition-all duration-300 ease-out",
             isAdded
               ? "translate-x-0 opacity-100 pointer-events-auto"
-              : "-translate-x-full opacity-0 pointer-events-none"
+              : "-translate-x-full opacity-0 pointer-events-none",
           )}
         >
           {/* Decrease / Remove Button */}
@@ -136,7 +135,7 @@ export const QuantityStepper = forwardRef(
         </div>
       </div>
     );
-  }
+  },
 );
 
 QuantityStepper.displayName = "QuantityStepper";
