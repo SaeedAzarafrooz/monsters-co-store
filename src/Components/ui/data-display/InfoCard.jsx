@@ -17,7 +17,19 @@ const infoCardVariants = cva("rounded-xl border border-border/60 bg-muted/40", {
 });
 
 const infoCardIconVariants = cva(
-  "w-4 h-4 object-contain opacity-90 drop-shadow-[0_0_6px_rgba(56,189,248,0.6)]"
+  "object-contain opacity-90 drop-shadow-[0_0_6px_rgba(56,189,248,0.6)] shrink-0",
+  {
+    variants: {
+      iconSize: {
+        sm: "w-4 h-4",
+        md: "w-5 h-5",
+        lg: "w-6 h-6",
+      },
+    },
+    defaultVariants: {
+      iconSize: "md", // دیفالت روی 20 پیکسل (سایز مناسب و خوانا)
+    },
+  }
 );
 
 export const InfoCard = forwardRef(function InfoCard(
@@ -27,6 +39,8 @@ export const InfoCard = forwardRef(function InfoCard(
     value,
     iconSrc,
     iconAlt,
+    iconSize = "md",
+    iconClassName,
     padding,
     labelProps,
     valueProps,
@@ -36,14 +50,24 @@ export const InfoCard = forwardRef(function InfoCard(
   ref
 ) {
   return (
-    <div ref={ref} className={cn("flex items-center gap-2", infoCardVariants({ padding }), className)} {...props}>
-      {iconSrc ? <img src={iconSrc} alt={iconAlt || String(label || "Info")} className={infoCardIconVariants()} /> : null}
+    <div
+      ref={ref}
+      className={cn("flex items-center gap-2", infoCardVariants({ padding }), className)}
+      {...props}
+    >
+      {iconSrc && (
+        <img
+          src={iconSrc}
+          alt={iconAlt || String(label || "Info")}
+          className={cn(infoCardIconVariants({ iconSize }), iconClassName)}
+        />
+      )}
 
       {children ? (
         children
       ) : (
         <Stack gap="none" className="min-w-0">
-          {label != null ? (
+          {label != null && (
             <Text
               as="p"
               size="micro"
@@ -53,9 +77,9 @@ export const InfoCard = forwardRef(function InfoCard(
             >
               {label}
             </Text>
-          ) : null}
+          )}
 
-          {value != null ? (
+          {value != null && (
             <Text
               as="p"
               size="sm"
@@ -65,11 +89,13 @@ export const InfoCard = forwardRef(function InfoCard(
             >
               {value}
             </Text>
-          ) : null}
+          )}
         </Stack>
       )}
     </div>
   );
 });
+
+InfoCard.displayName = "InfoCard";
 
 export default InfoCard;
