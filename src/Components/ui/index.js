@@ -53,6 +53,7 @@ export * from "./forms/QuantityStepper";
 export * from "./data-display/Card";
 export * from "./data-display/DataList";
 export * from "./data-display/Icon";
+export * from "./data-display/InfoCard";
 
 /* ==========================================================================
    6. Feedback & Indicators
