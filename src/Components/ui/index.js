@@ -54,6 +54,7 @@ export * from "./data-display/Card";
 export * from "./data-display/DataList";
 export * from "./data-display/Icon";
 export * from "./data-display/InfoCard";
+export * from "./data-display/InfoRow";
 
 /* ==========================================================================
    6. Feedback & Indicators
