@@ -1,12 +1,11 @@
 import { useState } from "react";
 import { useCart } from "../context/CartContext";
 import { useFavorites } from "../context/FavoritesContext";
-import { Badge, Button } from "./ui";
+import { Badge, Button, Icon, Tooltip } from "./ui";
 import crossIcon from "../assets/cross.png";
 import DNAIcon from "../assets/DNA-Icon.png";
 import GenderIcon from "../assets/Gender2-Icon.png";
 import TVShowIcon from "../assets/TV-show-Icon.png";
-import { Icon } from "./ui";
 
 // ==========================================
 // Loading Skeleton for Initial Page Load & Image Loading
@@ -79,22 +78,26 @@ function Card({ props, onClick }) {
         ? { color: "text-muted-foreground" }
         : { color: "text-amber-700" };
 
-  // Status badge config with semantic badge variants & dots
+  // Status badge config with semantic badge variants, 60% transparency bg & glowing dots
   const statusConfig = {
     Alive: {
       variant: "success",
+      bg: "bg-success/60 text-success-foreground border-success/30",
       dot: "bg-success shadow-[0_0_8px_hsl(var(--success)/0.8)]",
     },
     Dead: {
       variant: "destructive",
+      bg: "bg-destructive/60 text-destructive-foreground border-destructive/30",
       dot: "bg-destructive shadow-[0_0_8px_hsl(var(--destructive)/0.8)]",
     },
     unknown: {
       variant: "warning",
+      bg: "bg-warning/60 text-warning-foreground border-warning/30",
       dot: "bg-warning shadow-[0_0_8px_hsl(var(--warning)/0.8)]",
     },
   }[status] || {
     variant: "outline",
+    bg: "bg-card/60 text-muted-foreground border-border",
     dot: "bg-muted-foreground",
   };
 
@@ -161,7 +164,7 @@ function Card({ props, onClick }) {
         <div className="absolute top-3 left-3">
           <Badge
             variant={statusConfig.variant}
-            className="gap-1.5 px-2.5 py-0.5 text-[10px] backdrop-blur-md bg-card/90 shadow-sm"
+            className={`gap-1.5 px-2.5 py-0.5 text-[10px] backdrop-blur-md shadow-sm border ${statusConfig.bg}`}
           >
             <span
               className={`w-1.5 h-1.5 rounded-full shrink-0 ${statusConfig.dot}`}
@@ -204,55 +207,46 @@ function Card({ props, onClick }) {
         {/* Compact Stacked Tags with Instant Tooltips */}
         <div className="flex flex-col items-start gap-2.5">
           {/* Species Tag */}
-          <div className="group/tip relative inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-muted/40 border border-border/50 text-[11px] text-foreground hover:bg-muted/70 transition-colors">
-            <img
-              src={DNAIcon}
-              alt="Remove"
-              className="absolute drop-shadow-[0_0_6px_rgba(56,189,248,0.6)] w-6 h-6 object-contain opacity-70 group-hover/dec:opacity-100 transition-opacity"
-            />
-            <span className="ml-10 font-medium truncate max-w-[170px]">
-              {species}
-            </span>
-
-            {/* Instant Tooltip */}
-            <span className="pointer-events-none absolute left-full ml-1.5 top-1/2 -translate-y-1/2 z-30 opacity-0 group-hover/tip:opacity-100 transition-opacity duration-150 rounded bg-popover text-popover-foreground border border-border px-1.5 py-0.5 text-[10px] font-medium shadow-md whitespace-nowrap">
-              Character Species
-            </span>
-          </div>
+          <Tooltip content="Character Species" side="right">
+            <div className="relative inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-muted/40 border border-border/50 text-[11px] text-foreground hover:bg-muted/70 transition-colors">
+              <img
+                src={DNAIcon}
+                alt="Species"
+                className="absolute drop-shadow-[0_0_6px_rgba(56,189,248,0.6)] w-6 h-6 object-contain opacity-70 transition-opacity"
+              />
+              <span className="ml-10 font-medium truncate max-w-[170px]">
+                {species}
+              </span>
+            </div>
+          </Tooltip>
 
           {/* Gender Tag */}
-          <div className="group/tip relative inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-muted/40 border border-border/50 text-[11px] text-foreground hover:bg-muted/70 transition-colors">
-            <img
-              src={GenderIcon}
-              alt="Remove"
-              className="absolute drop-shadow-[0_0_6px_rgba(56,189,248,0.6)] w-6 h-6 object-contain opacity-70 group-hover/dec:opacity-100 transition-opacity"
-            />
-            <span className="ml-10 font-medium truncate max-w-[170px]">
-              {gender}
-            </span>
-
-            {/* Instant Tooltip */}
-            <span className="pointer-events-none absolute left-full ml-1.5 top-1/2 -translate-y-1/2 z-30 opacity-0 group-hover/tip:opacity-100 transition-opacity duration-150 rounded bg-popover text-popover-foreground border border-border px-1.5 py-0.5 text-[10px] font-medium shadow-md whitespace-nowrap">
-              Character Gender
-            </span>
-          </div>
+          <Tooltip content="Character Gender" side="right">
+            <div className="relative inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-muted/40 border border-border/50 text-[11px] text-foreground hover:bg-muted/70 transition-colors">
+              <img
+                src={GenderIcon}
+                alt="Gender"
+                className="absolute drop-shadow-[0_0_6px_rgba(56,189,248,0.6)] w-6 h-6 object-contain opacity-70 transition-opacity"
+              />
+              <span className="ml-10 font-medium truncate max-w-[170px]">
+                {gender}
+              </span>
+            </div>
+          </Tooltip>
 
           {/* Episodes Tag */}
-          <div className="group/tip relative inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-muted/40 border border-border/50 text-[11px] text-foreground hover:bg-muted/70 transition-colors">
-            <img
-              src={TVShowIcon}
-              alt="Remove"
-              className="absolute drop-shadow-[0_0_6px_rgba(56,189,248,0.6)] w-6 h-6 object-contain opacity-70 group-hover/dec:opacity-100 transition-opacity"
-            />
-            <span className="ml-10 font-mono font-medium">
-              {episode?.length || 0} {episode?.length === 1 ? "Ep" : "Eps"}
-            </span>
-
-            {/* Instant Tooltip */}
-            <span className="pointer-events-none absolute left-full ml-1.5 top-1/2 -translate-y-1/2 z-30 opacity-0 group-hover/tip:opacity-100 transition-opacity duration-150 rounded bg-popover text-popover-foreground border border-border px-1.5 py-0.5 text-[10px] font-medium shadow-md whitespace-nowrap">
-              Total Episodes Appeared In
-            </span>
-          </div>
+          <Tooltip content="Total Episodes Appeared In" side="right">
+            <div className="relative inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-muted/40 border border-border/50 text-[11px] text-foreground hover:bg-muted/70 transition-colors">
+              <img
+                src={TVShowIcon}
+                alt="Episodes"
+                className="absolute drop-shadow-[0_0_6px_rgba(56,189,248,0.6)] w-6 h-6 object-contain opacity-70 transition-opacity"
+              />
+              <span className="ml-10 font-mono font-medium">
+                {episode?.length || 0} {episode?.length === 1 ? "Ep" : "Eps"}
+              </span>
+            </div>
+          </Tooltip>
         </div>
 
         {/* Footer: Price & Cart Action */}
