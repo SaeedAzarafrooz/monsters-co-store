@@ -22,8 +22,8 @@ const skeletonVariants = cva("relative overflow-hidden bg-foreground/10", {
 });
 
 export const Skeleton = forwardRef(
-  ({ className, variant, animation, children, ...props }, ref) => {
-    const isShimmer = animation === "shimmer" || (!animation && skeletonVariants.defaultVariants.animation === "shimmer");
+  ({ className, variant, animation = "shimmer", children, ...props }, ref) => {
+    const isShimmer = animation === "shimmer";
 
     return (
       <div
@@ -41,3 +41,4 @@ export const Skeleton = forwardRef(
 );
 
 Skeleton.displayName = "Skeleton";
+export default Skeleton;
