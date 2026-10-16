@@ -63,8 +63,14 @@ export function CardSkeleton() {
 // ==========================================
 // Main Character Card Component
 // ==========================================
-function Card({ props, onClick }) {
-  const { image, name, id, episode, gender, status, species } = props;
+/**
+ * Character card displaying product preview, metadata, favorites toggle, and cart actions.
+ * Supports both `character` and legacy `props` prop for backwards compatibility.
+ */
+function Card({ character, props: legacyProps, onClick }) {
+  // Normalize character entity while preserving full backward compatibility
+  const characterData = character || legacyProps || {};
+  const { image, name, id, episode, gender, status, species } = characterData;
   const [imageLoaded, setImageLoaded] = useState(false);
 
   // Cart context integration
@@ -195,7 +201,7 @@ function Card({ props, onClick }) {
             size="icon"
             onClick={(e) => {
               e.stopPropagation();
-              toggleFavorite(props);
+              toggleFavorite(characterData);
             }}
             className="w-7 h-7 rounded-full bg-card/90 border-border backdrop-blur-md hover:scale-110 active:scale-90 transition-transform shadow-sm p-0"
             aria-label={
@@ -303,11 +309,13 @@ function Card({ props, onClick }) {
           </div>
 
           {/* Cart Action Container (UI Kit QuantityStepper) */}
-          <QuantityStepper
-            quantity={currentQuantity}
-            onIncrease={() => addToCart(props)}
-            onDecrease={() => decreaseQuantity(id)}
-          />
+          <div onClick={(e) => e.stopPropagation()}>
+            <QuantityStepper
+              quantity={currentQuantity}
+              onIncrease={() => addToCart(characterData)}
+              onDecrease={() => decreaseQuantity(id)}
+            />
+          </div>
         </div>
       </div>
     </div>
