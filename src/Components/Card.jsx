@@ -1,8 +1,15 @@
 import { useState } from "react";
 import { useCart } from "../context/CartContext";
 import { useFavorites } from "../context/FavoritesContext";
-import { Badge, Button, Icon, Tooltip } from "./ui";
-import crossIcon from "../assets/cross.png";
+import {
+  Badge,
+  Button,
+  Icon,
+  Tooltip,
+  Heading,
+  Text,
+  QuantityStepper,
+} from "./ui";
 import DNAIcon from "../assets/DNA-Icon.png";
 import GenderIcon from "../assets/Gender2-Icon.png";
 import TVShowIcon from "../assets/TV-show-Icon.png";
@@ -138,16 +145,23 @@ function Card({ props, onClick }) {
     >
       {/* 1. Header: Star & Name */}
       <div className="p-2.5 flex justify-center items-center gap-1.5 shrink-0 border-b border-border/30">
-        <span className={`text-[17px] leading-none ${starRating.color}`}>
+        <Text
+          as="span"
+          size="inherit"
+          className={`text-[17px] leading-none ${starRating.color}`}
+        >
           ★
-        </span>
+        </Text>
         <div className="min-w-0">
-          <h3
+          <Heading
+            as="h3"
+            size="base"
+            weight="bold"
             title={name}
-            className="text-center text-base font-bold text-foreground truncate w-full"
+            className="text-center text-foreground truncate w-full"
           >
             {name}
-          </h3>
+          </Heading>
         </div>
       </div>
 
@@ -208,43 +222,58 @@ function Card({ props, onClick }) {
         <div className="flex flex-col items-start gap-2.5">
           {/* Species Tag */}
           <Tooltip content="Character Species" side="right">
-            <div className="relative inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-muted/40 border border-border/50 text-[11px] text-foreground hover:bg-muted/70 transition-colors">
+            <div className="relative inline-flex items-center h-7 gap-1.5 px-2.5 rounded-md bg-muted/40 border border-border/50 text-[11px] text-foreground hover:bg-muted/70 transition-colors">
               <img
                 src={DNAIcon}
                 alt="Species"
                 className="absolute drop-shadow-[0_0_6px_rgba(56,189,248,0.6)] w-6 h-6 object-contain opacity-70 transition-opacity"
               />
-              <span className="ml-10 font-medium truncate max-w-[170px]">
+              <Text
+                as="span"
+                size="tiny"
+                weight="medium"
+                className="ml-10 truncate max-w-[170px] leading-normal"
+              >
                 {species}
-              </span>
+              </Text>
             </div>
           </Tooltip>
 
           {/* Gender Tag */}
           <Tooltip content="Character Gender" side="right">
-            <div className="relative inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-muted/40 border border-border/50 text-[11px] text-foreground hover:bg-muted/70 transition-colors">
+            <div className="relative inline-flex items-center h-7 gap-1.5 px-2.5 rounded-md bg-muted/40 border border-border/50 text-[11px] text-foreground hover:bg-muted/70 transition-colors">
               <img
                 src={GenderIcon}
                 alt="Gender"
                 className="absolute drop-shadow-[0_0_6px_rgba(56,189,248,0.6)] w-6 h-6 object-contain opacity-70 transition-opacity"
               />
-              <span className="ml-10 font-medium truncate max-w-[170px]">
+              <Text
+                as="span"
+                size="tiny"
+                weight="medium"
+                className="ml-10 truncate max-w-[170px] leading-normal"
+              >
                 {gender}
-              </span>
+              </Text>
             </div>
           </Tooltip>
 
           {/* Episodes Tag */}
           <Tooltip content="Total Episodes Appeared In" side="right">
-            <div className="relative inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-muted/40 border border-border/50 text-[11px] text-foreground hover:bg-muted/70 transition-colors">
+            <div className="relative inline-flex items-center h-7 gap-1.5 px-2.5 rounded-md bg-muted/40 border border-border/50 text-[11px] text-foreground hover:bg-muted/70 transition-colors">
               <img
                 src={TVShowIcon}
                 alt="Episodes"
                 className="absolute drop-shadow-[0_0_6px_rgba(56,189,248,0.6)] w-6 h-6 object-contain opacity-70 transition-opacity"
               />
-              <span className="ml-10 font-mono font-medium">
+              <Text
+                as="span"
+                size="tiny"
+                weight="medium"
+                className="ml-10 font-mono leading-normal"
+              >
                 {episode?.length || 0} {episode?.length === 1 ? "Ep" : "Eps"}
-              </span>
+              </Text>
             </div>
           </Tooltip>
         </div>
@@ -253,96 +282,32 @@ function Card({ props, onClick }) {
         <div className="pt-2 border-t border-border flex items-center justify-between">
           {/* Price Section */}
           <div className="flex flex-col">
-            <span className="text-[10px] text-muted-foreground font-medium uppercase tracking-wider">
+            <Text
+              as="span"
+              size="micro"
+              variant="muted"
+              weight="medium"
+              className="uppercase tracking-wider"
+            >
               Price
-            </span>
-            <span className="text-sm font-bold font-mono text-primary">
-              ${calculatedPrice}
-            </span>
-          </div>
-
-          {/* Cart Action Container (Seamless fixed size with slide transition) */}
-          <div className="relative w-[82px] h-8 overflow-hidden rounded-xl">
-            {/* 1. Add to Cart Button */}
-            <Button
-              type="button"
+            </Text>
+            <Text
+              as="span"
               size="sm"
-              onClick={(e) => {
-                e.stopPropagation();
-                addToCart(props);
-              }}
-              className={`
-                absolute inset-0 w-full h-full rounded-xl gap-1.5 text-xs font-semibold shadow-sm p-0 justify-center
-                transition-all duration-300 ease-out
-                ${
-                  currentQuantity === 0
-                    ? "translate-x-0 opacity-100 pointer-events-auto"
-                    : "translate-x-full opacity-0 pointer-events-none"
-                }
-              `}
-              title="Add to cart"
+              weight="bold"
+              variant="primary"
+              className="font-mono"
             >
-              <Icon name="cart" size="md" />
-              <span>Add</span>
-            </Button>
-
-            {/* 2. Quantity Controls Capsule */}
-            <div
-              onClick={(e) => e.stopPropagation()}
-              className={`
-                absolute inset-0 flex items-center h-full w-full bg-muted/60 border border-border rounded-xl shadow-inner
-                transition-all duration-300 ease-out
-                ${
-                  currentQuantity > 0
-                    ? "translate-x-0 opacity-100 pointer-events-auto"
-                    : "-translate-x-full opacity-0 pointer-events-none"
-                }
-              `}
-            >
-              {/* Decrease / Remove Button */}
-              <Button
-                type="button"
-                variant="ghost"
-                onClick={() => decreaseQuantity(id)}
-                className="
-                  group/dec h-full w-7 p-0 flex items-center justify-center
-                  text-muted-foreground hover:text-destructive hover:bg-destructive/15
-                  rounded-l-xl rounded-r-none transition-colors shrink-0
-                "
-                title={currentQuantity === 1 ? "Remove" : "Decrease"}
-              >
-                {currentQuantity === 1 ? (
-                  <img
-                    src={crossIcon}
-                    alt="Remove"
-                    className="w-3 h-3 object-contain opacity-70 group-hover/dec:opacity-100 transition-opacity"
-                  />
-                ) : (
-                  <Icon name="minus" size="xs" />
-                )}
-              </Button>
-
-              {/* Quantity */}
-              <span className="text-xs font-bold font-mono text-foreground px-1 select-none min-w-[24px] text-center leading-none">
-                {currentQuantity}
-              </span>
-
-              {/* Increase Button */}
-              <Button
-                type="button"
-                variant="ghost"
-                onClick={() => addToCart(props)}
-                className="
-                  group/inc h-full w-7 p-0 flex items-center justify-center
-                  text-muted-foreground hover:text-primary hover:bg-primary/15
-                  rounded-r-xl rounded-l-none transition-colors shrink-0
-                "
-                title="Increase"
-              >
-                <Icon name="plus" size="xs" />
-              </Button>
-            </div>
+              ${calculatedPrice}
+            </Text>
           </div>
+
+          {/* Cart Action Container (UI Kit QuantityStepper) */}
+          <QuantityStepper
+            quantity={currentQuantity}
+            onIncrease={() => addToCart(props)}
+            onDecrease={() => decreaseQuantity(id)}
+          />
         </div>
       </div>
     </div>
