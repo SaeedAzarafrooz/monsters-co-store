@@ -2,7 +2,10 @@ import { forwardRef } from "react";
 import { cva } from "class-variance-authority";
 import { cn } from "../../../utils/utils";
 
-
+/**
+ * Button variants configuration using class-variance-authority (CVA).
+ * Handles different visual styles, sizes, and interactive states.
+ */
 const buttonVariants = cva(
   "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 ring-offset-background active:scale-[0.98] transition-all select-none",
   {
@@ -29,13 +32,23 @@ const buttonVariants = cva(
   }
 );
 
+/**
+ * Reusable Button component supporting polymorphic rendering (via 'as' prop)
+ * and loading state handling without breaking existing usages.
+ */
 const Button = forwardRef(
-  ({ className, variant, size, isLoading, children, disabled, ...props }, ref) => {
+  ({ className, variant, size, isLoading, children, disabled, as: Component = "button", ...props }, ref) => {
+    // Check if the rendered element is a standard HTML button element
+    const isStandardButton = Component === "button";
+    
     return (
-      <button
+      <Component
         ref={ref}
-        disabled={disabled || isLoading}
-        className={cn(buttonVariants({ variant, size, className }))}
+        {...(isStandardButton ? { disabled: disabled || isLoading } : {})}
+        className={cn(
+          buttonVariants({ variant, size, className }),
+          (disabled || isLoading) && "pointer-events-none opacity-50"
+        )}
         {...props}
       >
         {isLoading ? (
@@ -65,7 +78,7 @@ const Button = forwardRef(
         ) : (
           children
         )}
-      </button>
+      </Component>
     );
   }
 );
