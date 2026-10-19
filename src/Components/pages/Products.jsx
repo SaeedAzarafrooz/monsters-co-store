@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import Card, { CardSkeleton } from "../Card";
-import Pagination from "../sections/Pagination";
+import { Pagination } from "../ui";
 import ProductFilter from "../sections/ProductFilter";
 import { useInfiniteScroll } from "../../hooks/useInfiniteScroll";
 import loadingGif from "../../assets/LoadingGif.svg";
