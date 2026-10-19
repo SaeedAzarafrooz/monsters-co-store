@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { useCart } from "../../../context/CartContext";
-import Stepper from "./Stepper";
+import { Stepper } from "../../ui";
 import CartReview from "./CartReview";
 import AddressAndShipping from "./AddressAndShipping";
 import PaymentSection from "./PaymentSection";
