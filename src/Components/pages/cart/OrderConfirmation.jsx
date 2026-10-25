@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Button, EmptyState, Icon } from "../../ui";
+import { Button, EmptyState, Icon, Group } from "../../ui";
 
 function OrderConfirmation({ orderId }) {
   const trackingPath = orderId
@@ -16,14 +16,14 @@ function OrderConfirmation({ orderId }) {
           : "Thank you! Your order has been placed and is being prepared."
       }
       action={
-        <div className="flex justify-center gap-3">
+        <Group justify="center" gap="md">
           <Button asChild size="lg">
             <Link to={trackingPath}>Track Order</Link>
           </Button>
           <Button asChild variant="secondary" size="lg">
             <Link to="/profile/orders">Order History</Link>
           </Button>
-        </div>
+        </Group>
       }
     />
   );

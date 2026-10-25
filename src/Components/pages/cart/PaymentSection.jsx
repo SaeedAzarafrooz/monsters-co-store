@@ -5,6 +5,8 @@ import {
   CardBody,
   Badge,
   OptionCard,
+  Paragraph,
+  Caption,
 } from "../../ui";
 
 function PaymentSection({
@@ -22,18 +24,18 @@ function PaymentSection({
       <CardBody scrollable>
         {/* Delivery Summary */}
         <Card padding="none" className="p-4 text-sm space-y-1">
-          <p className="font-bold text-foreground">Deliver to:</p>
-          <p className="text-muted-foreground">
+          <Paragraph className="font-bold text-foreground">Deliver to:</Paragraph>
+          <Paragraph className="text-muted-foreground">
             {formData.fullName || "Guest Customer"}
-          </p>
-          <p className="text-muted-foreground">
+          </Paragraph>
+          <Paragraph className="text-muted-foreground">
             {formData.addressLine1
               ? `${formData.addressLine1}, ${formData.city} ${formData.zipCode}`
               : "No address specified"}
-          </p>
-          <p className="text-xs text-primary font-semibold capitalize pt-1">
+          </Paragraph>
+          <Caption className="text-xs text-primary font-semibold capitalize pt-1 block">
             {shippingMethod} shipping selected
-          </p>
+          </Caption>
         </Card>
 
         {/* Payment Options */}

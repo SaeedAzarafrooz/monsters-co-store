@@ -21,6 +21,8 @@ import {
   Container,
   EmptyState,
   Icon,
+  H1,
+  Caption,
 } from "../../ui";
 
 const STEPS = [
@@ -146,7 +148,7 @@ function Checkout() {
     <Container className="py-10">
       {/* Header */}
       <div className="flex items-center justify-between mb-8 pb-4 border-b border-border">
-        <h1 className="text-2xl font-extrabold tracking-tight">Checkout</h1>
+        <H1 className="text-2xl font-extrabold tracking-tight">Checkout</H1>
         <Button asChild variant="link">
           <Link to="/products">Continue shopping</Link>
         </Button>
@@ -217,7 +219,7 @@ function Checkout() {
                       {shippingCost === null ? (
                         <Badge variant="secondary">Calculated next</Badge>
                       ) : (
-                        `$${shippingCost.toFixed(2)}`
+                        `${shippingCost.toFixed(2)}`
                       )}
                     </span>
                   </div>
@@ -275,9 +277,9 @@ function Checkout() {
 
                 <div className="h-6 mt-2">
                   {currentStep === 1 && !isAddressValid && (
-                    <p className="text-xs text-center text-muted-foreground">
+                    <Caption className="text-xs text-center text-muted-foreground block">
                       Please fill in all required address fields.
-                    </p>
+                    </Caption>
                   )}
                 </div>
               </div>

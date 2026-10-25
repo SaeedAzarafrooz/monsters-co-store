@@ -5,6 +5,8 @@ import {
   CardBody,
   CardHeader,
   CardTitle,
+  H2,
+  Separator,
 } from "../../ui";
 import { validateField } from "./addressValidation";
 
@@ -112,9 +114,9 @@ function AddressAndShipping({
       </FormGrid>
 
       <div className="mt-6">
-        <h2 className="text-lg font-extrabold mb-4 pb-2 border-b border-border">
+        <H2 className="text-lg font-extrabold mb-4 pb-2 border-b border-border">
           Shipping Method
-        </h2>
+        </H2>
         <div className="space-y-3">
           <OptionCard
             name="shipping"

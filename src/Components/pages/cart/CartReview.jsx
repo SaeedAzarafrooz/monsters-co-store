@@ -8,6 +8,9 @@ import {
   DataListRow,
   DataListCell,
   Icon,
+  Paragraph,
+  Caption,
+  QuantityStepper,
 } from "../../ui";
 
 const CART_COLUMNS = [
@@ -39,81 +42,64 @@ function CartReview({ cartItems, addToCart, decreaseQuantity, removeItem }) {
 
       {/* Scrollable list items */}
       <DataListContent>
-        {cartItems.map((item) => (
-          <DataListRow key={item.id}>
-            {/* Product info: name, thumbnail, base price */}
-            <DataListCell span={6} className="gap-4 min-w-0">
-              <img
-                src={item.image}
-                className="w-16 h-16 rounded-xl object-cover border border-border shrink-0 bg-card"
-                alt={item.name}
-                loading="lazy"
-              />
-              <div className="min-w-0 flex-1">
-                <p className="font-extrabold text-foreground truncate">
-                  {item.name}
-                </p>
-                <p className="text-xs text-muted-foreground mt-1">
-                  ${Number(item.price || 0).toFixed(2)} each
-                </p>
-              </div>
-            </DataListCell>
+        {cartItems.map((item) => {
+          const qty = Number(item.quantity) || 1;
+          const price = Number(item.Number || item.price) || 0;
 
-            {/* Quantity controls */}
-            <DataListCell span={3} align="center" className="gap-1.5">
-              <Button
-                type="button"
-                variant="outline"
-                size="icon"
-                onClick={() => decreaseQuantity(item.id)}
-                disabled={item.quantity <= 1}
-                className="h-8 w-8"
-                aria-label="Decrease quantity"
-              >
-                -
-              </Button>
-              <span className="w-8 text-center font-extrabold text-sm select-none">
-                {item.quantity}
-              </span>
-              <Button
-                type="button"
-                variant="outline"
-                size="icon"
-                onClick={() => addToCart(item)}
-                className="h-8 w-8"
-                aria-label="Increase quantity"
-              >
-                +
-              </Button>
-            </DataListCell>
+          return (
+            <DataListRow key={item.id}>
+              {/* Product info: name, thumbnail, base price */}
+              <DataListCell span={6} className="gap-4 min-w-0">
+                <img
+                  src={item.image}
+                  className="w-16 h-16 rounded-xl object-cover border border-border shrink-0 bg-card"
+                  alt={item.name}
+                  loading="lazy"
+                />
+                <div className="min-w-0 flex-1">
+                  <Paragraph className="font-extrabold text-foreground truncate">
+                    {item.name}
+                  </Paragraph>
+                  <Caption className="text-xs text-muted-foreground mt-1 block">
+                    ${price.toFixed(2)} each
+                  </Caption>
+                </div>
+              </DataListCell>
 
-            {/* Line total price */}
-            <DataListCell
-              span={2}
-              align="right"
-              className="font-extrabold text-primary text-base"
-            >
-              $
-              {(Number(item.price || 0) * (Number(item.quantity) || 0)).toFixed(
-                2,
-              )}
-            </DataListCell>
+              {/* Quantity controls */}
+              <DataListCell span={3} align="center">
+                <QuantityStepper
+                  quantity={qty}
+                  onIncrease={() => addToCart(item)}
+                  onDecrease={() => decreaseQuantity(item.id)}
+                />
+              </DataListCell>
 
-            {/* Remove item button */}
-            <DataListCell span={1} align="center">
-              <Button
-                type="button"
-                variant="ghost"
-                size="icon"
-                onClick={() => removeItem(item.id)}
-                className="text-muted-foreground hover:text-destructive"
-                aria-label="Remove item"
+              {/* Line total price */}
+              <DataListCell
+                span={2}
+                align="right"
+                className="font-extrabold text-primary text-base"
               >
-                <Icon name="trash" size="md" strokeWidth={1.8} />
-              </Button>
-            </DataListCell>
-          </DataListRow>
-        ))}
+                ${(price * qty).toFixed(2)}
+              </DataListCell>
+
+              {/* Remove item button */}
+              <DataListCell span={1} align="center">
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => removeItem(item.id)}
+                  className="text-muted-foreground hover:text-destructive"
+                  aria-label="Remove item"
+                >
+                  <Icon name="trash" size="md" strokeWidth={1.8} />
+                </Button>
+              </DataListCell>
+            </DataListRow>
+          );
+        })}
       </DataListContent>
     </DataList>
   );
