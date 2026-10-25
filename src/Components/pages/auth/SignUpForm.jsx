@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FormGrid, FormInput, Button } from "../../ui";
+import { FormGrid, FormInput, Button, H2, Paragraph } from "../../ui";
 import {
   createAuthUserWithEmailAndPassword,
   createUserDocumentFromAuth,
@@ -67,12 +67,12 @@ export default function SignUpForm({ onSuccess, onSwitchToSignIn }) {
     <div className="w-full min-h-[555px] flex flex-col justify-between space-y-6">
       <div className="space-y-6">
         <div>
-          <h2 className="text-2xl font-bold tracking-tight text-foreground">
+          <H2 className="text-2xl font-bold tracking-tight text-foreground">
             Create Account
-          </h2>
-          <p className="mt-1 text-xs text-muted-foreground">
+          </H2>
+          <Paragraph className="mt-1 text-xs text-muted-foreground">
             Sign up with your credentials to start managing your orders.
-          </p>
+          </Paragraph>
         </div>
 
         {errorMessage && (
@@ -143,7 +143,7 @@ export default function SignUpForm({ onSuccess, onSwitchToSignIn }) {
 
       {onSwitchToSignIn && (
         <div className="text-center pt-2 border-t border-border/60">
-          <p className="text-xs text-muted-foreground">
+          <Paragraph className="text-xs text-muted-foreground">
             Already have an account?{" "}
             <button
               type="button"
@@ -152,7 +152,7 @@ export default function SignUpForm({ onSuccess, onSwitchToSignIn }) {
             >
               Sign In
             </button>
-          </p>
+          </Paragraph>
         </div>
       )}
     </div>

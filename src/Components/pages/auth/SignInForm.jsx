@@ -3,7 +3,7 @@ import {
   signInAuthUserWithEmailAndPassword,
   signInWithGooglePopup,
 } from "../../../utils/firebase/firebase";
-import { FormGrid, FormInput, Button, Icon } from "../../ui";
+import { FormGrid, FormInput, Button, Icon, H2, Paragraph } from "../../ui";
 
 const defaultFormFields = {
   email: "",
@@ -71,12 +71,12 @@ export default function SignInForm({ onSuccess, onSwitchToSignUp }) {
     <div className="w-full min-h-[555px] flex flex-col justify-between space-y-6">
       <div className="space-y-6">
         <div>
-          <h2 className="text-2xl font-bold tracking-tight text-foreground">
+          <H2 className="text-2xl font-bold tracking-tight text-foreground">
             Welcome Back
-          </h2>
-          <p className="mt-1 text-xs text-muted-foreground">
+          </H2>
+          <Paragraph className="mt-1 text-xs text-muted-foreground">
             Sign in with your email and password to access your account.
-          </p>
+          </Paragraph>
         </div>
 
         {errorMessage && (
@@ -135,7 +135,7 @@ export default function SignInForm({ onSuccess, onSwitchToSignUp }) {
 
       {onSwitchToSignUp && (
         <div className="text-center pt-2 border-t border-border/60">
-          <p className="text-xs text-muted-foreground">
+          <Paragraph className="text-xs text-muted-foreground">
             Don't have an account?{" "}
             <button
               type="button"
@@ -144,7 +144,7 @@ export default function SignInForm({ onSuccess, onSwitchToSignUp }) {
             >
               Create Account
             </button>
-          </p>
+          </Paragraph>
         </div>
       )}
     </div>
