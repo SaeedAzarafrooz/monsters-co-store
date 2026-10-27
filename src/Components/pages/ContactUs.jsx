@@ -8,6 +8,9 @@ import {
   FormInput,
   Button,
   Icon,
+  H1,
+  Paragraph,
+  Text,
 } from "../ui";
 
 function ContactUs() {
@@ -88,14 +91,14 @@ function ContactUs() {
     <Container className="max-w-6xl py-10 md:py-16 text-foreground transition-colors duration-200">
       {/* Header */}
       <div className="text-center mb-12 space-y-3">
-        <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent">
+        <H1 className="text-3xl md:text-5xl font-extrabold tracking-tight bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent">
           Get in Touch
-        </h1>
-        <p className="text-muted-foreground max-w-xl mx-auto text-sm md:text-base">
+        </H1>
+        <Paragraph className="max-w-xl mx-auto text-sm md:text-base">
           Have a question, feedback on this project, or an opportunity to
           discuss? Feel free to reach out via direct channels or leave a
           message.
-        </p>
+        </Paragraph>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
@@ -128,9 +131,9 @@ function ContactUs() {
                   </div>
 
                   <div className="truncate min-w-0 pr-2 pl-9">
-                    <div className="text-xs text-muted-foreground font-medium">
+                    <Text size="xs" variant="muted" className="font-medium">
                       {item.label}
-                    </div>
+                    </Text>
                     <a
                       href={item.link}
                       target="_blank"

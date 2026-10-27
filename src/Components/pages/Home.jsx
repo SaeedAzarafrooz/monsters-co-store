@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Container, Badge, buttonVariants } from "../ui";
+import { Container, Badge, buttonVariants, Heading, Text, Span } from "../ui";
 
 function Home() {
   const perks = [
@@ -67,29 +67,35 @@ function Home() {
 
         {/* Portal Pill Badge */}
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-card border border-primary/40 text-xs text-foreground shadow-md">
-          <span className="flex h-2 w-2 rounded-full bg-primary animate-ping" />
-          <span className="font-bold text-primary">
+          <Span className="flex h-2 w-2 rounded-full bg-primary animate-ping" />
+          <Span className="font-bold text-primary">
             Dimension C-137 Official
-          </span>
-          <span className="text-muted-foreground/40">|</span>
-          <span className="text-muted-foreground">
+          </Span>
+          <Span className="text-muted-foreground/40">|</Span>
+          <Span className="text-muted-foreground">
             Rick & Morty Vinyl Stickers
-          </span>
+          </Span>
         </div>
 
         {/* Headline */}
-        <h1 className="text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight leading-tight">
+        <Heading
+          as="h1"
+          className="text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight leading-tight"
+        >
           Stick The Multiverse{" "}
-          <span className="bg-gradient-to-r from-primary via-teal-400 to-cyan-400 bg-clip-text text-transparent">
+          <Span className="bg-gradient-to-r from-primary via-teal-400 to-cyan-400 bg-clip-text text-transparent font-extrabold">
             Everywhere
-          </span>
-        </h1>
+          </Span>
+        </Heading>
 
         {/* Subtitle */}
-        <p className="max-w-2xl mx-auto text-muted-foreground text-sm sm:text-lg leading-relaxed">
+        <Text
+          as="p"
+          className="max-w-2xl mx-auto text-muted-foreground text-sm sm:text-lg leading-relaxed font-normal"
+        >
           Premium waterproof vinyl stickers featuring all your favorite Rick &
           Morty characters, weird creatures, and interdimensional gadgets.
-        </p>
+        </Text>
 
         {/* CTAs */}
         <div className="flex flex-wrap items-center justify-center gap-4 pt-3">
@@ -102,8 +108,8 @@ function Home() {
                 "rounded-xl font-bold gap-2 shadow-xl shadow-primary/20",
             })}
           >
-            <span>Browse All Stickers</span>
-            <span>✨</span>
+            <Span>Browse All Stickers</Span>
+            <Span>✨</Span>
           </Link>
 
           <Link
@@ -123,12 +129,18 @@ function Home() {
       <section className="space-y-6">
         <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-2 border-b border-border pb-4">
           <div>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-foreground">
+            <Heading
+              as="h2"
+              className="text-2xl sm:text-3xl font-extrabold text-foreground"
+            >
               Popular Multiverse Packs
-            </h2>
-            <p className="text-xs sm:text-sm text-muted-foreground">
+            </Heading>
+            <Text
+              as="p"
+              className="text-xs sm:text-sm text-muted-foreground font-normal"
+            >
               Hand-picked die-cut sticker bundles trending across dimensions
-            </p>
+            </Text>
           </div>
           <Link
             to="/products"
@@ -152,16 +164,22 @@ function Home() {
                   >
                     {pack.tag}
                   </Badge>
-                  <span className="text-xs font-mono text-muted-foreground font-bold">
+                  <Span className="text-xs font-mono text-muted-foreground font-bold">
                     {pack.price}
-                  </span>
+                  </Span>
                 </div>
-                <h3 className="text-lg font-bold text-foreground group-hover:text-primary transition-colors">
+                <Heading
+                  as="h3"
+                  className="text-lg font-bold text-foreground group-hover:text-primary transition-colors"
+                >
                   {pack.name}
-                </h3>
-                <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
+                </Heading>
+                <Text
+                  as="p"
+                  className="text-xs sm:text-sm text-muted-foreground leading-relaxed font-normal"
+                >
                   {pack.desc}
-                </p>
+                </Text>
               </div>
 
               <Link
@@ -183,13 +201,19 @@ function Home() {
       {/* 3. STORE PERKS / VALUE PROPOSITIONS */}
       <section className="space-y-8">
         <div className="text-center space-y-2">
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-foreground">
+          <Heading
+            as="h2"
+            className="text-2xl sm:text-3xl font-extrabold text-foreground"
+          >
             Why Our Stickers?
-          </h2>
-          <p className="text-muted-foreground text-xs sm:text-sm max-w-lg mx-auto">
+          </Heading>
+          <Text
+            as="p"
+            className="text-muted-foreground text-xs sm:text-sm max-w-lg mx-auto font-normal"
+          >
             Crafted for laptops, phones, skateboards, flasks, and portal gun
             cases.
-          </p>
+          </Text>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -199,12 +223,15 @@ function Home() {
               className={`p-5 rounded-2xl bg-card border border-border shadow-sm space-y-3 transition-all duration-300 ${perk.border} hover:-translate-y-0.5`}
             >
               <div className="text-3xl">{perk.icon}</div>
-              <h3 className="text-base font-bold text-foreground">
+              <Heading as="h3" className="text-base font-bold text-foreground">
                 {perk.title}
-              </h3>
-              <p className="text-xs text-muted-foreground leading-relaxed">
+              </Heading>
+              <Text
+                as="p"
+                className="text-xs text-muted-foreground leading-relaxed font-normal"
+              >
                 {perk.desc}
-              </p>
+              </Text>
             </div>
           ))}
         </div>
@@ -219,13 +246,19 @@ function Home() {
         >
           🎁 Portal Special Offer
         </Badge>
-        <h2 className="text-2xl sm:text-4xl font-extrabold text-foreground">
+        <Heading
+          as="h2"
+          className="text-2xl sm:text-4xl font-extrabold text-foreground"
+        >
           Grab 3 Stickers, Get 1 Mystery Character Free!
-        </h2>
-        <p className="text-muted-foreground text-xs sm:text-sm max-w-xl mx-auto leading-relaxed">
+        </Heading>
+        <Text
+          as="p"
+          className="text-muted-foreground text-xs sm:text-sm max-w-xl mx-auto leading-relaxed font-normal"
+        >
           Pick your favorite characters from the shop grid. Ready to decorate
           your gear with Citadel-grade vinyl quality.
-        </p>
+        </Text>
         <div className="pt-2">
           <Link
             to="/products"
@@ -236,8 +269,8 @@ function Home() {
                 "rounded-xl font-bold gap-2 shadow-lg shadow-primary/25",
             })}
           >
-            <span>Open Multiverse Shop</span>
-            <span>🛒</span>
+            <Span>Open Multiverse Shop</Span>
+            <Span>🛒</Span>
           </Link>
         </div>
       </section>

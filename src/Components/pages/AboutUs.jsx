@@ -5,7 +5,7 @@ import CVAIcon from "../../assets/CVA.png";
 import viteIcon from "../../assets/vite-icon.webp";
 import rick_mortyApiIcon from "../../assets/Rick&MortyAPI.png";
 import Intersection_Observer_ApiIcon from "../../assets/Intersection_Observer_Api.png";
-import { Container, Badge, buttonVariants } from "../ui";
+import { Container, Badge, Button, Heading, Text, Span } from "../ui";
 
 function AboutUs() {
   const techStack = [
@@ -96,40 +96,52 @@ function AboutUs() {
         >
           The Universe Explorer Project
         </Badge>
-        <h1 className="text-4xl sm:text-5xl font-extrabold text-foreground tracking-tight mb-6">
+        <Heading
+          as="h1"
+          className="text-4xl sm:text-5xl font-extrabold text-foreground tracking-tight mb-6"
+        >
           Exploring dimensions with modern{" "}
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">
+          <Span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400 font-extrabold">
             Frontend Engineering
-          </span>
+          </Span>
           .
-        </h1>
-        <p className="text-muted-foreground text-base sm:text-lg leading-relaxed">
+        </Heading>
+        <Text
+          as="p"
+          className="text-muted-foreground text-base sm:text-lg leading-relaxed font-normal"
+        >
           This project was engineered to deliver a fast, reactive, and visually
           refined portal interface for exploring characters across the
           multiverse using the Rick and Morty API.
-        </p>
+        </Text>
       </div>
 
       {/* Highlights / Features Grid */}
       <div className="mb-20">
-        <h2 className="text-2xl font-bold text-foreground mb-6 border-b border-border pb-3">
+        <Heading
+          as="h2"
+          className="text-2xl font-bold text-foreground mb-6 border-b border-border pb-3"
+        >
           Key Technical Highlights
-        </h2>
+        </Heading>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {highlights.map((item, idx) => (
             <div
               key={idx}
               className="bg-card border border-border rounded-2xl p-6 hover:border-primary/60 transition duration-300 shadow-sm"
             >
-              <div className="text-primary font-mono text-xs mb-2">
+              <Text as="div" className="text-primary font-mono text-xs mb-2">
                 0{idx + 1}. FEATURE
-              </div>
-              <h3 className="text-lg font-semibold text-foreground mb-2">
+              </Text>
+              <Heading as="h3" className="text-lg font-semibold text-foreground mb-2">
                 {item.title}
-              </h3>
-              <p className="text-muted-foreground text-sm leading-relaxed">
+              </Heading>
+              <Text
+                as="p"
+                className="text-muted-foreground text-sm leading-relaxed font-normal"
+              >
                 {item.desc}
-              </p>
+              </Text>
             </div>
           ))}
         </div>
@@ -137,19 +149,24 @@ function AboutUs() {
 
       {/* Tech Stack Grid */}
       <div className="mb-20">
-        <h2 className="text-2xl font-bold text-foreground mb-6 border-b border-border pb-3">
+        <Heading
+          as="h2"
+          className="text-2xl font-bold text-foreground mb-6 border-b border-border pb-3"
+        >
           Tech Stack & Tools
-        </h2>
+        </Heading>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {techStack.map((tech) => (
             <div
               key={tech.name}
               className={`group relative p-5 rounded-2xl border bg-card bg-gradient-to-br ${tech.color} flex flex-col justify-between backdrop-blur-sm shadow-sm transition-all duration-300 hover:shadow-md`}
             >
-              <div className="font-bold text-base tracking-wide">
+              <Heading as="div" className="font-bold text-base tracking-wide">
                 {tech.name}
-              </div>
-              <div className="text-xs text-foreground/75 mt-2">{tech.desc}</div>
+              </Heading>
+              <Text as="div" className="text-xs text-foreground/75 mt-2">
+                {tech.desc}
+              </Text>
               <img
                 src={tech.image}
                 alt={`${tech.name}-icon`}
@@ -163,36 +180,38 @@ function AboutUs() {
       {/* Developer Card (For Portfolio) */}
       <div className="bg-card border border-border rounded-3xl p-8 sm:p-10 flex flex-col md:flex-row items-center justify-between gap-8 shadow-xl transition-colors duration-200">
         <div className="text-center md:text-left">
-          <h3 className="text-2xl font-bold text-foreground">
+          <Heading as="h3" className="text-2xl font-bold text-foreground">
             Crafted by Saeed Azarafrooz
-          </h3>
-          <p className="text-muted-foreground text-sm mt-2 max-w-md">
+          </Heading>
+          <Text
+            as="p"
+            className="text-muted-foreground text-sm mt-2 max-w-md font-normal"
+          >
             Frontend Developer focused on crafting accessible design systems,
             scalable React architectures, and high-performance interfaces with
             modern Tailwind tooling.
-          </p>
+          </Text>
         </div>
         <div className="flex items-center gap-4">
-          <a
+          <Button
+            as="a"
             href="https://github.com/Saeedazarafrooz"
             target="_blank"
             rel="noopener noreferrer"
-            className={buttonVariants({
-              variant: "outline",
-              size: "default",
-              className: "rounded-xl font-medium border-border",
-            })}
+            variant="outline"
+            className="rounded-xl font-medium border-border"
           >
             GitHub
-          </a>
-          <a
+          </Button>
+          <Button
+            as="a"
             href="https://www.linkedin.com/in/saeed-azarafrooz-92a52a268/?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BLyAHMv8NSni66VoQjzOA0g%3D%3D"
             target="_blank"
             rel="noopener noreferrer"
-            className="px-5 py-2.5 text-sm rounded-xl bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-semibold transition shadow-lg shadow-emerald-500/20"
+            className="rounded-xl bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-semibold shadow-lg shadow-emerald-500/20"
           >
             LinkedIn
-          </a>
+          </Button>
         </div>
       </div>
     </Container>
